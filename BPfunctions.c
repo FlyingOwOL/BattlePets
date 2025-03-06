@@ -3,6 +3,8 @@
 */
 #include <stdio.h>
 #include "BPheaders.h"
+#include "BPassistfunctions.c"
+#include "BPdesigns.c"
 
 void startBattle (){
     printf ("Function in process\n");

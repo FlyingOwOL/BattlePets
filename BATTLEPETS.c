@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "BPheaders.h"
 #include "BPfunctions.c"
+#include "BPdesigns.c"
 
 int main(){
     int x;
