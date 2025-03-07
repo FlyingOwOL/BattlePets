@@ -34,17 +34,19 @@ void viewStatistics (){
  * @return void
  */
 void initializePlayers (struct Player player[]){
-    int x;
+    int x, y;
     for (x = 0; x < MAX_PLAYERS; x++){
         player[x].name[0] = '\0';
         player[x].savedPassword[0] = '\0';
         player[x].wins = 0;
         player[x].loss = 0;
         player[x].draws = 0;
-        player[x].pet[x].name[0] = '\0';
-        player[x].pet[x].affinity[0] = '\0';
-        player[x].pet[x].description[0] = '\0';
-        player[x].pet[x].matchCount = 0;
+        for (y = 0; y < MAX_ROSTER; y++){
+            player[x].pet[y].name[0] = '\0';
+            player[x].pet[y].affinity[0] = '\0';
+            player[x].pet[y].description[0] = '\0';
+            player[x].pet[y].matchCount = 0;
+        }
     }
 }
 

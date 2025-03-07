@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include "BPheaders.h"
 #include "BPfunctions.c"
-#include "BPdesigns.c"
 
 int main(){
     struct Player player[MAX_PLAYERS];
