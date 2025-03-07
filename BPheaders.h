@@ -6,8 +6,15 @@
     #define MAX_BATTLEPETS 60
     #define MAX_ROSTER 9
 
+
+    /**
+     * This typedef represents a string of 36 characters
+     */
     typedef char string[NAME];
 
+    /**
+     * This struct represents a battlepet
+     */
     struct BattlePet {
         string name;
         string affinity;
@@ -15,6 +22,9 @@
         int matchCount;
     };
 
+    /**
+     *  This struct represents a player in the game
+     */
     struct Player {
         string name;
         string savedPassword;

@@ -1,3 +1,12 @@
+/**
+* Description : <short description of the project>
+* Author/s : Sy, Jason Mark Lester B. 
+*            Enerio, Gabriele G.      
+* Section : S19B
+* Last Modified : <date when last revision was made>
+* Acknowledgments : <list of references used in the making of this project>
+*/
+
 #include <stdio.h>
 #include "BPheaders.h"
 #include "BPfunctions.c"
@@ -38,3 +47,15 @@ int main(){
     } while(x != 0);
     return 0;
 }
+
+/**
+* This is to certify that this project is my/our own work, based on my/our personal
+* efforts in studying and applying the concepts learned. I/We have constructed the
+* functions and their respective algorithms and corresponding code by myself/ourselves.
+* The program was run, tested, and debugged by my/our own efforts. I/We further certify
+* that I/we have not copied in part or whole or otherwise plagiarized the work of
+* other students and/or persons.
+*
+* Sy, Jason Mark Lester B. (DLSU ID# 12414530)
+* Enerio, Gabriele G.      (DLSU ID# <number>)
+*/
