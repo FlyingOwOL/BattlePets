@@ -31,7 +31,7 @@
         int wins;
         int loss;
         int draws;
-        struct BattlePet pet[MAX_ROSTER];
+        struct BattlePet pet[MAX_ROSTER]; //a player can only have 9 pets
     };
 
     
