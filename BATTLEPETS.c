@@ -4,6 +4,12 @@
 #include "BPdesigns.c"
 
 int main(){
+    struct Player player[MAX_PLAYERS];
+    struct BattlePet pet[MAX_BATTLEPETS];
+
+    initializePlayers (player); //sets the player array to default values
+    initializePets (pet);       //sets the pet array to default values
+
     int x;
     do{
         printf("%s\n%s\n%s\n%s\n%s\n",
