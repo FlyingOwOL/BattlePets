@@ -1,7 +1,7 @@
 /**
 * Description : <short description of the project>
 * Author/s : Sy, Jason Mark Lester B. 
-*            Enerio, Gabriele G.      
+*            Enerio, Gabrielle G.      
 * Section : S19B
 * Last Modified : <date when last revision was made>
 * Acknowledgments : <list of references used in the making of this project>
@@ -56,5 +56,5 @@ int main(){
 * other students and/or persons.
 *
 * Sy, Jason Mark Lester B. (DLSU ID# 12414530)
-* Enerio, Gabriele G.      (DLSU ID# <number>)
+* Enerio, Gabrielle G.      (DLSU ID# 12411949)
 */
