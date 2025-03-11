@@ -37,8 +37,19 @@
 
     
     void initializePlayers (struct Player player[]);
-    void initializePets (struct BattlePet pet[]);
-    void startBattle ();
-    void startComPetDium ();
-    void viewStatistics ();
+    void initializePets    (struct BattlePet pet[]);
+    void getComPetDium     (struct BattlePet pet[]);
+    void getPlayers        (struct Player player[], int*);
+
+    void startBattle       (struct Player player[],int*);
+    void newPlayer         (struct Player player[],int*);
+    void selectPlayer      (struct Player player[],struct Player currentPlayer, int);
+
+
+    void startComPetDium   (struct BattlePet pet[], int*);
+    void viewBattlepets    (struct BattlePet pet[], int*);
+
+    void viewStatistics    ();
+    
+
 #endif

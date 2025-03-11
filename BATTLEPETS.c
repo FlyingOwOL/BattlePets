@@ -17,14 +17,16 @@ int main(){
     initializePlayers (player); //sets the player array to default values
     initializePets (pet);       //sets the pet array to default values
 
-    getComPetDium (pet);      //uploads the battlepets from the file ComPetDium.txt
-
-//    int dCurrentPlayers = 0;
+    int dCurrentPlayers = 0;
     int dCurrentPets = 0;
+
+    getComPetDium (pet);        //uploads the battlepets from the file ComPetDium.txt
+    getPlayers (player, &dCurrentPlayers);        //gets the players from the file Players.txt
+
 
     int x;
     do{
-        printf("%s\n%s\n%s\n%s\nYour choice:",
+        printf("%s\n%s\n%s\n%s\nYour choice: ",
         "[1] Battle!",
         "[2] ComPetDium",
         "[3] View Statistics",
@@ -32,7 +34,7 @@ int main(){
         scanf ("%d", &x);
         switch (x){
             case 1:
-                startBattle (&dCurrentPets);
+                startBattle (player, &dCurrentPlayers);
                 break;
             case 2:
                 startComPetDium (pet, &dCurrentPets);
