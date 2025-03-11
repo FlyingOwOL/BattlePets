@@ -64,9 +64,8 @@ void initializePets (struct BattlePet pet[]){
 }
 
 /**
- * This function is used to save the roster of the player to the file Roster.txt
- * @param struct Player player[] - the array of players
- * @param int playerIndex - the index of the player
+ * This function is used to view the pets saved in the battlepets array
+ * @param struct BattlePet pet[] - the array of pets
  * @return void
  */
 void viewBattlepets (struct BattlePet pet[]){
