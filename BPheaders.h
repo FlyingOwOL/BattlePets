@@ -1,4 +1,5 @@
 #ifndef BPHEADERS
+    #include <string.h>
     #define BPHEADERS
     #define NAME 36
     #define MAX_PLAYERS 50

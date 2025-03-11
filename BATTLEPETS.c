@@ -8,7 +8,6 @@
 */
 
 #include <stdio.h>
-#include "BPheaders.h"
 #include "BPfunctions.c"
 
 int main(){
@@ -18,21 +17,22 @@ int main(){
     initializePlayers (player); //sets the player array to default values
     initializePets (pet);       //sets the pet array to default values
 
+    getComPetDium (pet);      //uploads the battlepets from the file ComPetDium.txt
+
     int x;
     do{
-        printf("%s\n%s\n%s\n%s\n%s\n",
+        printf("%s\n%s\n%s\n%s\nYour choice:",
         "[1] Battle!",
         "[2] ComPetDium",
         "[3] View Statistics",
-        "[0] Exit",
-        "Your choice:");
+        "[0] Exit");
         scanf ("%d", &x);
         switch (x){
             case 1:
                 startBattle ();
                 break;
             case 2:
-                startComPetDium ();
+                startComPetDium (pet);
                 break;
             case 3:
                 viewStatistics ();
@@ -42,6 +42,7 @@ int main(){
                 break;
             default:
                 printf ("Invalid input\n");
+                break;
         }
     } while(x != 0);
     return 0;
