@@ -10,16 +10,18 @@
 /**
  * 
  */ 
-void startBattle (){
+void startBattle (int* dCurrentPets){
+    printf ("number of pets %d\n", *dCurrentPets);
     printf ("Function in process\n");
 }        
 
 /**
  * This function is responsibe for the manipulation of the battlepets
  * @param struct BattlePet pet[] - the array of battlepets
+ * @param int* dCurrentPets - the address to the number of current pets
  * @return void
  */
-void startComPetDium (struct BattlePet pet[]){
+void startComPetDium (struct BattlePet pet[], int* dCurrentPets){
     int dChoice;
     do{
         printf ("%s%s%s%s%s%sYour choice:", 
@@ -33,7 +35,7 @@ void startComPetDium (struct BattlePet pet[]){
         switch (dChoice)
         {
         case 1:
-            viewBattlepets (pet);
+            viewBattlepets (pet, dCurrentPets);
             break;
         case 0:
             printf ("returning to main menu\n");

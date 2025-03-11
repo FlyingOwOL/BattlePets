@@ -68,7 +68,7 @@ void initializePets (struct BattlePet pet[]){
  * @param struct BattlePet pet[] - the array of pets
  * @return void
  */
-void viewBattlepets (struct BattlePet pet[]){
+void viewBattlepets (struct BattlePet pet[], int* dCurrentPets){
     int x;
     for (x = 0; x < MAX_BATTLEPETS; x++){   //loop through the array of battlepets
         if (pet[x].name[0] != '\0'){        //only print if the name is not empty
@@ -78,6 +78,8 @@ void viewBattlepets (struct BattlePet pet[]){
             pet[x].affinity,
             pet[x].matchCount,
             pet[x].description);
+
+            *dCurrentPets = x;
         }
     }
 }

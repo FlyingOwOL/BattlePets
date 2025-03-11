@@ -19,6 +19,9 @@ int main(){
 
     getComPetDium (pet);      //uploads the battlepets from the file ComPetDium.txt
 
+//    int dCurrentPlayers = 0;
+    int dCurrentPets = 0;
+
     int x;
     do{
         printf("%s\n%s\n%s\n%s\nYour choice:",
@@ -29,10 +32,10 @@ int main(){
         scanf ("%d", &x);
         switch (x){
             case 1:
-                startBattle ();
+                startBattle (&dCurrentPets);
                 break;
             case 2:
-                startComPetDium (pet);
+                startComPetDium (pet, &dCurrentPets);
                 break;
             case 3:
                 viewStatistics ();
