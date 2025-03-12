@@ -15,24 +15,21 @@
  */ 
 void startBattle (struct Player player[],int* dCurrentPlayers){
     int dChoice;
-    int isFull = 0;
+    int dPrevChoice;
     int isDone = 0;
     struct Player player1;
     struct Player player2;
-    do{
-        printf("[1] <New Player>\n");
-        int x;
-        for (x = 0; x < *dCurrentPlayers; x++){
-            printf("[%d] %s\n", x + 2, player[x].name);
-        }
-        printf("[0] Exit\nYour choice: ");
-        scanf ("%d", &dChoice);
+    do{         //loop for player 1 and player 2 to select their accounts
+        if (isDone == 0){
+            printf("Player 1\n");
+            displayChoices (player, dCurrentPlayers);
+            scanf ("%d", &dChoice);
+        }    
         switch (dChoice)
         {
             case 1:
-                if (*dCurrentPlayers == MAX_PLAYERS){
-                    printf ("Maximum number of players reached\n");
-                    isFull = 1;
+                if (*dCurrentPlayers == MAX_PLAYERS){       //if *dCurrentPlayers is equal to the maximum number of players
+                    printf ("Maximum number of players reached\n"); //stop the player from creating a new player
                 } else{
                     newPlayer (player, dCurrentPlayers);
                 }               
@@ -41,22 +38,28 @@ void startBattle (struct Player player[],int* dCurrentPlayers){
                 printf ("returning to main menu\n");
                 break;
             default:
+                
                 if (dChoice > 1 && dChoice <= *dCurrentPlayers + 1 && isDone == 0){ //selects for player 1
-                    selectPlayer (player, player1, dChoice);
-                    isDone = 1;
-                } else{
+                    selectPlayer (player, player1, dChoice - 2, &isDone);
+                    dPrevChoice = dChoice;
+                } else if (isDone == 0 && (dChoice < 1 || dChoice > *dCurrentPlayers + 1)){
                     printf ("Invalid input\n");
                 }
-                if (isDone){                                                       //selects for player 2
-                    scanf("%d", &dChoice);
-                    if (dChoice > 1 && dChoice <= *dCurrentPlayers + 1)
-                        selectPlayer (player, player2, dChoice);
+                if (isDone){    
+                    printf("Player 2\n");      
+                    displayChoices (player, dCurrentPlayers);
+                    scanf ("%d", &dChoice);                                             //selects for player 2     
+                    if (dChoice > 1 && dChoice <= *dCurrentPlayers + 1 && dChoice != dPrevChoice)  //player can't choose the same as player 1
+                        selectPlayer (player, player2, dChoice - 2, &isDone);
+                    else if (dChoice == dPrevChoice)
+                        printf ("Player already taken\n");
+                    else if (dChoice == 0)
+                        printf ("returning to main menu\n");}
                     else
-                        printf ("Invalid input\n");
-                }          
+                        printf ("Invalid input\n");        
                 break;
         }
-    }while(dChoice != 0 && isFull == 0);
+    }while(dChoice != 0 && isDone != 2); //either the player chooses to quit during/after player 1 chooses or both players have been selected
     //battle (player, dCurrentPlayers, dChoice - 2);   
 }        
 

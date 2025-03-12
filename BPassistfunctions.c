@@ -88,6 +88,21 @@ void initializePets (struct BattlePet pet[]){
 }
 
 /**
+ * This functions displays the choices for the player to choose from
+ * @param struct Player player[] - the array of players
+ * @param int* dCurrentPlayers - the address to the number of current players
+ * @return void
+ */ 
+void displayChoices (struct Player player[], int* dCurrentPlayers){
+    printf("[1] <New Player>\n");
+        int x;
+        for (x = 0; x < *dCurrentPlayers; x++){
+            printf("[%d] %s\n", x + 2, player[x].name);
+        }
+        printf("[0] Exit\nYour choice: ");
+}
+
+/**
  * This function creates a new player and saves it to the player array
  * @param struct Player player[] - the array of players
  * @param int* dCurrentPlayers - the address to the number of current players
@@ -108,15 +123,18 @@ void newPlayer (struct Player player[],int* dCurrentPlayers){
  * @param int* dChoice - the choice of the player
  * @return void
  */
-void selectPlayer (struct Player player[],struct Player currentPlayer, int dChoice){
+void selectPlayer (struct Player player[],struct Player currentPlayer, int dChoice, int* isDone){
     string password;
+    printf ("Hello! %s\n", player[dChoice].name);
+    printf ("Your password: %s\n", player[dChoice].savedPassword);
     printf ("Enter your password: ");
     scanf ("%s", password);
-    if (strcmp (password, currentPlayer.savedPassword) == 0){
-        printf ("Welcome %s\n", currentPlayer.name);
+    if (strcmp (password, player[dChoice].savedPassword) == 0){
+        printf ("Welcome %s\n", player[dChoice].name);
         currentPlayer = player[dChoice];
+        (*isDone)++;
     } else{
-        printf ("Invalid password\n");
+        printf ("Get out\n");
     }
 }
 

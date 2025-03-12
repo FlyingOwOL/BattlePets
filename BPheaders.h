@@ -42,8 +42,10 @@
     void getPlayers        (struct Player player[], int*);
 
     void startBattle       (struct Player player[],int*);
+    void displayChoices    (struct Player player[], int*);
     void newPlayer         (struct Player player[],int*);
-    void selectPlayer      (struct Player player[],struct Player currentPlayer, int);
+    void selectPlayer      (struct Player player[],
+                            struct Player currentPlayer, int, int*);
 
 
     void startComPetDium   (struct BattlePet pet[], int*);
