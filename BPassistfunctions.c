@@ -9,7 +9,10 @@
  * @param struct BattlePet pet[] - the array of battlepets
  * @return void
  */
-void getComPetDium (struct BattlePet pet[]){
+int 
+getComPetDium (struct BattlePet pet[])
+{
+    int dCurrentPets = 0;
     FILE *file = fopen ("ComPetDium.txt", "r");
     if (file == NULL){
         printf ("File not found\n");
@@ -21,9 +24,11 @@ void getComPetDium (struct BattlePet pet[]){
             fscanf (file, "%d", &pet[x].matchCount);    //read match count
             fgetc (file);                               //eat the new line
             x++;
+            dCurrentPets++;
         }
         fclose (file);
     }
+    return dCurrentPets;
 }
 
 /**
@@ -31,7 +36,10 @@ void getComPetDium (struct BattlePet pet[]){
  * @param struct Player player[] - the array of players
  * @return void
  */
-void getPlayers (struct Player player[], int *dCurrentPlayers){
+int 
+getPlayers (struct Player player[])
+{
+    int dCurrentPlayers = 0;
     FILE *file = fopen ("Players.txt", "r");
     if (file == NULL){
         printf ("File not found\n");
@@ -44,10 +52,11 @@ void getPlayers (struct Player player[], int *dCurrentPlayers){
             fscanf (file, "%d", &player[x].draws);    //read draws
             fgetc (file);                               //eat the new line
             x++;
-            (*dCurrentPlayers)++;
+            dCurrentPlayers++;
         }
         fclose (file);
     }
+    return dCurrentPlayers;
 }
 
 /** 
@@ -55,7 +64,9 @@ void getPlayers (struct Player player[], int *dCurrentPlayers){
  * @param struct Player player[] - the array of players
  * @return void
  */
-void initializePlayers (struct Player player[]){
+void 
+initializePlayers (struct Player player[])
+{
     int x, y;
     for (x = 0; x < MAX_PLAYERS; x++){
         player[x].name[0] = '\0';
@@ -77,7 +88,9 @@ void initializePlayers (struct Player player[]){
  * @param struct BattlePet pet[] - the array of pets
  * @return void
  */
-void initializePets (struct BattlePet pet[]){
+void 
+initializePets (struct BattlePet pet[])
+{
     int x;
     for (x = 0; x < MAX_ROSTER; x++){
         pet[x].name[0] = '\0';
@@ -93,7 +106,10 @@ void initializePets (struct BattlePet pet[]){
  * @param int* dCurrentPlayers - the address to the number of current players
  * @return void
  */ 
-void displayChoices (struct Player player[], int* dCurrentPlayers){
+void 
+displayChoices (struct Player player[], 
+                int* dCurrentPlayers)
+{
     printf("[1] <New Player>\n");
         int x;
         for (x = 0; x < *dCurrentPlayers; x++){
@@ -108,12 +124,55 @@ void displayChoices (struct Player player[], int* dCurrentPlayers){
  * @param int* dCurrentPlayers - the address to the number of current players
  * @return void
  */
-void newPlayer (struct Player player[],int* dCurrentPlayers){
+void newPlayer (struct Player player[],
+                int* dCurrentPlayers)
+{
     printf ("Enter your name: ");
     scanf ("%s", player[*dCurrentPlayers].name);
     printf ("Create your password: ");
     scanf ("%s", player[*dCurrentPlayers].savedPassword);
     (*dCurrentPlayers)++;
+}
+
+/**
+ * 
+ */
+void 
+selectPets (struct BattlePet pet[],
+            struct Player currentPlayer, 
+            int dCurrentPets)
+{
+    struct BattlePet roster[MAX_ROSTER];
+    int y = 0, 
+        x = 0;
+    int dChoice;
+    while(y < MAX_ROSTER){
+        printf ("Match Roster\n");                      //shows the current location of the pets
+        for (x = 0; x < MAX_ROSTER; x++){
+            if (x % 3 == 0){
+                printf ("\n");
+            }            
+            strcpy(roster[x].name, "?");
+            printf (" <%s>", roster[x].name);
+        }
+        printf ("\n");
+        printf ("ComPetDium\n");
+        while (pet[x].name[0] != '\0'){                 //should ONLY print pets in competdium.txt
+            printf ("%d. %s\n", x + 1, pet[x].name);
+            x++;
+        }
+        printf ("Your choice: ");
+        scanf ("%d", &dChoice);
+        if (dChoice == 0){
+            roster[y] = pet[dChoice - 1];
+            y++;
+        } else {
+            printf ("Invalid input\n");
+        }
+        
+        
+    }
+    currentPlayer.pet[0] = roster[0];
 }
 
 /**
@@ -123,15 +182,39 @@ void newPlayer (struct Player player[],int* dCurrentPlayers){
  * @param int* dChoice - the choice of the player
  * @return void
  */
-void selectPlayer (struct Player player[],struct Player currentPlayer, int dChoice, int* isDone){
+void 
+selectPlayer (struct BattlePet pet[], 
+              struct Player player[],
+              struct Player currentPlayer, 
+              int dChoice, 
+              int* isDone, 
+              int dCurrentPets)
+{
     string password;
     printf ("Hello! %s\n", player[dChoice].name);
     printf ("Your password: %s\n", player[dChoice].savedPassword);
     printf ("Enter your password: ");
     scanf ("%s", password);
     if (strcmp (password, player[dChoice].savedPassword) == 0){
+        int dChoice;
         printf ("Welcome %s\n", player[dChoice].name);
-        currentPlayer = player[dChoice];
+
+        do{
+            printf ("Player %d roster\n", *isDone + 1);
+            printf("%s\n%s\n%s",
+            "[1] Load saved roster",
+            "[2] Create roster for this match",
+            "Your choice: ");
+            scanf ("%d", &dChoice);
+            if (dChoice == 1){  
+                printf ("Loaded saved_roster/%s.txt\n", player[dChoice].name);
+                currentPlayer = player[dChoice]; 
+            } else if (dChoice == 2){
+                selectPets (pet, currentPlayer, dCurrentPets);
+            } else{
+                printf ("Invalid input\n");
+            }
+        }while(dChoice != 1 && dChoice != 2);
         (*isDone)++;
     } else{
         printf ("Get out\n");
@@ -143,7 +226,9 @@ void selectPlayer (struct Player player[],struct Player currentPlayer, int dChoi
  * @param struct BattlePet pet[] - the array of pets
  * @return void
  */
-void viewBattlepets (struct BattlePet pet[], int* dCurrentPets){
+void 
+viewBattlepets (struct BattlePet pet[])
+{
     int x;
     for (x = 0; x < MAX_BATTLEPETS; x++){   //loop through the array of battlepets
         if (pet[x].name[0] != '\0'){        //only print if the name is not empty
@@ -153,8 +238,6 @@ void viewBattlepets (struct BattlePet pet[], int* dCurrentPets){
             pet[x].affinity,
             pet[x].matchCount,
             pet[x].description);
-
-            *dCurrentPets = x;
         }
     }
 }

@@ -13,7 +13,7 @@
  * @param int* dCurrentPlayers - the address to the number of current players
  * @return void
  */ 
-void startBattle (struct Player player[],int* dCurrentPlayers){
+void startBattle (struct BattlePet pet[], struct Player player[],int* dCurrentPlayers, int dCurrentPets){
     int dChoice;
     int dPrevChoice;
     int isDone = 0;
@@ -39,24 +39,31 @@ void startBattle (struct Player player[],int* dCurrentPlayers){
                 break;
             default:
                 
-                if (dChoice > 1 && dChoice <= *dCurrentPlayers + 1 && isDone == 0){ //selects for player 1
-                    selectPlayer (player, player1, dChoice - 2, &isDone);
+                if (dChoice > 1 && 
+                    dChoice <= *dCurrentPlayers + 1 && 
+                    isDone == 0){ //selects for player 1
+                    selectPlayer (pet, player, player1, dChoice - 2, &isDone, dCurrentPets);
                     dPrevChoice = dChoice;
-                } else if (isDone == 0 && (dChoice < 1 || dChoice > *dCurrentPlayers + 1)){
+                } else if (isDone == 0 && 
+                          (dChoice < 1 || dChoice > *dCurrentPlayers + 1)){
                     printf ("Invalid input\n");
                 }
-                if (isDone){    
+                if (isDone){  
                     printf("Player 2\n");      
                     displayChoices (player, dCurrentPlayers);
-                    scanf ("%d", &dChoice);                                             //selects for player 2     
-                    if (dChoice > 1 && dChoice <= *dCurrentPlayers + 1 && dChoice != dPrevChoice)  //player can't choose the same as player 1
-                        selectPlayer (player, player2, dChoice - 2, &isDone);
-                    else if (dChoice == dPrevChoice)
+                    scanf ("%d", &dChoice);                                                  
+                    if (dChoice > 1 && //selects for player 2
+                        dChoice <= *dCurrentPlayers + 1 && 
+                        dChoice != dPrevChoice){  
+                        selectPlayer (pet, player, player2, dChoice - 2, &isDone, dCurrentPets);
+                    }else if (dChoice == dPrevChoice){  //player can't choose the same as player 1
                         printf ("Player already taken\n");
-                    else if (dChoice == 0)
-                        printf ("returning to main menu\n");}
-                    else
-                        printf ("Invalid input\n");        
+                    }else if (dChoice == 0){
+                        printf ("returning to main menu\n");
+                    }else{
+                        printf ("Invalid input\n");
+                    }        
+                }
                 break;
         }
     }while(dChoice != 0 && isDone != 2); //either the player chooses to quit during/after player 1 chooses or both players have been selected
@@ -83,7 +90,7 @@ void startComPetDium (struct BattlePet pet[], int* dCurrentPets){
         switch (dChoice)
         {
         case 1:
-            viewBattlepets (pet, dCurrentPets);
+            viewBattlepets (pet);
             break;
         case 0:
             printf ("returning to main menu\n");
