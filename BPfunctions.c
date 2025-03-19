@@ -45,9 +45,8 @@ startBattle (struct BattlePet pet[],
                 break;
             default:
                 
-                if (dChoice > 1 && 
-                    dChoice <= *dCurrentPlayers + 1 && 
-                    isDone != 0){ //selects for player 1
+                if (dChoice <= *dCurrentPlayers + 1 && 
+                    isDone == 0){ //selects for player 1
                     selectPlayer (pet, player, &player1, dChoice - 2, &isDone, dCurrentPets);
                     dPrevChoice = dChoice;
                 } else if (isDone == 0 && 
@@ -60,7 +59,7 @@ startBattle (struct BattlePet pet[],
                     scanf ("%d", &dChoice);                                                  
                     if (dChoice > 1 && //selects for player 2
                         dChoice <= *dCurrentPlayers + 1 && 
-                        dChoice == dPrevChoice){  
+                        dChoice != dPrevChoice){  
                         selectPlayer (pet, player, &player2, dChoice - 2, &isDone, dCurrentPets);
                     }else if (dChoice == dPrevChoice){  //player can't choose the same as player 1
                         printf ("Player already taken\n");
@@ -73,7 +72,9 @@ startBattle (struct BattlePet pet[],
                 break;
         }
     }while((dChoice != 0 || dChoice == 1) && isDone != 2); //either the player chooses to quit during/after player 1 chooses or both players have been selected
-    //battle (player, dCurrentPlayers, dChoice - 2);   
+    //battle (player, dCurrentPlayers, dChoice - 2);
+    displayRoster (player1.pet);
+    displayRoster (player2.pet);   
 }        
 
 /**
