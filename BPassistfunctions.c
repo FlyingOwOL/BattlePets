@@ -119,6 +119,75 @@ displayChoices (struct Player player[],
 }
 
 /**
+ * This function displays the roster of the player
+ * @param struct BattlePet roster[] - the array of pets
+ * @return void
+ */
+void displayRoster (struct BattlePet roster[])
+{
+    int x;
+    printf ("Match Roster\n");                      //shows the current location of the pets
+        for (x = 0; x < MAX_ROSTER; x++){
+            if (x % 3 == 0){
+                printf ("\n");
+            }            
+            printf (" <%s>", roster[x].name);
+        }
+        printf ("\n");
+}
+
+/**
+ * This functions lets existing users select their pets for the match
+ * @param struct BattlePet pet[] - the array of pets
+ * @param struct Player currentPlayer - the current player
+ * @param int dCurrentPets - the number of current pets
+ * @return void
+ */
+void 
+selectPets (struct BattlePet pet[],
+            struct Player *currentPlayer, 
+            int dCurrentPets)
+{
+    int y = 0, x;
+    int dChoice;
+
+    // Ensure player's pet roster is initialized
+    for (x = 0; x < MAX_ROSTER; x++) {
+        if (currentPlayer->pet[x].name[0] == '\0') {
+            strcpy(currentPlayer->pet[x].name, "?");
+        }
+    }
+    while(y < MAX_ROSTER){
+        printf("Match Roster\n");
+        for (x = 0; x < MAX_ROSTER; x++) {
+            if (x % 3 == 0) printf("\n");
+            printf(" <%s>", currentPlayer->pet[x].name);
+        }
+        printf("\n");
+
+        printf("ComPetDium\n");
+        for (x = 0; x < dCurrentPets; x++) {
+            printf("%d. %s\n", x + 1, pet[x].name);
+        }
+
+        printf("Your choice: ");
+        scanf("%d", &dChoice);
+
+        if (dChoice > 0 && dChoice <= dCurrentPets) {
+            currentPlayer->pet[y] = pet[dChoice - 1]; 
+            y++;
+        } else {
+            printf("Invalid input\n");
+        }
+    }
+    printf("Debug: Player %s roster after selection:\n", currentPlayer->name);
+    for (int i = 0; i < MAX_ROSTER; i++) {
+        printf("Slot %d: %s\n", i, currentPlayer->pet[i].name);
+    }
+}
+
+
+/**
  * This function creates a new player and saves it to the player array
  * @param struct Player player[] - the array of players
  * @param int* dCurrentPlayers - the address to the number of current players
@@ -138,41 +207,30 @@ void newPlayer (struct Player player[],
  * 
  */
 void 
-selectPets (struct BattlePet pet[],
-            struct Player currentPlayer, 
-            int dCurrentPets)
+loadSavedRoster (string name, struct BattlePet pet[], struct Player currentPlayer, int dCurrentPets)
 {
-    struct BattlePet roster[MAX_ROSTER];
-    int y = 0, 
+    int x;
+    string filename = "saved_roster/";
+    strcat(filename, strcat(name, ".txt")); //gets the saved player file from the saved_roster folder
+    FILE *file = fopen (filename, "r");
+    if (file == NULL){
+        printf ("File not found\n");
+    } else{
         x = 0;
-    int dChoice;
-    while(y < MAX_ROSTER){
-        printf ("Match Roster\n");                      //shows the current location of the pets
-        for (x = 0; x < MAX_ROSTER; x++){
-            if (x % 3 == 0){
-                printf ("\n");
-            }            
-            strcpy(roster[x].name, "?");
-            printf (" <%s>", roster[x].name);
-        }
-        printf ("\n");
-        printf ("ComPetDium\n");
-        while (pet[x].name[0] != '\0'){                 //should ONLY print pets in competdium.txt
-            printf ("%d. %s\n", x + 1, pet[x].name);
+        while (fscanf (file, "%s", currentPlayer.pet[x].name) != EOF){  //Gets saved pet name
             x++;
         }
-        printf ("Your choice: ");
-        scanf ("%d", &dChoice);
-        if (dChoice == 0){
-            roster[y] = pet[dChoice - 1];
-            y++;
-        } else {
-            printf ("Invalid input\n");
-        }
-        
-        
+        fclose (file);
     }
-    currentPlayer.pet[0] = roster[0];
+    
+    for (x = 0; x < MAX_ROSTER; x++){           //Loops through the 9 pets
+        for (int y = 0; y < dCurrentPets; y++){ //loops through all the current battlepets
+            if (strcmp (currentPlayer.pet[x].name, pet[y].name) == 0){ 
+                currentPlayer.pet[x] = pet[y];  //copies the battlepet details to the player's roster
+            }
+        }
+    }
+
 }
 
 /**
@@ -185,41 +243,51 @@ selectPets (struct BattlePet pet[],
 void 
 selectPlayer (struct BattlePet pet[], 
               struct Player player[],
-              struct Player currentPlayer, 
+              struct Player *currentPlayer, 
               int dChoice, 
               int* isDone, 
               int dCurrentPets)
 {
+    int dSelect; // ✅ Fix: Avoids conflict with function parameter
     string password;
+
     printf ("Hello! %s\n", player[dChoice].name);
     printf ("Your password: %s\n", player[dChoice].savedPassword);
     printf ("Enter your password: ");
     scanf ("%s", password);
-    if (strcmp (password, player[dChoice].savedPassword) == 0){
-        int dChoice;
-        printf ("Welcome %s\n", player[dChoice].name);
 
-        do{
-            printf ("Player %d roster\n", *isDone + 1);
+    if (strcmp (password, player[dChoice].savedPassword) == 0) {
+        printf ("Welcome %s\n", player[dChoice].name);
+        
+        do {
+            printf ("Player Current%d ", *isDone + 1);
+            displayRoster (player[dChoice].pet);
+
             printf("%s\n%s\n%s",
-            "[1] Load saved roster",
-            "[2] Create roster for this match",
-            "Your choice: ");
-            scanf ("%d", &dChoice);
-            if (dChoice == 1){  
+                "[1] Load saved roster",
+                "[2] Create roster for this match",
+                "Your choice: ");
+            scanf ("%d", &dSelect); // ✅ Fix: Use dSelect instead of dChoice
+
+            if (dSelect == 1 && player[dChoice].pet[0].name[0] == '\0') {  
+                printf ("No saved roster\n");
+            } else if (dSelect == 1) {
                 printf ("Loaded saved_roster/%s.txt\n", player[dChoice].name);
-                currentPlayer = player[dChoice]; 
-            } else if (dChoice == 2){
-                selectPets (pet, currentPlayer, dCurrentPets);
-            } else{
+                *currentPlayer = player[dChoice]; 
+            } else if (dSelect == 2) {
+                selectPets (pet, currentPlayer, dCurrentPets);      
+            } else {
                 printf ("Invalid input\n");
             }
-        }while(dChoice != 1 && dChoice != 2);
+        } while ((dSelect != 1 || player[dChoice].pet[0].name[0] == '\0') && dSelect != 2); 
+        // ✅ Fix: Changed dChoice to dSelect to avoid wrong loop condition
+
         (*isDone)++;
-    } else{
+    } else {
         printf ("Get out\n");
     }
 }
+
 
 /**
  * This function is used to view the pets saved in the battlepets array

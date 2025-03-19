@@ -4,7 +4,7 @@
 *            Enerio, Gabrielle G.      
 * Section : S19B
 * Last Modified : <date when last revision was made>
-* Acknowledgments : <list of references used in the making of this project>
+* Acknowledgments : Visual Studio Code Intellisense for C
 */
 
 #include <stdio.h>
@@ -13,12 +13,12 @@
 int main(){
     struct Player player[MAX_PLAYERS];
     struct BattlePet pet[MAX_BATTLEPETS];
-
+    struct Results matchResults;
     initializePlayers (player); //sets the player array to default values
     initializePets (pet);       //sets the pet array to default values
 
-    int dCurrentPlayers = getComPetDium (pet);        //uploads the battlepets from the file ComPetDium.txt
-    int dCurrentPets = getPlayers (player);        //gets the players from the file Players.txt
+    int dCurrentPlayers = getPlayers (player);        //gets the players from the file Players.txt
+    int dCurrentPets = getComPetDium (pet);        //uploads the battlepets from the file ComPetDium.txt
     
     int x;
     do{
@@ -30,7 +30,7 @@ int main(){
         scanf ("%d", &x);
         switch (x){
             case 1:
-                startBattle (pet, player, &dCurrentPlayers, dCurrentPets);
+                startBattle (pet, player, matchResults, &dCurrentPlayers, dCurrentPets);
                 break;
             case 2:
                 startComPetDium (pet, &dCurrentPets);

@@ -13,7 +13,13 @@
  * @param int* dCurrentPlayers - the address to the number of current players
  * @return void
  */ 
-void startBattle (struct BattlePet pet[], struct Player player[],int* dCurrentPlayers, int dCurrentPets){
+void 
+startBattle (struct BattlePet pet[], 
+             struct Player player[],
+             struct Results matchResults,
+             int* dCurrentPlayers, 
+             int dCurrentPets)
+{
     int dChoice;
     int dPrevChoice;
     int isDone = 0;
@@ -41,8 +47,8 @@ void startBattle (struct BattlePet pet[], struct Player player[],int* dCurrentPl
                 
                 if (dChoice > 1 && 
                     dChoice <= *dCurrentPlayers + 1 && 
-                    isDone == 0){ //selects for player 1
-                    selectPlayer (pet, player, player1, dChoice - 2, &isDone, dCurrentPets);
+                    isDone != 0){ //selects for player 1
+                    selectPlayer (pet, player, &player1, dChoice - 2, &isDone, dCurrentPets);
                     dPrevChoice = dChoice;
                 } else if (isDone == 0 && 
                           (dChoice < 1 || dChoice > *dCurrentPlayers + 1)){
@@ -54,8 +60,8 @@ void startBattle (struct BattlePet pet[], struct Player player[],int* dCurrentPl
                     scanf ("%d", &dChoice);                                                  
                     if (dChoice > 1 && //selects for player 2
                         dChoice <= *dCurrentPlayers + 1 && 
-                        dChoice != dPrevChoice){  
-                        selectPlayer (pet, player, player2, dChoice - 2, &isDone, dCurrentPets);
+                        dChoice == dPrevChoice){  
+                        selectPlayer (pet, player, &player2, dChoice - 2, &isDone, dCurrentPets);
                     }else if (dChoice == dPrevChoice){  //player can't choose the same as player 1
                         printf ("Player already taken\n");
                     }else if (dChoice == 0){
@@ -66,7 +72,7 @@ void startBattle (struct BattlePet pet[], struct Player player[],int* dCurrentPl
                 }
                 break;
         }
-    }while(dChoice != 0 && isDone != 2); //either the player chooses to quit during/after player 1 chooses or both players have been selected
+    }while((dChoice != 0 || dChoice == 1) && isDone != 2); //either the player chooses to quit during/after player 1 chooses or both players have been selected
     //battle (player, dCurrentPlayers, dChoice - 2);   
 }        
 
@@ -76,7 +82,9 @@ void startBattle (struct BattlePet pet[], struct Player player[],int* dCurrentPl
  * @param int* dCurrentPets - the address to the number of current pets
  * @return void
  */
-void startComPetDium (struct BattlePet pet[], int* dCurrentPets){
+void 
+startComPetDium (struct BattlePet pet[], int* dCurrentPets)
+{
     int dChoice;
     do{
         printf ("%s%s%s%s%s%sYour choice: ", 
@@ -104,8 +112,9 @@ void startComPetDium (struct BattlePet pet[], int* dCurrentPets){
 }
 
 /**
- * 
+ * This function is responsible for showing the game statistics and previous matches.
  */
-void viewStatistics (){
+void viewStatistics ()
+{
     printf ("Function in process\n");
 }

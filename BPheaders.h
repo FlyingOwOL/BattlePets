@@ -35,6 +35,13 @@
         struct BattlePet pet[MAX_ROSTER]; //a player can only have 9 pets
     };
 
+    /**
+     * 
+     */
+    struct Results {
+        char result [MAX_ROSTER];
+    };
+
     
     void initializePlayers (struct Player player[]);
     void initializePets    (struct BattlePet pet[]);
@@ -43,15 +50,18 @@
 
     void startBattle       (struct BattlePet pet[], 
                             struct Player player[],
+                            struct Results matchResults,
                             int*, int);
+    void displayRoster     (struct BattlePet roster[]);
     void displayChoices    (struct Player player[], int*);
     void newPlayer         (struct Player player[],int*);
     void selectPlayer      (struct BattlePet pet[] ,
                             struct Player player[],
-                            struct Player currentPlayer, 
+                            struct Player *currentPlayer, 
                             int, int*, int);
     void selectPets        (struct BattlePet pet[],
-                            struct Player currentPlayer, int);
+                            struct Player *currentPlayer, int);                            
+
         
     void startComPetDium   (struct BattlePet pet[], int*);
     void viewBattlepets    (struct BattlePet pet[]);
