@@ -12,70 +12,72 @@
  * @param struct Player player[] - the array of players
  * @param int* dCurrentPlayers - the address to the number of current players
  * @return void
- */ 
+ */  
 void 
-startBattle (struct BattlePet pet[], 
-             struct Player player[],
-             struct Results matchResults,
-             int* dCurrentPlayers, 
-             int dCurrentPets)
+startBattle(struct BattlePet pet[], 
+            struct Player player[],
+            struct Results* matchResults, // Change to pointer for modification
+            int* dCurrentPlayers, 
+            int dCurrentPets) 
 {
-    int dChoice;
-    int dPrevChoice;
-    int isDone = 0;
-    struct Player player1;
-    struct Player player2;
-    do{         //loop for player 1 and player 2 to select their accounts
-        if (isDone == 0){
-            printf("Player 1\n");
-            displayChoices (player, dCurrentPlayers);
-            scanf ("%d", &dChoice);
-        }    
-        switch (dChoice)
-        {
-            case 1:
-                if (*dCurrentPlayers == MAX_PLAYERS){       //if *dCurrentPlayers is equal to the maximum number of players
-                    printf ("Maximum number of players reached\n"); //stop the player from creating a new player
-                } else{
-                    newPlayer (player, dCurrentPlayers);
-                }               
-                break;
-            case 0:
-                printf ("returning to main menu\n");
-                break;
-            default:
-                
-                if (dChoice <= *dCurrentPlayers + 1 && 
-                    isDone == 0){ //selects for player 1
-                    selectPlayer (pet, player, &player1, dChoice - 2, &isDone, dCurrentPets);
-                    dPrevChoice = dChoice;
-                } else if (isDone == 0 && 
-                          (dChoice < 1 || dChoice > *dCurrentPlayers + 1)){
-                    printf ("Invalid input\n");
-                }
-                if (isDone){  
-                    printf("Player 2\n");      
-                    displayChoices (player, dCurrentPlayers);
-                    scanf ("%d", &dChoice);                                                  
-                    if (dChoice > 1 && //selects for player 2
-                        dChoice <= *dCurrentPlayers + 1 && 
-                        dChoice != dPrevChoice){  
-                        selectPlayer (pet, player, &player2, dChoice - 2, &isDone, dCurrentPets);
-                    }else if (dChoice == dPrevChoice){  //player can't choose the same as player 1
-                        printf ("Player already taken\n");
-                    }else if (dChoice == 0){
-                        printf ("returning to main menu\n");
-                    }else{
-                        printf ("Invalid input\n");
-                    }        
-                }
-                break;
+    int dChoice, dPrevChoice = -1, isDone = 0;
+    struct Player player1, player2;
+    char cWinner[50];
+    do {
+        if (isDone == 0) {
+        printf("Player 1\n");
+        displayChoices(player, dCurrentPlayers);
+        scanf("%d", &dChoice);
         }
-    }while((dChoice != 0 || dChoice == 1) && isDone != 2); //either the player chooses to quit during/after player 1 chooses or both players have been selected
-    //battle (player, dCurrentPlayers, dChoice - 2);
-    displayRoster (player1.pet);
-    displayRoster (player2.pet);   
-}        
+
+        switch (dChoice) {
+            case 1:
+            if (*dCurrentPlayers == MAX_PLAYERS) {
+                printf("Maximum number of players reached\n");
+            } else {
+                newPlayer(player, dCurrentPlayers);
+            }
+            break;
+
+            case 0:
+            printf("Returning to main menu\n");
+            break; 
+
+            default:
+                if (dChoice >= 2 && dChoice <= *dCurrentPlayers + 1 && isDone == 0) {
+                    selectPlayer(pet, player, &player1, dChoice - 2, &isDone, dCurrentPets);
+                    dPrevChoice = dChoice;
+                } else if (isDone == 0) {
+                    printf("Invalid input\n");
+                }
+
+                if (isDone) {  
+                    printf("Player 2\n");
+                    displayChoices(player, dCurrentPlayers);
+                    scanf("%d", &dChoice);
+
+                    if (dChoice >= 2 && dChoice <= *dCurrentPlayers + 1 && dChoice != dPrevChoice) {
+                        selectPlayer(pet, player, &player2, dChoice - 2, &isDone, dCurrentPets);
+                    } else {
+                        printf("Invalid choice\n");
+                    }
+                }
+            break;
+        }
+    } while (isDone != 2 && dChoice != 0);
+
+    if (isDone == 2) {
+        *matchResults = computeBattle(player2, player1);
+        printf("%s (player1) vs %s (player2)\n\n", player1.name, player2.name);
+        printf("Battlepets, Fight!\n");
+        displayMatch(&player2, &player1);
+        printf("Match Results\n");
+        displayResult(*matchResults);
+        returnWinner (*matchResults, &player1, &player2, cWinner);
+        printf("%s\n", cWinner);
+    }
+}
+
 
 /**
  * This function is responsibe for the manipulation of the battlepets

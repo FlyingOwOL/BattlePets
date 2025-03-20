@@ -30,7 +30,7 @@ int main(){
         scanf ("%d", &x);
         switch (x){
             case 1:
-                startBattle (pet, player, matchResults, &dCurrentPlayers, dCurrentPets);
+                startBattle (pet, player, &matchResults, &dCurrentPlayers, dCurrentPets);
                 break;
             case 2:
                 startComPetDium (pet, &dCurrentPets);

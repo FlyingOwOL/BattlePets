@@ -43,24 +43,36 @@
     };
 
     
-    void initializePlayers (struct Player player[]);
-    void initializePets    (struct BattlePet pet[]);
-    int  getComPetDium     (struct BattlePet pet[]);
-    int  getPlayers        (struct Player player[]);
+    void initializePlayers       (struct Player player[]);
+    void initializePets          (struct BattlePet pet[]);
+    int  getComPetDium           (struct BattlePet pet[]);
+    int  getPlayers              (struct Player player[]);
 
-    void startBattle       (struct BattlePet pet[], 
-                            struct Player player[],
-                            struct Results matchResults,
-                            int*, int);
-    void displayRoster     (struct BattlePet roster[]);
-    void displayChoices    (struct Player player[], int*);
-    void newPlayer         (struct Player player[],int*);
-    void selectPlayer      (struct BattlePet pet[] ,
-                            struct Player player[],
-                            struct Player *currentPlayer, 
-                            int, int*, int);
-    void selectPets        (struct BattlePet pet[],
-                            struct Player *currentPlayer, int);                            
+    void startBattle             (struct BattlePet pet[], 
+                                  struct Player player[],
+                                  struct Results* matchResults,
+                                  int*, int);
+    void displayRoster           (struct BattlePet roster[]);
+    void displayChoices          (struct Player player[], int*);
+    void newPlayer               (struct Player player[],int*);
+    void loadSavedRoster         (string name, 
+                                  struct BattlePet pet[], 
+                                  struct Player *currentPlayer, 
+                                  int);
+    void selectPlayer            (struct BattlePet pet[] ,
+                                  struct Player player[],
+                                  struct Player *currentPlayer, 
+                                  int, int*, int);
+    void selectPets              (struct BattlePet pet[],
+                                  struct Player *currentPlayer, int);
+    char determineWinner         (string, string);
+    struct Results computeBattle (struct Player player1, 
+                                  struct Player player2);
+    void displayMatch            (struct Player* player1, 
+                                  struct Player* player2);
+    void displayResult           (struct Results matchResult);
+ 
+                            
 
         
     void startComPetDium   (struct BattlePet pet[], int*);
