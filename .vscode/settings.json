@@ -2,5 +2,6 @@
     "files.associations": {
         "stdio.h": "c",
         "bpheaders.h": "c"
-    }
+    },
+    "git.ignoreLimitWarning": true
 }
