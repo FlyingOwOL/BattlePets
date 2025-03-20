@@ -21,13 +21,15 @@ startBattle(struct BattlePet pet[],
             int dCurrentPets) 
 {
     int dChoice, dPrevChoice = -1, isDone = 0;
+    int dFirst, dSecond;
     struct Player player1, player2;
     char cWinner[50];
     do {
         if (isDone == 0) {
-        printf("Player 1\n");
-        displayChoices(player, dCurrentPlayers);
-        scanf("%d", &dChoice);
+            printf("Player 1\n");
+            displayChoices(player, dCurrentPlayers);
+            scanf("%d", &dChoice);
+            dFirst = dChoice - 2;
         }
 
         switch (dChoice) {
@@ -46,7 +48,7 @@ startBattle(struct BattlePet pet[],
             default:
                 if (dChoice >= 2 && dChoice <= *dCurrentPlayers + 1 && isDone == 0) {
                     selectPlayer(pet, player, &player1, dChoice - 2, &isDone, dCurrentPets);
-                    dPrevChoice = dChoice;
+                    dPrevChoice = dChoice - 2;
                 } else if (isDone == 0) {
                     printf("Invalid input\n");
                 }
@@ -55,7 +57,7 @@ startBattle(struct BattlePet pet[],
                     printf("Player 2\n");
                     displayChoices(player, dCurrentPlayers);
                     scanf("%d", &dChoice);
-
+                    dSecond = dChoice - 2;
                     if (dChoice >= 2 && dChoice <= *dCurrentPlayers + 1 && dChoice != dPrevChoice) {
                         selectPlayer(pet, player, &player2, dChoice - 2, &isDone, dCurrentPets);
                     } else {
@@ -75,6 +77,9 @@ startBattle(struct BattlePet pet[],
         displayResult(*matchResults);
         returnWinner (*matchResults, &player1, &player2, cWinner);
         printf("%s\n", cWinner);
+        printf ("%d %d\n", dFirst, dSecond);
+        player[dFirst] = player1;
+        player[dSecond] = player2;
     }
 }
 
