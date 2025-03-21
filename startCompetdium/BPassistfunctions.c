@@ -27,14 +27,133 @@ viewBattlepets (struct BattlePet pet[])
 }
 
 /**
+ * edits battlepet's name
+ *
+ */
+
+/**
+ * edits battlepet's affinity
+ */
+
+ /**
+  * edits battlepet's description
+  */
+
+// gob note - cut paste functions from addone function to here ^
+// dlete editbattlepetdetails vv
+
+/**
  * This function is used to edit the details of an existing pet in competdium.txt 
- * and its structure in the BattlePets array
+ * and its structure in the BattlePets array based on the choice given by the user:
+ * 1 for name, 2 for affinity, 3 for description
  * @param struct BattlePet pet[] - the array of pets
+ * @param int dPetIndex - array index of pet to be editted
+ * @param int dEditChoice - indicates what characteristic of the BattlePet will be changed
+ * @return void
+ *
+void
+editBattlepetDetails (struct BattlePet pet[], int dPetIndex, int dEditChoice){
+    int dChoice;
+    string affinity[] = {"Fire", "Water", "Grass", "Earth", "Air", "Electric", "Ice", "Metal"};
+
+    switch(dEditChoice){
+        case 1: //edit name
+            printf("What name do you want to replace it with?\n");
+            scanf(" %s", pet[dPetIndex].name);
+            printf("\nSuccessfully editted BattlePet name.\n");
+        case 2: //edit affinity
+            for (int i=0; i<8; i++){
+                printf("[%d] %s\n", i+1, affinity[i]);
+            }
+            do{
+            printf("\nWhat affinity do you want to replace it with?\n");
+            scanf(" %d", dChoice);
+                if(dChoice>=0 && dChoice<=8){
+                    
+                    printf("\nSuccessfully editted BattlePet affinity.\n");
+                }
+                else{
+
+                }
+            } while ();
+        case 3: //edit description
+
+        default:
+            printf("\nerror in edit choice");
+            break;
+    }
+}/
+
+/**
+ * This function asks the user which BattlePet and what characteristic they want to modify
+ * @param struct BattlePet pet[] - the array of pets
+ * @param int dCurrentPets - current total of battlepets
  * @return void
  */
 void
-editBattlepetDetails (struct BattlePet pet[]){
+editBattlepet (struct BattlePet pet[], int dCurrentPets){
+    int dChoice, dEditChoice, dValid, dConfirmValid;
+    char cConfirm;
 
+    printf("\n EDIT BATTLEPET \n");
+    viewBattlepets(pet);
+    printf("[0] Exit");
+
+    do{
+        printf("\nWhich BattlePet do you want to edit?\n");
+        dValid = scanf(" %d", &dChoice);
+        while (getchar() != '\n'); // clear buffer
+
+        if (dValid && dChoice==0){
+            printf("Exiting EDit BattlePet...");
+        }
+        else if (dValid && dChoice<=16 && dChoice>0){ // not allowed to edit initial battlepets
+            dValid=0;
+            printf("You are not allowed to edit the initial BattlePets. Please try again.");
+        } 
+        else if (dValid && dChoice>16 && dChoice<= dCurrentPets){
+            dValid=0;
+            dConfirmValid=0;
+            do // ask for confirmation
+            {
+            printf("Would you like to edit '%s'? [y/n] \n", pet[dChoice-1].name);
+            scanf(" %c", &cConfirm);
+            while (getchar() != '\n'); // clear buffer
+                //check if user responded y or n
+                switch(cConfirm){
+                    case 'y':
+                        printf("\n%s\n%s\n%s\n%s\n%s\n",
+                            pet[dChoice-1].name,
+                            "[1] Name",
+                            "[2] Affinity",
+                            "[3] Description",
+                            "[0] Back");    
+                        do{ //ask what to modify
+                        printf("What do you want to modify?\n");
+                        scanf(" %d", dEditChoice);
+                            if(dEditChoice>=1 && dEditChoice<=3){ 
+                                //deleteBattlepetDetails(pet, dChoice-1, dEditChoice);/////////////// REPLACE THIS gob
+                                dValid=1;
+                                dConfirmValid=1;
+                            } else{
+                                printf("Invalid response. Please try again.\n");
+                            } 
+                        } while(dEditChoice!=0);
+                        break;
+                    case 'n':
+                        dConfirmValid=1;
+                        break;
+                    default:
+                        printf("Invalid response. Please try again.\n");
+                }
+            } while(!dConfirmValid);
+        } 
+        else{
+            printf("Invalid response. Please try again.\n");
+            dValid=0;
+        }
+    } while (!dValid);
+    
 }
 
 /**
