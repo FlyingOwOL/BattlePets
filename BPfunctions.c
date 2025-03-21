@@ -4,7 +4,9 @@
     
 #include <stdio.h>
 #include "BPheaders.h"
-#include "BPassistfunctions.c"
+#include "startBattle/BPassistfunctions.c"
+#include "startCompetdium/BPassistfunctions.c"
+#include "viewStatistics/BPassistfunctions.c"
 #include "BPdesigns.c"
 
 /**
@@ -77,7 +79,6 @@ startBattle(struct BattlePet pet[],
         displayResult(*matchResults);
         returnWinner (*matchResults, &player1, &player2, cWinner);
         printf("%s\n", cWinner);
-        printf ("%d %d\n", dFirst, dSecond);
         player[dFirst] = player1;
         player[dSecond] = player2;
     }

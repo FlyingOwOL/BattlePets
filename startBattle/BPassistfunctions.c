@@ -2,7 +2,7 @@
     This file contains the functions that are used for computations and to aid the BPfunctions
 */
 #include <stdio.h>
-#include "BPheaders.h"
+#include "../BPheaders.h"
 
 /**
  * This function uploads the battlepets from the file ComPetDium.txt
@@ -57,6 +57,14 @@ getPlayers (struct Player player[])
         fclose (file);
     }
     return dCurrentPlayers;
+}
+
+/**
+ * 
+ */
+void returnTxtname ()
+{
+
 }
 
 /** 
