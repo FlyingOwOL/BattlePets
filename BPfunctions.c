@@ -96,6 +96,7 @@ startComPetDium (struct BattlePet pet[], int* dCurrentPets)
 {
     int dChoice;
     do{
+        printf("current pets: %d\n", *dCurrentPets); //debug line////////////////////////////////////
         printf ("%s%s%s%s%s%sYour choice: ", 
         "[1] View Battle Pet/s\n",
         "[2] Add BattlePet\n",
@@ -108,6 +109,9 @@ startComPetDium (struct BattlePet pet[], int* dCurrentPets)
         {
         case 1:
             viewBattlepets (pet);
+            break;
+        case 2:
+            addBattlepet (pet, dCurrentPets);
             break;
         case 0:
             printf ("returning to main menu\n");
