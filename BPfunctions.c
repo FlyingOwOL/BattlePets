@@ -78,7 +78,7 @@ startBattle (struct BattlePet pet[],
 }        
 
 /**
- * This function is responsible for the manipulation of the battlepets
+ * This function is responsibe for the manipulation of the battlepets
  * @param struct BattlePet pet[] - the array of battlepets
  * @param int* dCurrentPets - the address to the number of current pets
  * @return void
@@ -100,9 +100,6 @@ startComPetDium (struct BattlePet pet[], int* dCurrentPets)
         {
         case 1:
             viewBattlepets (pet);
-            break;
-        case 2:
-            addBattlepet (pet, dCurrentPets);
             break;
         case 0:
             printf ("returning to main menu\n");
