@@ -32,6 +32,22 @@ getComPetDium (struct BattlePet pet[])
 }
 
 /**
+ * This function gets the player name and returns it as a .txt file format
+ * @param string input - contains the name of the player
+ * @param string output - returns saved_roster/"name".txt 
+ */
+void 
+getTxtname(string input, 
+           string output)
+{
+    char holder [NAME + 35];
+    strcpy (holder, "saved_roster/");
+    strcat (holder, input);
+    strcat (holder, ".txt");
+    strcpy (output, holder);
+}
+
+/**
  * THis function gets the players from the file Players.txt
  * @param struct Player player[] - the array of players
  * @return void
@@ -209,11 +225,24 @@ selectPets (struct BattlePet pet[],
 void newPlayer (struct Player player[],
                 int* dCurrentPlayers)
 {
+    char txtFilename[NAME + 35];
     printf ("Enter your name: ");
     scanf ("%s", player[*dCurrentPlayers].name);
     printf ("Create your password: ");
     scanf ("%s", player[*dCurrentPlayers].savedPassword);
-    (*dCurrentPlayers)++;
+    getTxtname (player[*dCurrentPlayers].name, txtFilename);
+
+    FILE *file = fopen (txtFilename, "w"); //create new txt file in saved_roster folder
+
+    fclose (file);
+
+    FILE *playerFile = fopen ("players.txt", "a");  //adds the player to players.txt with 0 0 0 W/L/D
+        fprintf (playerFile, "\n\n%s\n", player[*dCurrentPlayers].name);
+        fprintf (playerFile, "%s\n", player[*dCurrentPlayers].savedPassword);
+        fprintf (playerFile, "%d\n%d\n%d", 0, 0, 0);
+    fclose (playerFile);
+
+    (*dCurrentPlayers)++;    
 }
 
 /**
@@ -420,7 +449,10 @@ displayResult (struct Results matchResult){
  * @param int* dWinner - determines if player 1 or 2 is Lucky Winner
  * @return 1 if there is a tictactoe winning pattern and 0 if not
  */
-int checkLuckywin(struct Results matchResult, int* dWinner) {
+int 
+checkLuckywin(struct Results matchResult, 
+              int* dWinner) 
+{
     int isLucky = 0;
     int invalidWin = 0;
     char grid[MAX_ROSTER];
@@ -484,7 +516,12 @@ int checkLuckywin(struct Results matchResult, int* dWinner) {
  * @param int count2 = number of wins for 2
  * @return void
  */
-void typeOfwin (struct Results matchResult, int count1, int count2, string winType) {
+void 
+typeOfwin (struct Results matchResult, 
+           int count1, 
+           int count2, 
+           string winType) 
+{
     int dWinner = -1;
     if (checkLuckywin(matchResult, &dWinner)) {
         strcpy(winType, "Lucky Win");
@@ -504,7 +541,12 @@ void typeOfwin (struct Results matchResult, int count1, int count2, string winTy
  * @param struct Player player2 - is the 2nd player
  * @return void
  */
-void returnWinner(struct Results matchResult, struct Player* player1, struct Player* player2, char cWinner[]) {
+void 
+returnWinner(struct Results matchResult, 
+             struct Player* player1, 
+             struct Player* player2, 
+             char cWinner[])
+{
     int count1 = 0, count2 = 0, countDraw = 0;
     char winType[50]; // Fixed winType as char array
     char result[60 + NAME] = "Winner: ";
@@ -550,25 +592,4 @@ void returnWinner(struct Results matchResult, struct Player* player1, struct Pla
         player2->draws++;
     }
     strcpy(cWinner, result);
-}
-
-/**
- * This function is used to view the pets saved in the battlepets array
- * @param struct BattlePet pet[] - the array of pets
- * @return void
- */
-void 
-viewBattlepets (struct BattlePet pet[])
-{
-    int x;
-    for (x = 0; x < MAX_BATTLEPETS; x++){   //loop through the array of battlepets
-        if (pet[x].name[0] != '\0'){        //only print if the name is not empty
-            printf ("%d. %s{%s} - used %d times\n%s\n\n",
-            x + 1,
-            pet[x].name,
-            pet[x].affinity,
-            pet[x].matchCount,
-            pet[x].description);
-        }
-    }
 }

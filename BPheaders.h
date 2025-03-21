@@ -7,7 +7,6 @@
     #define MAX_BATTLEPETS 60
     #define MAX_ROSTER 9
 
-
     /**
      * This typedef represents a string of 36 characters
      */
@@ -47,7 +46,9 @@
     void initializePets          (struct BattlePet pet[]);
     int  getComPetDium           (struct BattlePet pet[]);
     int  getPlayers              (struct Player player[]);
+    void getTxtname              (string, string);
 
+    
     void startBattle             (struct BattlePet pet[], 
                                   struct Player player[],
                                   struct Results* matchResults,
@@ -71,7 +72,14 @@
     void displayMatch            (struct Player* player1, 
                                   struct Player* player2);
     void displayResult           (struct Results matchResult);
- 
+    int checkLuckywin            (struct Results matchResult, int*);
+    void typeOfwin               (struct Results matchResult, 
+                                  int, int, string);
+    void returnWinner            (struct Results matchResult, 
+                                  struct Player* player1, 
+                                  struct Player* player2, 
+                                  char cWinner[]); 
+
                             
 
         
