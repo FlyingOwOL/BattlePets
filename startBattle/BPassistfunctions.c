@@ -48,6 +48,21 @@ getTxtname(string input,
 }
 
 /**
+ * This updates the Wins Lost Draws of all players in players.txt
+ */
+void updatePlayerTxt (struct Player players[] ,int dCurrentPlayers)
+{
+    FILE *file = fopen ("players.txt", "w");
+    if (file == NULL){
+        printf ("File not found\n");
+    } else{
+        
+
+        fclose (file);
+    }
+}
+
+/**
  * THis function gets the players from the file Players.txt
  * @param struct Player player[] - the array of players
  * @return void
@@ -73,14 +88,6 @@ getPlayers (struct Player player[])
         fclose (file);
     }
     return dCurrentPlayers;
-}
-
-/**
- * 
- */
-void returnTxtname ()
-{
-
 }
 
 /** 
@@ -147,7 +154,8 @@ displayChoices (struct Player player[],
  * @param struct BattlePet roster[] - the array of pets
  * @return void
  */
-void displayRoster (struct BattlePet roster[])
+void 
+displayRoster (struct BattlePet roster[])
 {
     int x;
     printf ("Match Roster\n");                      //shows the current location of the pets
@@ -222,7 +230,8 @@ selectPets (struct BattlePet pet[],
  * @param int* dCurrentPlayers - the address to the number of current players
  * @return void
  */
-void newPlayer (struct Player player[],
+void 
+newPlayer (struct Player player[],
                 int* dCurrentPlayers)
 {
     char txtFilename[NAME + 35];
