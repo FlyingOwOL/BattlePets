@@ -81,6 +81,11 @@ startBattle(struct BattlePet pet[],
         printf("%s\n", cWinner);
         player[dFirst] = player1;
         player[dSecond] = player2;
+        updatePetscount (pet, player1, dCurrentPets); //check player1 roster
+        updatePetscount (pet, player2, dCurrentPets); //check player2 roster
+
+        updateCompetdiumTxt (pet, dCurrentPets);
+        updatePlayerTxt (player, *dCurrentPlayers);
     }
 }
 

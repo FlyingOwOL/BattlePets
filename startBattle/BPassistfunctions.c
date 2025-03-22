@@ -3,131 +3,23 @@
 */
 #include <stdio.h>
 #include "../BPheaders.h"
+#include "../Filemanips.c"
 
 /**
- * This function uploads the battlepets from the file ComPetDium.txt
- * @param struct BattlePet pet[] - the array of battlepets
- * @return void
+ * This function searches for the pets used by the players and updates their match count 
+ * @param struct BattlePet pet[] - contains all battlepets in the game
+ * @param struct Player playerPets - is the current player
+ * @param int dCurrentPets - is the total current pets
  */
-int 
-getComPetDium (struct BattlePet pet[])
-{
-    int dCurrentPets = 0;
-    FILE *file = fopen ("ComPetDium.txt", "r");
-    if (file == NULL){
-        printf ("File not found\n");
-    } else{
-        int x = 0;
-        while (fscanf (file, "%s", pet[x].name) != EOF){  //read name
-            fscanf (file, "%s", pet[x].affinity);       //read affinity
-            fscanf (file, " %[^\n]", pet[x].description); //read description
-            fscanf (file, "%d", &pet[x].matchCount);    //read match count
-            fgetc (file);                               //eat the new line
-            x++;
-            dCurrentPets++;
-        }
-        fclose (file);
-    }
-    return dCurrentPets;
-}
-
-/**
- * This function gets the player name and returns it as a .txt file format
- * @param string input - contains the name of the player
- * @param string output - returns saved_roster/"name".txt 
- */
-void 
-getTxtname(string input, 
-           string output)
-{
-    char holder [NAME + 35];
-    strcpy (holder, "saved_roster/");
-    strcat (holder, input);
-    strcat (holder, ".txt");
-    strcpy (output, holder);
-}
-
-/**
- * This updates the Wins Lost Draws of all players in players.txt
- */
-void updatePlayerTxt (struct Player players[] ,int dCurrentPlayers)
-{
-    FILE *file = fopen ("players.txt", "w");
-    if (file == NULL){
-        printf ("File not found\n");
-    } else{
-        
-
-        fclose (file);
-    }
-}
-
-/**
- * THis function gets the players from the file Players.txt
- * @param struct Player player[] - the array of players
- * @return void
- */
-int 
-getPlayers (struct Player player[])
-{
-    int dCurrentPlayers = 0;
-    FILE *file = fopen ("Players.txt", "r");
-    if (file == NULL){
-        printf ("File not found\n");
-    } else{
-        int x = 0;
-        while (fscanf (file, "%s", player[x].name) != EOF){  //read name
-            fscanf (file, "%s", player[x].savedPassword);       //read password
-            fscanf (file, "%d", &player[x].wins);    //read wins
-            fscanf (file, "%d", &player[x].loss);    //read loss
-            fscanf (file, "%d", &player[x].draws);    //read draws
-            fgetc (file);                               //eat the new line
-            x++;
-            dCurrentPlayers++;
-        }
-        fclose (file);
-    }
-    return dCurrentPlayers;
-}
-
-/** 
- * This function initializes the values of the struct player array to default values
- * @param struct Player player[] - the array of players
- * @return void
- */
-void 
-initializePlayers (struct Player player[])
+void updatePetscount (struct BattlePet pet[], struct Player playerPets, int dCurrentPets)
 {
     int x, y;
-    for (x = 0; x < MAX_PLAYERS; x++){
-        player[x].name[0] = '\0';
-        player[x].savedPassword[0] = '\0';
-        player[x].wins = 0;
-        player[x].loss = 0;
-        player[x].draws = 0;
+    for (x = 0; x < dCurrentPets; x++){
         for (y = 0; y < MAX_ROSTER; y++){
-            player[x].pet[y].name[0] = '\0';
-            player[x].pet[y].affinity[0] = '\0';
-            player[x].pet[y].description[0] = '\0';
-            player[x].pet[y].matchCount = 0;
+            if (strcmp(playerPets.pet[y].name, pet[x].name) == 0){
+                pet[x].matchCount++; 
+            }
         }
-    }
-}
-
-/**
- * This function initializes the values of the struct pet array to default values
- * @param struct BattlePet pet[] - the array of pets
- * @return void
- */
-void 
-initializePets (struct BattlePet pet[])
-{
-    int x;
-    for (x = 0; x < MAX_ROSTER; x++){
-        pet[x].name[0] = '\0';
-        pet[x].affinity[0] = '\0';
-        pet[x].description[0] = '\0';
-        pet[x].matchCount = 0;
     }
 }
 

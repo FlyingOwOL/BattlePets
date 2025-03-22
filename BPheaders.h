@@ -47,6 +47,11 @@
     int  getComPetDium           (struct BattlePet pet[]);
     int  getPlayers              (struct Player player[]);
     void getTxtname              (string, string);
+    void updatePlayerTxt         (struct Player players[], int);
+    void updatePetscount         (struct BattlePet pet[], 
+                                  struct Player playerPets, int);
+    void updateCompetdiumTxt     (struct BattlePet pets[], int);
+
 
     
     void startBattle             (struct BattlePet pet[], 
