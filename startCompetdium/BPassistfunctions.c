@@ -130,14 +130,14 @@ editBPdesc (struct BattlePet* pet){
     do
     {
         printf("Input BattlePet Description (MAX 239 CHARACTERS): ");
-        dScanValid=scanf(" %239s", &pet->description);
+        dScanValid=scanf(" %239[^\n]", &pet->description);
         while (getchar() != '\n'); // clear buffer
 
         if (dScanValid){
             do
             {
      /////////////////////////////////////////////////// PUT PRINTFORMAT FUNCTION HERE        
-            printf("%s\n", pet->description);
+            printf(" %s\n", pet->description);
             printf("Is this the description of your BattlePet? [y/n]");
             scanf(" %c", &cValid);
             while (getchar() != '\n'); // clear buffer
@@ -161,52 +161,6 @@ editBPdesc (struct BattlePet* pet){
     return dResult;
 }
 
-
-// gob note - cut paste functions from addone function to here ^
-// dlete editbattlepetdetails vv
-
-/**
- * This function is used to edit the details of an existing pet in competdium.txt 
- * and its structure in the BattlePets array based on the choice given by the user:
- * 1 for name, 2 for affinity, 3 for description
- * @param struct BattlePet pet[] - the array of pets
- * @param int dPetIndex - array index of pet to be editted
- * @param int dEditChoice - indicates what characteristic of the BattlePet will be changed
- * @return void
- *
-void
-editBattlepetDetails (struct BattlePet pet[], int dPetIndex, int dEditChoice){
-    int dChoice;
-    string affinity[] = {"Fire", "Water", "Grass", "Earth", "Air", "Electric", "Ice", "Metal"};
-
-    switch(dEditChoice){
-        case 1: //edit name
-            printf("What name do you want to replace it with?\n");
-            scanf(" %s", pet[dPetIndex].name);
-            printf("\nSuccessfully editted BattlePet name.\n");
-        case 2: //edit affinity
-            for (int i=0; i<8; i++){
-                printf("[%d] %s\n", i+1, affinity[i]);
-            }
-            do{
-            printf("\nWhat affinity do you want to replace it with?\n");
-            scanf(" %d", dChoice);
-                if(dChoice>=0 && dChoice<=8){
-                    
-                    printf("\nSuccessfully editted BattlePet affinity.\n");
-                }
-                else{
-
-                }
-            } while ();
-        case 3: //edit description
-
-        default:
-            printf("\nerror in edit choice");
-            break;
-    }
-}/
-
 /**
  * This function asks the user which BattlePet and what characteristic they want to modify
  * @param struct BattlePet pet[] - the array of pets
@@ -214,7 +168,7 @@ editBattlepetDetails (struct BattlePet pet[], int dPetIndex, int dEditChoice){
  * @return void
  */
 void
-editBattlepet (struct BattlePet pet[], int dCurrentPets){
+editBattlepet (struct BattlePet pet[], int* dCurrentPets){
     int dChoice, dEditChoice, dValid, dConfirmValid;
     char cConfirm;
 
@@ -233,7 +187,7 @@ editBattlepet (struct BattlePet pet[], int dCurrentPets){
             dValid=0;
             printf("You are not allowed to edit the initial BattlePets. Please try again.");
         } 
-        else if (dValid && dChoice>16 && dChoice<= dCurrentPets){
+        else if (dValid && dChoice>16 && dChoice<= *dCurrentPets){
             dValid=0;
             dConfirmValid=0;
             do // ask for confirmation
@@ -252,16 +206,39 @@ editBattlepet (struct BattlePet pet[], int dCurrentPets){
                             "[0] Back");    
                         do{ //ask what to modify
                         printf("What do you want to modify?\n");
-                        scanf(" %d", dEditChoice);
+                        scanf(" %d", &dEditChoice);
                             if(dEditChoice>=1 && dEditChoice<=3){ 
-                                //deleteBattlepetDetails(pet, dChoice-1, dEditChoice);/////////////// REPLACE THIS gob
+                                switch(dEditChoice){
+                                    case 1:
+                                        dConfirmValid=editBPname(&pet[dChoice-1]);
+                                        break;
+                                    case 2:
+                                        dConfirmValid=editBPaffinity(&pet[dChoice-1]);
+                                        break;
+                                    case 3:
+                                        dConfirmValid=editBPdesc(&pet[dChoice-1]);
+                                        break;
+                                    case 0:
+                                        printf("Returning to edit selection...\n");
+                                        break;
+                                    default:
+                                        printf("Invalid response. Please try again.\n");
+                                        break;
+                                }
                                 dValid=1;
-                                dConfirmValid=1;
+                                if(dConfirmValid==1){ // check if edit was successful
+                                    printf("BattlePet edit of '%s' is successful.\n", pet[dChoice-1].name);
+                                    updateCompetdiumTxt(pet, *dCurrentPets);
+                                } else{
+                                    printf("BattlePet edit was unsuccessful.\n");
+                                }
+
                             } else{
                                 printf("Invalid response. Please try again.\n");
                             } 
                         } while(dEditChoice!=0);
                         break;
+
                     case 'n':
                         dConfirmValid=1;
                         break;
@@ -305,10 +282,11 @@ deleteBattlepetDetails (struct BattlePet pet[], int** dCurrentPets, int index){
     strcpy(pet[dPetTotal].description,"");
     pet[dPetTotal].matchCount = 0;
 
-
     //delete in competdium.txt
+    updateCompetdiumTxt(pet, dPetTotal);
+
     // makes a temporary file, copy updated competdium with battlepet array to temp file
-    FILE *cpdfile = fopen ("competdium.txt", "r");
+    /*FILE *cpdfile = fopen ("competdium.txt", "r");
     FILE *temp = fopen ("temp.txt", "w");
 
     if (cpdfile == NULL || temp == NULL){
@@ -318,7 +296,7 @@ deleteBattlepetDetails (struct BattlePet pet[], int** dCurrentPets, int index){
     for(i=0; i<dPetTotal; i++){
         fprintf(temp, "%s\n%s\n%s\n%d\n", pet[i].name, pet[i].affinity, pet[i].description, pet[i].matchCount);
         if (i!=dPetTotal-1){
-            fprintf(temp, "\n");
+            fprintf(temp, "\n\n");
         }
     }
     fclose(cpdfile);
@@ -326,7 +304,7 @@ deleteBattlepetDetails (struct BattlePet pet[], int** dCurrentPets, int index){
 
     //replace competdium with the updated temp file
     remove("competdium.txt");
-    rename("temp.txt", "competdium.txt");
+    rename("temp.txt", "competdium.txt");*/
 
 }
 
@@ -400,7 +378,7 @@ deleteBattlepet (struct BattlePet pet[], int* dCurrentPets){
 int
 checkIfPetMax (struct BattlePet pet[], int** dCurrentPets){
     int dResult;
-
+    
 }
 
 /**
@@ -439,6 +417,8 @@ addOnePet (struct BattlePet pet[], int** dCurrentPets){
                 printf("[2] No. Restart pet creation \n");
                 printf("[0] Exit. Pet will not be added to the ComPetdium \n");
                 dScanValid = scanf(" %d", &dFinalCheck);
+                while (getchar() != '\n'); // clear buffer
+
                 if (dScanValid){
                     switch(dFinalCheck){
                         case 1: 
