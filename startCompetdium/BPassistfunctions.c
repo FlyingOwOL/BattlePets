@@ -285,27 +285,6 @@ deleteBattlepetDetails (struct BattlePet pet[], int** dCurrentPets, int index){
     //delete in competdium.txt
     updateCompetdiumTxt(pet, dPetTotal);
 
-    // makes a temporary file, copy updated competdium with battlepet array to temp file
-    /*FILE *cpdfile = fopen ("competdium.txt", "r");
-    FILE *temp = fopen ("temp.txt", "w");
-
-    if (cpdfile == NULL || temp == NULL){
-        printf("error detected in file manipulation");
-    }
-
-    for(i=0; i<dPetTotal; i++){
-        fprintf(temp, "%s\n%s\n%s\n%d\n", pet[i].name, pet[i].affinity, pet[i].description, pet[i].matchCount);
-        if (i!=dPetTotal-1){
-            fprintf(temp, "\n\n");
-        }
-    }
-    fclose(cpdfile);
-    fclose(temp);
-
-    //replace competdium with the updated temp file
-    remove("competdium.txt");
-    rename("temp.txt", "competdium.txt");*/
-
 }
 
 /**
@@ -378,7 +357,7 @@ deleteBattlepet (struct BattlePet pet[], int* dCurrentPets){
 int
 checkIfPetMax (struct BattlePet pet[], int** dCurrentPets){
     int dResult;
-    
+
 }
 
 /**
