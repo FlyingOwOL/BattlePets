@@ -27,17 +27,140 @@ viewBattlepets (struct BattlePet pet[])
 }
 
 /**
- * edits battlepet's name
- *
+ * This function edits a battlepet's name and asks the user what they want
+ * to replace it with. Returns 1 if successful, returns 0 if not
+ * @param struct BattlePet pet - the BattlePet struct to be modified
  */
+int
+editBPname (struct BattlePet* pet){
+    int dChoice, dResult, dScanValid;
+    char cValid;
+    do
+    { // check if name is valid
+        printf("Input BattlePet Name (MAX 35 CHARACTERS): ");
+        dScanValid=scanf(" %35s", &pet->name);
+        while (getchar() != '\n'); // clear buffer
+            
+        if(dScanValid){
+            do
+            {
+            printf("\n Is your BattlePet's name '%s'? [y/n]", pet->name);
+            scanf(" %c", &cValid);
+            while (getchar() != '\n'); // clear buffer
+                if(cValid=='y' || cValid=='n'){ //check if user responded y or n
+                    dScanValid=0;
+                } else{
+                    printf("\n Invalid response. Please try again.");
+                } 
+            } while(dScanValid);
+        } else{
+            printf("Invalid input. Please try again.\n");
+        }
+    } while(cValid!='y');        
+
+    // output result
+    if(cValid=='y'){
+        dResult = 1;
+    } else{
+        dResult = 0;
+    }
+    return dResult;
+}
 
 /**
- * edits battlepet's affinity
+ * This function edits a battlepet's affinity and asks the user what they want
+ * to replace it with. Returns 1 if successful, returns 0 if not
+ * @param struct BattlePet pet - the BattlePet struct to be modified
  */
+int
+editBPaffinity (struct BattlePet* pet){
+    int dChoice, dScanValid, dResult;
+    char cValid;
+    string affinity[] = {"Fire", "Water", "Grass", "Earth", "Air", "Electric", "Ice", "Metal"};
 
- /**
-  * edits battlepet's description
-  */
+    printf("\n BATTLEPET AFFINITY\n");
+    for (int i=0; i<8; i++){
+        printf("[%d] %s\n", i+1, affinity[i]);
+    }
+
+    do
+    { //check if affinity is valid
+        printf("Choose your BattlePet's affinity:");
+        dScanValid = scanf(" %d", &dChoice);
+        while (getchar() != '\n'); // clear buffer
+
+        if(dScanValid && dChoice>0 && dChoice<9){
+        do
+        {
+        printf("\n Is your BattlePet's affinity '%s'? [y/n]", affinity[dChoice-1]);
+        scanf(" %c", &cValid);
+        while (getchar() != '\n'); // clear buffer
+            if(cValid=='y' || cValid=='n'){ //check if user responded y or n
+                strcpy(pet->affinity, affinity[dChoice-1]);
+                dScanValid=0;
+            } else{
+                printf("\n Invalid response. Please try again.");
+            } 
+        } while(dScanValid);
+        } 
+        else{
+            printf("Invalid input. Please try again.\n");
+        } 
+    } while (cValid!='y');
+
+    // output result
+    if(cValid=='y'){
+        dResult = 1;
+    } else{
+        dResult = 0;
+    }
+    return dResult;
+}
+
+/**
+ * This function edits a battlepet's description and asks the user what they want
+ * to replace it with. Returns 1 if successful, returns 0 if not
+ * @param struct BattlePet pet - the BattlePet struct to be modified
+ */
+int
+editBPdesc (struct BattlePet* pet){
+    int dScanValid, dResult;
+    char cValid;
+    
+    do
+    {
+        printf("Input BattlePet Description (MAX 239 CHARACTERS): ");
+        dScanValid=scanf(" %239s", &pet->description);
+        while (getchar() != '\n'); // clear buffer
+
+        if (dScanValid){
+            do
+            {
+     /////////////////////////////////////////////////// PUT PRINTFORMAT FUNCTION HERE        
+            printf("%s\n", pet->description);
+            printf("Is this the description of your BattlePet? [y/n]");
+            scanf(" %c", &cValid);
+            while (getchar() != '\n'); // clear buffer
+                if(cValid=='y' || cValid=='n'){ //check if user responded y or n
+                    dScanValid=0;
+                } else{
+                    printf("\n Invalid response. Please try again.");
+                } 
+            } while(dScanValid);
+        } else{
+            printf("Invalid input. Please try again.\n");
+        }
+    } while(cValid!='y');  
+
+    // output result
+    if(cValid=='y'){
+        dResult = 1;
+    } else{
+        dResult = 0;
+    }
+    return dResult;
+}
+
 
 // gob note - cut paste functions from addone function to here ^
 // dlete editbattlepetdetails vv
@@ -102,10 +225,9 @@ editBattlepet (struct BattlePet pet[], int dCurrentPets){
     do{
         printf("\nWhich BattlePet do you want to edit?\n");
         dValid = scanf(" %d", &dChoice);
-        while (getchar() != '\n'); // clear buffer
 
         if (dValid && dChoice==0){
-            printf("Exiting EDit BattlePet...");
+            printf("Exiting Edit BattlePet...");
         }
         else if (dValid && dChoice<=16 && dChoice>0){ // not allowed to edit initial battlepets
             dValid=0;
@@ -266,8 +388,7 @@ deleteBattlepet (struct BattlePet pet[], int* dCurrentPets){
             dValid=0;
         }
     } while (!dValid);
-    
-    
+
 }
 
 /**
@@ -289,142 +410,76 @@ checkIfPetMax (struct BattlePet pet[], int** dCurrentPets){
  */
 void
 addOnePet (struct BattlePet pet[], int** dCurrentPets){
-    char cTempValid, dFinalCheck;
-    int dTempChoice, dAffChoice;
     int dPetTotal = **dCurrentPets;
     struct BattlePet addPet;
-    string affinity[] = {"Fire", "Water", "Grass", "Earth", "Air", "Electric", "Ice", "Metal"};
+    int status[3] = {0,0,0};
+    int dFinalCheck, dScanValid;
 
-    do
-    { // user can restart creation process
-    do
-    { // check if name is valid
-        printf("Input BattlePet Name (MAX 36 CHARACTERS): ");
-        scanf(" %s", &addPet.name);
-        dTempChoice=1;
-            do
-            {
-            printf("\n Is your BattlePet's name '%s'? [y/n]", addPet.name);
-            scanf(" %c", &cTempValid);
-            while (getchar() != '\n'); // clear buffer
-                if(cTempValid=='y' || cTempValid=='n'){ //check if user responded y or n
-                    dTempChoice=0;
-                } else{
-                    printf("\n Invalid response. Please try again.");
-                } 
-            } while(dTempChoice);
-        } while(cTempValid!='y');
-        cTempValid='n';
+    do { // user can restart creation process
+        
+        //edit name
+        status[0]=editBPname(&addPet);
+        //edit affinity
+        status[1]=editBPaffinity(&addPet);
+        //edit description
+        status[2]=editBPdesc(&addPet);
+        
+        if(status[0]==1 && status[1]==1 && status[2]==1){
+            //recheck pet details
+            printf("\nADD BATTLEPET\n");
+            printf("BattlePet Name: %s\n", addPet.name);
+            printf("Affinity: %s\n", addPet.affinity);
+            printf("Description:\n");
+            /////////////////////////////////////////////////// PUT PRINTFORMAT FUNCTION HERE
+            printf("%s\n", addPet.description);
 
-        //check if affinity is valid
-        printf("\n BATTLEPET AFFINITY\n");
-        for (int i=0; i<8; i++){
-            printf("[%d] %s\n", i+1, affinity[i]);
-        }
-
-        do
-        {
-            printf("Choose your BattlePet's affinity:");
-            dTempChoice = scanf(" %d", &dAffChoice);
-            while (getchar() != '\n'); // clear buffer
-
-            if(dTempChoice && dAffChoice>0 && dAffChoice<9){
-            do
-            {
-            printf("\n Is your BattlePet's affinity '%s'? [y/n]", affinity[dAffChoice-1]);
-            scanf(" %c", &cTempValid);
-            while (getchar() != '\n'); // clear buffer
-                if(cTempValid=='y' || cTempValid=='n'){ //check if user responded y or n
-                    strcpy(addPet.affinity, affinity[dAffChoice-1]);
-                    dTempChoice=0;
-                } else{
-                    printf("\n Invalid response. Please try again.");
-                } 
-            } while(dTempChoice);
-            } 
-            else{
-                printf("Invalid input. Please try again.\n");
-            } 
-        } while (cTempValid!='y');
-        cTempValid='n';
-
-        // check if description is valid
-        do
-        {
-            printf("Input BattlePet Description (MAX 240 CHARACTERS): ");
-            scanf(" %[^\n]", &addPet.description);
-            dTempChoice=1;
-                do
-                {
-         /////////////////////////////////////////////////// PUT PRINTFORMAT FUNCTION HERE        
-                printf("%s\n", addPet.description);
-                printf("Is this the description of your BattlePet? [y/n]");
-                scanf(" %c", &cTempValid);
-                while (getchar() != '\n'); // clear buffer
-                    if(cTempValid=='y' || cTempValid=='n'){ //check if user responded y or n
-                        dTempChoice=0;
-                    } else{
-                        printf("\n Invalid response. Please try again.");
-                    } 
-                } while(dTempChoice);
-        } while(cTempValid!='y');  
-        cTempValid='n';  
-    
-        //recheck pet details
-        printf("\nADD BATTLEPET\n");
-        printf("BattlePet Name: %s\n", addPet.name);
-        printf("Affinity: %s\n", addPet.affinity);
-        printf("Description:\n");
-        /////////////////////////////////////////////////// PUT PRINTFORMAT FUNCTION HERE
-        printf("%s\n", addPet.description);
-
-        dTempChoice=1;
-        do
-        {
-        printf("\n Are the details of your BattlePet correct?\n");
-        printf("[1] Yes. Add it to the ComPetdium \n");
-        printf("[2] No. Restart pet creation \n");
-        printf("[0] Exit. Pet will not be added to the ComPetdium \n");
-            scanf(" %d", &dFinalCheck);
-            switch(dFinalCheck){
-                case 1: 
-                    printf("\nPet has been added to the ComPetdium.");
-                    dTempChoice--;
-                    break;
-                case 2: 
-                    printf("\nRestarting pet creation.");
-                    dTempChoice--;
-                    break;
-                case 0:
-                    printf("\nExiting BattlePet Creation.");
-                    dTempChoice--;
-                    break;
-                default:
-                    printf("Invalid input\n");
-                    break;
-            }
-            while (getchar() != '\n'); // clear buffer
-        } while(dTempChoice);
+            do {
+                printf("\n Are the details of your BattlePet correct?\n");
+                printf("[1] Yes. Add it to the ComPetdium \n");
+                printf("[2] No. Restart pet creation \n");
+                printf("[0] Exit. Pet will not be added to the ComPetdium \n");
+                dScanValid = scanf(" %d", &dFinalCheck);
+                if (dScanValid){
+                    switch(dFinalCheck){
+                        case 1: 
+                            printf("\nPet has been added to the ComPetdium.");
+                            dScanValid--;
+                            break;
+                        case 2: 
+                            printf("\nRestarting pet creation.");
+                            dScanValid--;
+                            break;
+                        case 0:
+                            printf("\nExiting BattlePet Creation.");
+                            dScanValid--;
+                            break;
+                        default:
+                            printf("Invalid input\n");
+                            break;
+                    }
+                } else {
+                    printf("Invalid input. Please try again.\n");
+                }
+            } while(dScanValid);
+        } 
     } while(dFinalCheck!=1 && dFinalCheck!=0);
-
-    // copy addPet to competdium.txt and add to battlepets array
+    
     if(dFinalCheck==1){
         // check if competdium is past max amount
         
-
         // add to competdium.txt
         FILE *cpdfile = fopen ("competdium.txt", "a");
         if (cpdfile == NULL){
             printf("competdium.txt not found");
         }
-        fprintf(cpdfile, "\n%s\n%s\n%s\n%d\n", addPet.name, addPet.affinity, addPet.description, 0);
+        fprintf(cpdfile, "%s\n%s\n%s\n%d\n\n", addPet.name, addPet.affinity, addPet.description, 0);
         fclose(cpdfile);
     
         // add to battlepets array
-        strcpy(pet[dPetTotal].name,addPet.name);
-        strcpy(pet[dPetTotal].affinity,addPet.affinity);
-        strcpy(pet[dPetTotal].description,addPet.description);
-        pet[dPetTotal].matchCount=0;
+        strcpy(pet[dPetTotal].name, addPet.name);
+        strcpy(pet[dPetTotal].affinity, addPet.affinity);
+        strcpy(pet[dPetTotal].description, addPet.description);
+        pet[dPetTotal].matchCount = 0;
         (**dCurrentPets)++;
     }        
 }
