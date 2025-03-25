@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "stdio.h": "c",
-        "bpheaders.h": "c"
+        "bpheaders.h": "c",
+        "typeinfo": "c"
     }
 }
