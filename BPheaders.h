@@ -98,7 +98,10 @@
     void startComPetDium   (struct BattlePet pet[], int*);
     void viewBattlepets    (struct BattlePet pet[]);
 
-    void viewStatistics    ();
-    
-
+    void viewStatistics          (struct Player player[], 
+                                  struct BattlePet pet[], int, int);
+    void rearrangePets           (struct BattlePet localPets[], int);
+    void displayTop5pets         (struct BattlePet localPets[], int);
+    void rearrangePlayers        (struct Player localPlayers[], int);
+    void displayTop5players      (struct Player localPlayers[], int);
 #endif

@@ -36,7 +36,7 @@ int main(){
                 startComPetDium (pet, &dCurrentPets);
                 break;
             case 3:
-                viewStatistics ();
+                viewStatistics (player, pet, dCurrentPlayers, dCurrentPets);
                 break;
             case 0:
                 printf ("Thank you for playing!!\n");

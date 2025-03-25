@@ -118,13 +118,13 @@ startComPetDium (struct BattlePet pet[], int* dCurrentPets)
             viewBattlepets (pet);
             break;
         case 2:
-            addBattlepet (pet, dCurrentPets);
+//            addBattlepet (pet, dCurrentPets);
             break;
         case 3:
-            editBattlepet (pet, dCurrentPets);
+//            editBattlepet (pet, dCurrentPets);
             break;
         case 4:
-            deleteBattlepet(pet, dCurrentPets);
+//            deleteBattlepet(pet, dCurrentPets);
             break;
         case 0:
             printf ("returning to main menu\n");
@@ -140,7 +140,42 @@ startComPetDium (struct BattlePet pet[], int* dCurrentPets)
 /**
  * This function is responsible for showing the game statistics and previous matches.
  */
-void viewStatistics ()
+void viewStatistics (struct Player player[], struct BattlePet pet[], int dCurrentPlayers, int dCurrentPets)
 {
+    struct Player localPlayers[MAX_PLAYERS];
+    struct BattlePet localPets[MAX_BATTLEPETS];
+
+    initializePlayers (localPlayers); //set values to 0 or to null
+    initializePets (localPets);
+
+    int x;
+    for (x = 0; x < dCurrentPlayers; x++)
+        localPlayers[x] = player[x];
+    for (x = 0; x < dCurrentPets; x++)
+        localPets[x] = pet[x];        //copy values 
+
+    do{
+       printf ("%s\n%s\n%s\n%s",
+        "[1] view top 5 players",
+        "[2] view top 5 pets",
+        "[0] exit",
+        "Your choice:");
+        scanf ("%d", &x);
+        switch (x){
+            case 1:
+                displayTop5players(localPlayers, dCurrentPlayers);
+                break;
+            case 2:
+                displayTop5pets (localPets, dCurrentPets);
+                break;
+            case 0:
+                printf ("Returning to Menu\n");
+                break;
+            default:
+                printf ("Out or range choice\n");
+                break;
+        }
+    }while (x != 0);
+    
     printf ("Function in process\n");
 }
