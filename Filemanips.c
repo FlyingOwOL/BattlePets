@@ -31,14 +31,17 @@ getComPetDium (struct BattlePet pet[])
 /**
  * This function gets the player name and returns it as a .txt file format
  * @param string input - contains the name of the player
- * @param string output - returns saved_roster/"name".txt 
+ * @param string prefix - example "saved_roster/" or "match_"
+ * @param string output - returns "prefix""name".txt
+ * @return void 
  */
 void 
 getTxtname(string input, 
-           string output)
+           string150 output,
+           char* prefix)
 {
-    char holder [NAME + 35];
-    strcpy (holder, "saved_roster/");
+    string150 holder;
+    strcpy (holder, prefix);
     strcat (holder, input);
     strcat (holder, ".txt");
     strcpy (output, holder);
@@ -48,6 +51,7 @@ getTxtname(string input,
  * This updates the Wins Lost Draws of all players in players.txt
  * @param struct Player players[] - array of playeers
  * @param int dCurrentPlayers - total number of current players 
+ * @return void
  */
 void 
 updatePlayerTxt (struct Player players[], 
@@ -72,6 +76,7 @@ updatePlayerTxt (struct Player players[],
  * This function overwrites saved info in competdium.txt to update match count
  * @param struct BattlePet pets[] - array of current pets in struct
  * @param int dCurrentPets - is the total amount of current pets
+ * @return void
  */
 void 
 updateCompetdiumTxt (struct BattlePet pets[], 

@@ -10,6 +10,7 @@
  * @param struct BattlePet pet[] - contains all battlepets in the game
  * @param struct Player playerPets - is the current player
  * @param int dCurrentPets - is the total current pets
+ * @return void
  */
 void updatePetscount (struct BattlePet pet[], struct Player playerPets, int dCurrentPets)
 {
@@ -126,12 +127,12 @@ void
 newPlayer (struct Player player[],
                 int* dCurrentPlayers)
 {
-    char txtFilename[NAME + 35];
+    string150 txtFilename;
     printf ("Enter your name: ");
     scanf ("%s", player[*dCurrentPlayers].name);
     printf ("Create your password: ");
     scanf ("%s", player[*dCurrentPlayers].savedPassword);
-    getTxtname (player[*dCurrentPlayers].name, txtFilename);
+    getTxtname (player[*dCurrentPlayers].name, txtFilename, "saved_roster/");
 
     FILE *file = fopen (txtFilename, "w"); //create new txt file in saved_roster folder
 
@@ -161,9 +162,8 @@ loadSavedRoster (string name,
                  int dCurrentPets)
 {
     int x;
-    char filename[NAME + 20] = "saved_roster/";
-    strcat(filename, name); //gets the saved player file from the saved_roster folder
-    strcat(filename, ".txt");
+    string150 filename;
+    getTxtname (name, filename, "saved_roster/");
     //ex. saved_roster/_Chainsmoker_.txt
     FILE *file = fopen (filename, "r");
     if (file == NULL){
@@ -427,9 +427,9 @@ typeOfwin (struct Results matchResult,
     if (checkLuckywin(matchResult, &dWinner)) {
         strcpy(winType, "Lucky Win");
     } else if (count1 > count2) {
-        strcpy(winType, "Majority Win (Player1)");
+        strcpy(winType, "Majority Win");
     } else if (count2 > count1) {
-        strcpy(winType, "Majority Win (Player2)");
+        strcpy(winType, "Majority Win");
     } else {
         strcpy(winType, "Draw");
     }
@@ -493,4 +493,93 @@ returnWinner(struct Results matchResult,
         player2->draws++;
     }
     strcpy(cWinner, result);
+}
+
+/**
+ * This creates a new txt file which contains the previous match result
+ * @param struct Player player1 - contains player1 info
+ * @param struct Player player2 - contains player2 info
+ * @param struct Results matchResult - contains the match result after a battle
+ * @return void
+ */
+void createMatchHistory (struct Player player1, struct Player player2, struct Results matchResult)
+{
+    int dCurrentMatch = 1;
+    int isFound = 1;
+    string150 txtFilename;
+    char strNumber[NAME];
+
+    while (isFound){    //should return the index for the match result
+        if (dCurrentMatch > 100) dCurrentMatch = 1; //reset back to 1 and start forgetting
+
+        sprintf (strNumber, "%d", dCurrentMatch);   //convert int to string
+        getTxtname (strNumber, txtFilename, "results/match_");  //get file name ex "results/match_0.txt"
+        FILE *file = fopen (txtFilename, "r");
+        if (file == NULL){      //if file is not found end loop
+            isFound = 0;
+        } else {
+            fclose (file);            
+            dCurrentMatch++;
+        }
+    }
+
+    if (dCurrentMatch == 50) {  //delete first 50 files
+        int x;
+        for (x = 1; x <= 50; x++) {
+            string150 oldFile;
+            sprintf(strNumber, "%d", x);
+            getTxtname(strNumber, oldFile, "results/match_");
+            remove(oldFile);
+        }
+    }
+
+    int count1 = 0, 
+        count2 = 0, 
+        countDraw = 0;
+    char cWinner[50];
+    string winType;
+    int x;
+    for (x = 0; x < MAX_ROSTER; x++) {
+        if (matchResult.result[x] == '1') count1++;
+        if (matchResult.result[x] == '2') count2++;
+        if (matchResult.result[x] == 'D') countDraw++;
+    }
+    typeOfwin (matchResult, count1, count2, winType); 
+    returnWinner (matchResult, &player1, &player2, cWinner);
+    char winner[NAME + 20];
+    winner[0] = '\0';
+    int dSpaceCount = 0;
+    for (x = 0; dSpaceCount < 2 && x < 40; x++){
+        winner[x] = cWinner[x];
+        if (cWinner[x] == ' '){
+            dSpaceCount++;
+        }
+        if (dSpaceCount == 2){
+            winner[x + 1] = '\0';
+        } 
+    }
+
+    FILE *match = fopen (txtFilename, "w");
+    if (match == NULL){
+        printf ("Error opening file\n");
+    } else {
+        fprintf (match, "Player1: %s\n", player1.name);
+        fprintf (match, "Player2: %s\n\n", player2.name);
+        fprintf (match, "P1 Roster vs P2 Roster\n");
+        for (x = 0; x < MAX_ROSTER; x++){
+            fprintf (match, "%s vs %s\n", player1.pet[x].name, player2.pet[x].name);
+        }
+        fprintf (match, "\n");
+        fprintf (match, "Match Results\n");
+        for (x = 0; x < MAX_ROSTER; x++){
+            if (x > 0 && x % 3 == 0){
+                fprintf (match, "\n");
+            }
+            fprintf (match, "%c ", matchResult.result[x]);
+        }
+        fprintf (match, "\n\n");
+        fprintf (match, "%s\n", winner);
+        fprintf (match, "Type of Win: %s\n", winType);
+        fclose (match);
+    }
 }

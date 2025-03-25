@@ -86,6 +86,8 @@ startBattle(struct BattlePet pet[],
 
         updateCompetdiumTxt (pet, dCurrentPets);
         updatePlayerTxt (player, *dCurrentPlayers);
+
+        createMatchHistory (player1, player2, *matchResults);
     }
 }
 

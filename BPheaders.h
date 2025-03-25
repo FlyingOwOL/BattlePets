@@ -10,7 +10,10 @@
     /**
      * This typedef represents a string of 36 characters
      */
-    typedef char string[NAME];
+    typedef char string[36];
+    
+
+    typedef char string150[150];
 
     /**
      * This struct represents a battlepet
@@ -46,7 +49,7 @@
     void initializePets          (struct BattlePet pet[]);
     int  getComPetDium           (struct BattlePet pet[]);
     int  getPlayers              (struct Player player[]);
-    void getTxtname              (string, string);
+    void getTxtname              (string, string150, char*);
     void updatePlayerTxt         (struct Player players[], int);
     void updatePetscount         (struct BattlePet pet[], 
                                   struct Player playerPets, int);
@@ -83,7 +86,11 @@
     void returnWinner            (struct Results matchResult, 
                                   struct Player* player1, 
                                   struct Player* player2, 
-                                  char cWinner[]); 
+                                  char cWinner[]);
+    void createMatchHistory      (struct Player player1, 
+                                  struct Player player2, 
+                                  struct Results matchResult);
+ 
 
                             
 
