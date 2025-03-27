@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "BPheaders.h"
 #include "startBattle/BPassistfunctions.c"
-#include "startCompetdium/BPassistfunctions.c"
+#include "startCompetdium/BPmainfunctions.c"
 #include "viewStatistics/BPassistfunctions.c"
 #include "BPdesigns.c"
 
@@ -99,11 +99,10 @@ startBattle(struct BattlePet pet[],
  * @return void
  */
 void 
-startComPetDium (struct BattlePet pet[], int* dCurrentPets)
+startComPetDium (struct BattlePet pet[], struct Player player[], int* dCurrentPets, int* dCurrentPlayers)
 {
     int dChoice;
     do{
-        printf("current pets: %d\n", *dCurrentPets); //debug line////////////////////////////////////
         printf ("%s%s%s%s%s%sYour choice: ", 
         "[1] View Battle Pet/s\n",
         "[2] Add BattlePet\n",
@@ -115,7 +114,7 @@ startComPetDium (struct BattlePet pet[], int* dCurrentPets)
         switch (dChoice)
         {
         case 1:
-            viewBattlepets (pet);
+            viewBattlepets (pet, *dCurrentPets);
             break;
         case 2:
             addBattlepet (pet, dCurrentPets);
@@ -126,6 +125,9 @@ startComPetDium (struct BattlePet pet[], int* dCurrentPets)
         case 4:
             deleteBattlepet(pet, dCurrentPets);
             break;
+        case 5:
+            //saveRoster (pet, player, dCurrentPlayers, *dCurrentPets);
+            break;
         case 0:
             printf ("returning to main menu\n");
             break;
@@ -134,8 +136,7 @@ startComPetDium (struct BattlePet pet[], int* dCurrentPets)
             break;
         }
     }while (dChoice != 0);
-    
-}
+}  
 
 /**
  * This function is responsible for showing the game statistics and previous matches.

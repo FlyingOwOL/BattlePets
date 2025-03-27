@@ -195,7 +195,7 @@ isTxtFile (string150 filename){
  */
 void
 listTxtFiles(const char* folder, string150 txtfiles[]){
-    int i;
+    int i=1;
     struct dirent *entry;
     DIR *dir = opendir(folder);
 
@@ -205,7 +205,7 @@ listTxtFiles(const char* folder, string150 txtfiles[]){
         while(((entry=readdir(dir))!=NULL)){
             if (isTxtFile(entry->d_name)){ //only display .txt files
                 printf("[%d] %s\n", i, entry->d_name);
-                strcpy(txtfiles[i],entry->d_name); // add to txtfiles array
+                strcpy(txtfiles[i-1],entry->d_name); // add to txtfiles array
                 i++;
             }
         }

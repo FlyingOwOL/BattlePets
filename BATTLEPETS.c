@@ -33,7 +33,7 @@ int main(){
                 startBattle (pet, player, &matchResults, &dCurrentPlayers, dCurrentPets);
                 break;
             case 2:
-                startComPetDium (pet, &dCurrentPets);
+                startComPetDium (pet, player, &dCurrentPets, &dCurrentPlayers);
                 break;
             case 3:
                 viewStatistics (player, pet, dCurrentPlayers, dCurrentPets);

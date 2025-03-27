@@ -1,22 +1,22 @@
 Solaraffe
 Fire
 A fiery and majestic giraffe that harnesses the power of the sun.
-6
+7
 
 Firepupp
 Fire
 A loyal, flame-breathing dog that races through the night with fiery speed.
-6
+8
 
 Hydrake
 Water
 A sleek, serpentine creature that can summon powerful waves and whip through currents with ease.
-5
+6
 
 Meowguro
 Water
 A playful, aquatic catfish with feline-like agility in the water.
-3
+4
 
 Grawl
 Grass
@@ -26,12 +26,12 @@ A wise and stealthy owl, covered in leaves and vines, blending into nature.
 Barkbear
 Grass
 A sturdy bear with a bark-like skin, nearly indestructible in nature’s wilds.
-1
+2
 
 Terrashark
 Earth
 An earth-dwelling predator with the fierce speed and agility of a shark.
-6
+8
 
 Roarland
 Earth
@@ -41,22 +41,22 @@ A fierce, rock-covered tiger with the ability to cause earth tremors with every 
 Airsting
 Air
 A graceful, flying stingray that glides through the air with the elegance of the wind.
-4
+5
 
 Zephyram
 Air
 A fast-moving ram that uses the power of the wind to leap great distances.
-2
+4
 
 Zaprat
 Electric
 A rat with fur that crackles with electric energy, using it to stun foes.
-4
+5
 
 Joltaroo
 Electric
 A kangaroo with electric energy that surges through its powerful legs when it jumps.
-2
+3
 
 Hailhound
 Ice
@@ -66,12 +66,12 @@ A swift, fierce dog that can summon hailstorms, using the frozen pellets as weap
 Crocodice
 Ice
 A massive crocodile whose scales are covered in a thick layer of ice, allowing it to stalk through frozen waters.
-3
+4
 
 Steelephant
 Metal
 A massive elephant with skin as tough as steel, capable of trampling through anything.
-3
+5
 
 Rustcoon
 Metal
@@ -81,10 +81,30 @@ A clever raccoon with metallic fur that can withstand rust and corrosion, scaven
 broooooo
 Fire
 test
-0
+1
 
 aoshdaihso
 Metal
 ahkjbsdk
+1
+
+TestPet1
+Fire
+A test pet 1
+0
+
+TestPet2
+Fire
+A test pet 2
+0
+
+TestPet3
+Fire
+A test pet 3
+0
+
+TestPet4
+Fire
+A test pet 4
 0
 
