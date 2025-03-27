@@ -118,13 +118,13 @@ startComPetDium (struct BattlePet pet[], int* dCurrentPets)
             viewBattlepets (pet);
             break;
         case 2:
-//            addBattlepet (pet, dCurrentPets);
+            addBattlepet (pet, dCurrentPets);
             break;
         case 3:
-//            editBattlepet (pet, dCurrentPets);
+            editBattlepet (pet, dCurrentPets);
             break;
         case 4:
-//            deleteBattlepet(pet, dCurrentPets);
+            deleteBattlepet(pet, dCurrentPets);
             break;
         case 0:
             printf ("returning to main menu\n");

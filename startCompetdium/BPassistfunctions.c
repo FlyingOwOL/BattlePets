@@ -2,7 +2,6 @@
     This file contains the functions that are used for computations and to aid the BPfunctions
 */
 #include <stdio.h>
-//#include <../dirent.h>
 #include "../BPheaders.h"
 
 /**
@@ -29,7 +28,7 @@ viewBattlepets (struct BattlePet pet[])
  * This function edits a battlepet's name and asks the user what they want
  * to replace it with. Returns 1 if successful, returns 0 if not
  * @param struct BattlePet pet - the BattlePet struct to be modified
- *
+ */
 int
 editBPname (struct BattlePet* pet){
     int dChoice, dResult, dScanValid;
@@ -66,11 +65,11 @@ editBPname (struct BattlePet* pet){
     return dResult;
 }
 
-**
+/**
  * This function edits a battlepet's affinity and asks the user what they want
  * to replace it with. Returns 1 if successful, returns 0 if not
  * @param struct BattlePet pet - the BattlePet struct to be modified
- *
+ */
 int
 editBPaffinity (struct BattlePet* pet){
     int dChoice, dScanValid, dResult;
@@ -116,11 +115,11 @@ editBPaffinity (struct BattlePet* pet){
     return dResult;
 }
 
-**
+/**
  * This function edits a battlepet's description and asks the user what they want
  * to replace it with. Returns 1 if successful, returns 0 if not
  * @param struct BattlePet pet - the BattlePet struct to be modified
- *
+ */
 int
 editBPdesc (struct BattlePet* pet){
     int dScanValid, dResult;
@@ -160,12 +159,12 @@ editBPdesc (struct BattlePet* pet){
     return dResult;
 }
 
-**
+/**
  * This function asks the user which BattlePet and what characteristic they want to modify
  * @param struct BattlePet pet[] - the array of pets
  * @param int dCurrentPets - current total of battlepets
  * @return void
- *
+ */
 void
 editBattlepet (struct BattlePet pet[], int* dCurrentPets){
     int dChoice, dEditChoice, dValid, dConfirmValid;
@@ -254,14 +253,14 @@ editBattlepet (struct BattlePet pet[], int* dCurrentPets){
     
 }
 
-**
+/**
  * This function is used to delete the details of an existing pet in competdium.txt
  * and its structure in the BattlePets array.
  * @param struct BattlePet pet[] - the array of pets
  * @param int** dCurrentPets - current total of battlepets
  * @param int index - index of pet in BattlePet array to be deleted 
  * @return void
- *
+ */
 void
 deleteBattlepetDetails (struct BattlePet pet[], int** dCurrentPets, int index){
     int i;
@@ -286,14 +285,14 @@ deleteBattlepetDetails (struct BattlePet pet[], int** dCurrentPets, int index){
 
 }
 
-**
+/**
  * This function asks the user which pet they want to delete from the ComPetDium
  * 
  * @param struct BattlePet pet[] - the array of pets
  * @param int* dCurrentPets - current total of battlepets
  * @param int index - index of pet in BattlePet array to be deleted 
  * @return void
- *
+ */
 void
 deleteBattlepet (struct BattlePet pet[], int* dCurrentPets){
     int dChoice, dValid, dConfirmValid;
@@ -347,23 +346,25 @@ deleteBattlepet (struct BattlePet pet[], int* dCurrentPets){
 
 }
 
-**
+/**
  * This function checks if the the number of battlepets to be added will make the competdium
  * reach its max amount. If it does, removes recently added battlepets (excludes initial battlepets)
  * @param struct BattlePet pet[] - the array of pets
  *
- *
+ */
 int
 checkIfPetMax (struct BattlePet pet[], int** dCurrentPets){
+    //totalpets - number of pets to be added para overlap
+    
     int dResult;
 
 }
 
-**
+/**
  * This function is used to add one pet manually to competdium.txt and to the BattlePets array
  * @param struct BattlePet pet[] - the array of battlepets
  * @param int* dCurrentPets - current total of battlepets
- *
+ */
 void
 addOnePet (struct BattlePet pet[], int** dCurrentPets){
     int dPetTotal = **dCurrentPets;
@@ -442,32 +443,66 @@ addOnePet (struct BattlePet pet[], int** dCurrentPets){
     }        
 }
 
-**
+/**
  * This function is used to add multiple pets at once by selecting 
  * a file in the import_pets folder
- *
+ */
 void
 addMultiplePets(struct BattlePet pet[], int** dCurrentPets){
-    
+    int dScanValid, dChoice, dTotalPets;
+    struct BattlePet addPets[MAX_BATTLEPETS-16]; // excluding initial pets
+    string150 txtfiles[10];
+
     // display guidelines for importing multiple pets
-    
+    printf("\n%s\n%s\n%s\n%s\n\n%s\n%s\n%s\n%s\n\n%s",
+    "IMPORTING MULTIPLE PETS (MAX OF 44 PETS)",
+    "MAX OF 10 FILES IN IMPORT_PETS FOLDER",
+    "File name must be less than 36 characters long.",
+    "Please make sure your pets follows the template:",
+    "Pet Name",
+    "Affinity",
+    "Pet Description",
+    "0",
+    "You can check competdium.txt for reference.");
+
     // list down files in import_pets folder
-
+    printf("\nTXT FILES IN IMPORT_PETS\n");
+    listTxtFiles("./import_pets", txtfiles);
+    printf("[0] Exit");
+    
+    /*for(int i=0; i<3; i++){
+        printf("%s\n", txtfiles[i]);
+    }*/
+    do{
+    printf("\n\nWhich file do you want to import?\n");
+    dScanValid = scanf(" %d", &dChoice);
+    
+    if (dScanValid)
+    {
+        //getTxtname() -- finish this gob
+        dTotalPets = getComPetDium(addPets, txtfiles[dChoice-1]); //get pets inside txt file
+        // check if past max amount
+        // gob finish this
+    } else{
+        printf("Invalid input. Please try again.");
+    }
+    
+    } while (dScanValid);
     // scan, show contents, and confirm selection (+number of battlepets to be added)
-
+    
+    
+    // if match number != 0, change to 0
     // check if competdium is past max amount
-
-    // 
 }
 
 
-**
+/**
  * This function is used to add a pet with its details to competdium.txt
  * The user can choose to add one manually or add multiple from a file 
  * in the importpets folder
  * @param struct BattlePet pet[] - the array of battlepets
  * @param int* dCurrentPets - current total of battlepets
- *
+ */
 void
 addBattlepet (struct BattlePet pet[], int* dCurrentPets){
     int dChoice;
@@ -496,11 +531,11 @@ addBattlepet (struct BattlePet pet[], int* dCurrentPets){
 
 }
 
-**
+/**
  * This function is used to create and save a 3x3 Battlepet roster for a player
  *
+ */
 void
 saveRoster (){
 
 }
-*/

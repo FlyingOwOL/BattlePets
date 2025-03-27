@@ -1,29 +1,30 @@
 #include <stdio.h>
+#include <dirent.h>
 #include "BPheaders.h"
 
 /**
- * This function uploads the battlepets from the file ComPetDium.txt
+ * This function uploads the battlepets from a file
  * @param struct BattlePet pet[] - the array of battlepets
- * @return void
+ * @param const char* file - file to extract battlepets from, ex. ComPetDium.txt
+ * @return int
  */
 int 
-getComPetDium (struct BattlePet pet[])
-{
+getComPetDium (struct BattlePet pet[], const char* file){
     int dCurrentPets = 0;
-    FILE *file = fopen ("ComPetDium.txt", "r");
-    if (file == NULL){
+    FILE *fp = fopen (file, "r");
+    if (fp == NULL){
         printf ("File not found\n");
     } else{
         int x = 0;
-        while (fscanf (file, "%s", pet[x].name) != EOF){  //read name
-            fscanf (file, "%s", pet[x].affinity);       //read affinity
-            fscanf (file, " %[^\n]", pet[x].description); //read description
-            fscanf (file, "%d", &pet[x].matchCount);    //read match count
-            fgetc (file);                               //eat the new line
+        while (fscanf (fp, "%s", pet[x].name) != EOF){  //read name
+            fscanf (fp, "%s", pet[x].affinity);       //read affinity
+            fscanf (fp, " %[^\n]", pet[x].description); //read description
+            fscanf (fp, "%d", &pet[x].matchCount);    //read match count
+            fgetc (fp);                               //eat the new line
             x++;
             dCurrentPets++;
         }
-        fclose (file);
+        fclose (fp);
     }
     return dCurrentPets;
 }
@@ -164,4 +165,51 @@ initializePets (struct BattlePet pet[])
         pet[x].description[0] = '\0';
         pet[x].matchCount = 0;
     }
+}
+
+/**
+ * This function checks if the given file is a .txt file.
+ * Returns 1 if it is a .txt file, returns 0 if not
+ * 
+ * @param string150 filename - filename to be checked
+ */
+int
+isTxtFile (string150 filename){
+    int dResult;
+    char* filetype = strrchr(filename, '.'); //gets chars of last occurence of '.' onwards
+
+    if (strcmp(filetype, ".txt")==0){
+        dResult=1;
+    }
+    else{
+        dResult=0;
+    }
+    return dResult;
+}
+
+/**
+ * This function lists all the existing files in a folder
+ * 
+ * @param const char* folder - the directory to be checked
+ * @param string150 txtfiles[] - array of .txt files in the folder  
+ */
+void
+listTxtFiles(const char* folder, string150 txtfiles[]){
+    int i;
+    struct dirent *entry;
+    DIR *dir = opendir(folder);
+
+    if (dir == NULL){
+        printf("Folder not found.");
+    } else{
+        while(((entry=readdir(dir))!=NULL)){
+            if (isTxtFile(entry->d_name)){ //only display .txt files
+                printf("[%d] %s\n", i, entry->d_name);
+                strcpy(txtfiles[i],entry->d_name); // add to txtfiles array
+                i++;
+            }
+        }
+        printf("\n");
+    }
+    closedir(dir);
 }

@@ -1,0 +1,20 @@
+TestPet1
+Fire
+A test pet 1
+0
+
+TestPet2
+Fire
+A test pet 2
+3
+
+TestPet3
+Fire
+A test pet 3
+1
+
+TestPet4
+Fire
+A test pet 4
+0
+

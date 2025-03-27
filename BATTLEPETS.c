@@ -18,7 +18,7 @@ int main(){
     initializePets (pet);       //sets the pet array to default values
 
     int dCurrentPlayers = getPlayers (player);        //gets the players from the file Players.txt
-    int dCurrentPets = getComPetDium (pet);        //uploads the battlepets from the file ComPetDium.txt
+    int dCurrentPets = getComPetDium(pet, "competdium.txt");        //uploads the battlepets from the file ComPetDium.txt
     
     int x;
     do{

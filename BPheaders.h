@@ -47,7 +47,7 @@
     
     void initializePlayers       (struct Player player[]);
     void initializePets          (struct BattlePet pet[]);
-    int  getComPetDium           (struct BattlePet pet[]);
+    int  getComPetDium           (struct BattlePet pet[], const char* file);
     int  getPlayers              (struct Player player[]);
     void getTxtname              (string, string150, char*);
     void updatePlayerTxt         (struct Player players[], int);
@@ -63,6 +63,7 @@
                                   int*, int);
     void displayRoster           (struct BattlePet roster[]);
     void displayChoices          (struct Player player[], int*);
+    void listTxtFiles            (const char* folder, string150 txtfiles[]);
     void newPlayer               (struct Player player[],int*);
     void loadSavedRoster         (string name, 
                                   struct BattlePet pet[], 
