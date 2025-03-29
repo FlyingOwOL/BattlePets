@@ -11,37 +11,39 @@
  */
 int
 editBPname (struct BattlePet* pet){
-    int dChoice, dResult, dScanValid;
+    int dResult;
     char cValid;
+    dResult = 0;
+
     do
     { // check if name is valid
         printf("Input BattlePet Name (MAX 35 CHARACTERS): ");
-        dScanValid=scanf(" %35s", &pet->name);
+        scanf(" %35s", pet->name);
         while (getchar() != '\n'); // clear buffer
             
-        if(dScanValid){
+        if (strlen(pet->name) <= 35){
             do
             {
             printf("\n Is your BattlePet's name '%s'? [y/n]", pet->name);
             scanf(" %c", &cValid);
-            while (getchar() != '\n'); // clear buffer
-                if(cValid=='y' || cValid=='n'){ //check if user responded y or n
-                    dScanValid=0;
-                } else{
-                    printf("\n Invalid response. Please try again.");
-                } 
-            } while(dScanValid);
+                switch (cValid){
+                    case 'y':
+                        printf("BattlePet name is successfully changed to '%s'.\n", pet->name);
+                        dResult = 1; //successful execution
+                        break;
+                    case 'n':
+                        printf("Please input a new name.");
+                        break;
+                    default:
+                        printf("\n Invalid response. Please try again.");
+                }
+            } while(cValid!='y' && cValid!='n');
         } else{
-            printf("Invalid input. Please try again.\n");
+            printf("Invalid response. Please input a name 35 characters or below.");
         }
+
     } while(cValid!='y');        
 
-    // output result
-    if(cValid=='y'){
-        dResult = 1;
-    } else{
-        dResult = 0;
-    }
     return dResult;
 }
 
@@ -52,49 +54,48 @@ editBPname (struct BattlePet* pet){
  */
 int
 editBPaffinity (struct BattlePet* pet){
-    int dChoice, dScanValid, dResult;
+    int dChoice, dResult;
     char cValid;
     string affinity[] = {"Fire", "Water", "Grass", "Earth", "Air", "Electric", "Ice", "Metal"};
-
+    dResult = 0;
+    
     printf("\n BATTLEPET AFFINITY\n");
     for (int i=0; i<8; i++){
         printf("[%d] %s\n", i+1, affinity[i]);
     }
-
+    
     do
-    { //check if affinity is valid
+    {
+     //check if affinity is valid
         printf("Choose your BattlePet's affinity:");
-        dScanValid = scanf(" %d", &dChoice);
-        while (getchar() != '\n'); // clear buffer
+        scanf(" %d", &dChoice);
 
-        if(dScanValid && dChoice>0 && dChoice<9){
-        do
-        {
+        if(dChoice>0 && dChoice<9){
+            do{
         printf("\n Is your BattlePet's affinity '%s'? [y/n]", affinity[dChoice-1]);
         scanf(" %c", &cValid);
-        while (getchar() != '\n'); // clear buffer
-            if(cValid=='y' || cValid=='n'){ //check if user responded y or n
+
+        switch (cValid){
+            case 'y':
+                printf("BattlePet affinity is successfully changed to '%s'.\n", pet->affinity);
                 strcpy(pet->affinity, affinity[dChoice-1]);
-                dScanValid=0;
-            } else{
+                dResult = 1; // successful execution
+                break;
+            case 'n':
+                printf("Please input the new affinity.");
+                break;
+            default:
                 printf("\n Invalid response. Please try again.");
             } 
-        } while(dScanValid);
-        } 
-        else{
-            printf("Invalid input. Please try again.\n");
-        } 
-    } while (cValid!='y');
-
-    // output result
-    if(cValid=='y'){
-        dResult = 1;
+        } while(cValid!='y' && cValid!='n');
     } else{
-        dResult = 0;
-    }
+            printf("Invalid response. Please choose between 1-9.");
+        }
+} while (cValid != 'y');
+    
     return dResult;
 }
-
+   
 /**
  * This function edits a battlepet's description and asks the user what they want
  * to replace it with. Returns 1 if successful, returns 0 if not
@@ -102,40 +103,40 @@ editBPaffinity (struct BattlePet* pet){
  */
 int
 editBPdesc (struct BattlePet* pet){
-    int dScanValid, dResult;
+    int dResult;
     char cValid;
-    
+    dResult=0;
+
     do
     {
         printf("Input BattlePet Description (MAX 239 CHARACTERS): ");
-        dScanValid=scanf(" %239[^\n]", &pet->description);
-        while (getchar() != '\n'); // clear buffer
 
-        if (dScanValid){
+        scanf(" %239[^\n]", pet->description);
+        while (getchar() != '\n'); // clear buffer
+            
+        if (strlen(pet->description) <= 239){
             do
             {
-     /////////////////////////////////////////////////// PUT PRINTFORMAT FUNCTION HERE        
             printf(" %s\n", pet->description);
             printf("Is this the description of your BattlePet? [y/n]");
             scanf(" %c", &cValid);
-            while (getchar() != '\n'); // clear buffer
-                if(cValid=='y' || cValid=='n'){ //check if user responded y or n
-                    dScanValid=0;
-                } else{
-                    printf("\n Invalid response. Please try again.");
-                } 
-            } while(dScanValid);
+                switch (cValid){
+                    case 'y':
+                        printf("BattlePet description is successfully changed.\n");
+                        dResult = 1;
+                        break;
+                    case 'n':
+                        printf("Please input a new description.");
+                        break;
+                    default:
+                        printf("\n Invalid response. Please try again.");
+                }
+            } while(cValid!='y' && cValid!='n');
         } else{
-            printf("Invalid input. Please try again.\n");
+            printf("Invalid response. Please input a description 239 characters or below.");
         }
-    } while(cValid!='y');  
+    } while (cValid!='y');
 
-    // output result
-    if(cValid=='y'){
-        dResult = 1;
-    } else{
-        dResult = 0;
-    }
     return dResult;
 }
 
@@ -153,7 +154,6 @@ void
 deleteBattlepetDetails (struct BattlePet pet[], int** dCurrentPets, int index){
     int i;
     int dPetTotal;
-    string filename = "competdium.txt";
 
     (**dCurrentPets)--; //subtract from current pets
     dPetTotal=(**dCurrentPets);
@@ -162,29 +162,84 @@ deleteBattlepetDetails (struct BattlePet pet[], int** dCurrentPets, int index){
     for(i=index; i<dPetTotal; i++){
         pet[i] = pet[i+1];
     }
-    //clear out last index in array
+    //*clear out last index in array
+    /*
     strcpy(pet[dPetTotal].name,"");
     strcpy(pet[dPetTotal].affinity,"");
     strcpy(pet[dPetTotal].description,"");
     pet[dPetTotal].matchCount = 0;
+    */
 
     //delete in competdium.txt
     updateCompetdiumTxt(pet, dPetTotal);
 }
 
 /**
- * This function checks if the the number of battlepets to be added will make the competdium
- * reach its max amount. If it does, removes recently added battlepets (excludes initial battlepets)
+ * This function checks if the number of battlepets to be added will make the competdium
+ * reach its max amount. If it does, it asks the user if they want to continue and remove
+ * the recently added pets or cancel the addition.
+ * 
  * @param struct BattlePet pet[] - the array of pets
- *
+ * @param int* dCurrentPets - pointer to the current total of battlepets
+ * @param int dPetsToAdd - the number of pets to be added
+ * @return int - 1 if the user decides to continue, 0 if they cancel
  */
-int
-checkIfPetMax (struct BattlePet pet[], int** dCurrentPets){
-    //totalpets - number of pets to be added para overlap
-    // max battlepets = 60
+int checkIfPetMax(struct BattlePet pet[], int* dCurrentPets, int dPetsToAdd) {
+    //cant delete first 16 initial battlepets
     
-    int dResult;
+    int dNewTotal = *dCurrentPets + dPetsToAdd;
+    int dResult = 0; // Default to not continuing
 
+    // Check if the new total exceeds the maximum allowed pets
+    if (dNewTotal > MAX_BATTLEPETS) {
+        char cConfirm;
+        int petsToRemove = dNewTotal - MAX_BATTLEPETS;
+
+        printf("\nAdding %d pets will exceed the maximum allowed number of %d pets.\n", dPetsToAdd, MAX_BATTLEPETS);
+        printf("The following BattlePets will be removed:\n");
+
+        // Display the BattlePets that will be removed
+        for (int i = MAX_BATTLEPETS; i < dNewTotal; i++) {
+            if (strlen(pet[i].name) > 0) { // Check if the pet has a valid name
+                printf("%d. %s {%s} - used %d times\n%s\n\n",
+                       i + 1,
+                       pet[i].name,
+                       pet[i].affinity,
+                       pet[i].matchCount,
+                       pet[i].description);
+            } else {
+                printf("%d. [Empty Slot] - No valid data\n\n", i + 1);
+            }
+        }
+
+        do {
+            printf("Do you want to continue? This will remove the recently added pets. [y/n]: ");
+            scanf(" %c", &cConfirm);
+            if (cConfirm == 'y') {
+                // Remove the recently added pets
+                printf("Removing the last %d recently added pets to stay within the limit.\n", petsToRemove);
+
+                // Adjust the current pets count and remove the excess pets
+                *dCurrentPets = MAX_BATTLEPETS;
+
+                // Clear the excess pets from the array
+                for (int i = MAX_BATTLEPETS; i < dNewTotal; i++) {
+                    deleteBattlepetDetails(pet, &dCurrentPets, i); //deletes battlepet and updates competdium
+                }
+                dResult = 1; // User decided to continue
+            } else if (cConfirm == 'n') {
+                printf("Operation canceled. No pets were added.\n");
+                dResult = 0; // User decided to cancel
+            } else {
+                printf("Invalid response. Please enter 'y' or 'n': ");
+            }
+        } while (cConfirm != 'y' && cConfirm != 'n');
+    } else {
+        // If the new total does not exceed the maximum, allow the addition
+        dResult = 1;
+    }
+
+    return dResult;
 }
 
 /**
@@ -197,8 +252,6 @@ checkIfPetMax (struct BattlePet pet[], int** dCurrentPets){
  */
 int
 addOnePetDetails (struct BattlePet pet[], struct BattlePet addPet, int dCurrentPets){
-        // check if competdium is past max amount
-        
         // add to competdium.txt
         FILE *cpdfile = fopen ("competdium.txt", "a");
         if (cpdfile == NULL){
@@ -253,8 +306,8 @@ addMultiplePetsDetails (struct BattlePet pet[], struct BattlePet addPets[],
     }
     }
     
-    printf("dcurrentpets = %d\n", dCurrentPets);
-    printf("dtotalpets = %d\n", dTotalAddPets);
+    printf("dcurrentpets = %d\n", dCurrentPets); ////////////
+    printf("dtotalpets = %d\n", dTotalAddPets); /////////////
     
     return dCurrentPets; //update pet total
 }
@@ -271,8 +324,14 @@ addOnePet (struct BattlePet pet[], int** dCurrentPets){
     int dPetTotal = **dCurrentPets;
     struct BattlePet addPet;
     int status[3] = {0,0,0};
-    int dFinalCheck, dScanValid;
+    int dFinalCheck, dScanValid, dPetMaxCheck;
 
+    //check if max_battlepets is reached
+    dPetMaxCheck = checkIfPetMax(pet, *dCurrentPets, 1);
+    if (dPetMaxCheck == 0) {
+        printf("You have reached the maximum number of BattlePets.\n");
+    }
+    else{
     do { // user can restart creation process
         
         //edit name
@@ -326,6 +385,7 @@ addOnePet (struct BattlePet pet[], int** dCurrentPets){
     
     if(dFinalCheck==1){
         **dCurrentPets = addOnePetDetails(pet, addPet, dPetTotal);
+    }
     }        
 }
 
@@ -335,7 +395,7 @@ addOnePet (struct BattlePet pet[], int** dCurrentPets){
  */
 void
 addMultiplePets(struct BattlePet pet[], int** dCurrentPets){
-    int dScanValid, dChoice, dTotalAddPets, dPetTotal;
+    int dChoice, dTotalAddPets, dPetTotal, dPetMaxCheck;
     char cConfirm;
     struct BattlePet addPets[MAX_BATTLEPETS]; // excluding initial pets
     string150 txtfiles[10];
@@ -364,42 +424,68 @@ addMultiplePets(struct BattlePet pet[], int** dCurrentPets){
         listTxtFiles("./import_pets", txtfiles);
         printf("[0] Exit\n");    
         printf("\nWhich file do you want to import?\n");
-        dScanValid = scanf(" %d", &dChoice);
+        
+        scanf(" %d", &dChoice);
     
-    if (dScanValid && dChoice!=0)
-    {
-        strcpy(filename, "import_pets/");
-        strcat(filename, txtfiles[dChoice-1]); //add "import_pets/" to .txt
-        initializePets(addPets);
-        dTotalAddPets = getComPetDium(addPets, filename); //get pets inside txt file
-        viewBattlepets(addPets, dTotalAddPets); //display battlepets inside txt file
+        if (dChoice!=0)
+        {
+            strcpy(filename, "import_pets/");
+            strcat(filename, txtfiles[dChoice-1]); //add "import_pets/" to .txt
+            initializePets(addPets);
+            dTotalAddPets = getComPetDium(addPets, filename); //get pets inside txt file
+            viewBattlepets(addPets, dTotalAddPets); //display battlepets inside txt file
+            
+            do{
+            printf("Would you like to add these pets? [y/n] \n");
+                scanf(" %c", &cConfirm); //confirm selection
+                    //check if user responded y or n
+                    switch(cConfirm){
+                        case 'y':
+                            //check if competdium is past max amount
+                            dPetMaxCheck = checkIfPetMax(pet, *dCurrentPets, dTotalAddPets);
+                            if (dPetMaxCheck == 0) {
+                                printf("You have reached the maximum number of BattlePets.\n");
+                            } else {
+                                printf("Adding pets...\n");
+                                **dCurrentPets = addMultiplePetsDetails(pet, addPets, dPetTotal, dTotalAddPets); 
+                                //add pets and update pet total    
+                                printf("Successfully added BattlePet/s.\n");
+                            }
+                            break;
+                        case 'n':
+                            printf("Please choose the file that you want to import\n");
+                            break;
+                        default:
+                            printf("Invalid response. Please try again.\n");
+                            break;
+                    }
+            } while(cConfirm!='y' && cConfirm!='n');
 
-        printf("Would you like to add these pets? [y/n] \n");
-            scanf(" %c", &cConfirm); //confirm selection
-            while (getchar() != '\n'); // clear buffer
-                //check if user responded y or n
-                switch(cConfirm){
-                    case 'y':
-                        //check if competdium is past max amount
+        } else if (dChoice==0){
+            printf("Exiting BattlePet addition...");
+        } else{
+            printf("Invalid input. Please try again.");
+        }
+    } while (dChoice!=0 && cConfirm!='y');
+}
 
-                        **dCurrentPets = addMultiplePetsDetails(pet, addPets, dPetTotal, dTotalAddPets); 
-                        //add pets and update pet total
-
-                        printf("Successfully added BattlePet/s.\n");
-                        dScanValid=1;
-                        break;
-                    case 'n':
-                        dScanValid=0;
-                        break;
-                    default:
-                        printf("Invalid response. Please try again.\n");
-                }
-
-    } else if (dChoice==0){
-        dScanValid=1;
-        printf("Exiting BattlePet addition...");
-    } else{
-        printf("Invalid input. Please try again.");
+/**
+ * This function saves the current player's roster to a file.
+ * @param string filename - the name of the file to save the roster
+ * @param struct Player* currentPlayer - the current player whose roster is being saved
+ * @return void
+ */
+void saveRosterToFile(string filename, struct Player* currentPlayer) {
+    FILE* file = fopen(filename, "w");
+    if (file == NULL) {
+        printf("Error: Could not create or open the file '%s'.\n", filename);
+        return;
     }
-    } while (!dScanValid);
+
+    for (int x = 0; x < MAX_ROSTER; x++) {
+        fprintf(file, "%s\n", currentPlayer->pet[x].name);
+    }
+
+    fclose(file);
+    printf("Roster saved successfully to '%s'.\n", filename);
 }

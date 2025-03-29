@@ -1,0 +1,21 @@
+Player1: lobster
+Player2: lobster
+
+P1 Roster vs P2 Roster
+Solaraffe vs Solaraffe
+Meowguro vs Meowguro
+TestPet4 vs TestPet4
+broooooo vs broooooo
+Steelephant vs Steelephant
+Crocodice vs Crocodice
+Zephyram vs Zephyram
+Airsting vs Airsting
+Barkbear vs Barkbear
+
+Match Results
+D D D 
+D D D 
+D D D 
+
+Draw: no 
+Type of Win: Draw

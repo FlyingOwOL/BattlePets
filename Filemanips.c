@@ -1,5 +1,5 @@
 #include <stdio.h>
-#include <dirent.h>
+#include <stdlib.h>
 #include "BPheaders.h"
 
 /**
@@ -188,28 +188,44 @@ isTxtFile (string150 filename){
 }
 
 /**
- * This function lists all the existing files in a folder
+ * This function lists all the existing .txt files in a folder
  * 
  * @param const char* folder - the directory to be checked
  * @param string150 txtfiles[] - array of .txt files in the folder  
  */
 void
 listTxtFiles(const char* folder, string150 txtfiles[]){
-    int i=1;
-    struct dirent *entry;
-    DIR *dir = opendir(folder);
+    int i = 0;
+    char command[200];
+    char filename[150];
+    FILE* fp;
 
-    if (dir == NULL){
-        printf("Folder not found.");
-    } else{
-        while(((entry=readdir(dir))!=NULL)){
-            if (isTxtFile(entry->d_name)){ //only display .txt files
-                printf("[%d] %s\n", i, entry->d_name);
-                strcpy(txtfiles[i-1],entry->d_name); // add to txtfiles array
-                i++;
-            }
-        }
-        printf("\n");
+    // create a system command to list files in the folder and redirect to a temporary file
+    snprintf(command, sizeof(command), "dir /b \"%s\" > temp_file_list.txt", folder);
+    system(command);
+
+    // open the temporary file for reading
+    fp = fopen("temp_file_list.txt", "r");
+    if (fp == NULL) {
+        printf("Error: Could not open temporary file.\n");
+        return;
     }
-    closedir(dir);
+
+    // read each line from the file and check if it ends with ".txt"
+    while (fgets(filename, sizeof(filename), fp) != NULL) {
+        // remove the newline character from the filename
+        filename[strcspn(filename, "\n")] = '\0';
+
+        // check if the file ends with ".txt"
+        if (strstr(filename, ".txt") != NULL) {
+            printf("[%d] %s\n", i + 1, filename);
+            strcpy(txtfiles[i], filename); // add to txtfiles array
+            i++;
+        }
+    }
+
+    fclose(fp);
+
+    // Remove the temporary file
+    remove("temp_file_list.txt");
 }

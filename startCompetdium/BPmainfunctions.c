@@ -69,90 +69,82 @@ addBattlepet (struct BattlePet pet[], int* dCurrentPets){
  * @return void
  */
 void
-editBattlepet (struct BattlePet pet[], int* dCurrentPets){
-    int dChoice, dEditChoice, dValid, dConfirmValid;
+editBattlepet(struct BattlePet pet[], int* dCurrentPets) {
+    int dChoice, dEditChoice, dConfirmValid;
     char cConfirm;
+    int exitOuterLoop = 0; // Flag to control the outer loop
 
     printf("\n EDIT BATTLEPET \n");
     viewBattlepets(pet, *dCurrentPets);
-    printf("[0] Exit");
+    printf("[0] Exit\n");
 
-    do{
+    while (!exitOuterLoop) { // oxuter loop
         printf("\nWhich BattlePet do you want to edit?\n");
-        dValid = scanf(" %d", &dChoice);
+        scanf(" %d", &dChoice);
 
-        if (dValid && dChoice==0){
-            printf("Exiting Edit BattlePet...");
-        }
-        else if (dValid && dChoice<=16 && dChoice>0){ // not allowed to edit initial battlepets
-            dValid=0;
-            printf("You are not allowed to edit the initial BattlePets. Please try again.");
-        } 
-        else if (dValid && dChoice>16 && dChoice<= *dCurrentPets){
-            dValid=0;
-            dConfirmValid=0;
-            do // ask for confirmation
-            {
-            printf("Would you like to edit '%s'? [y/n] \n", pet[dChoice-1].name);
-            scanf(" %c", &cConfirm);
-            while (getchar() != '\n'); // clear buffer
-                //check if user responded y or n
-                switch(cConfirm){
-                    case 'y':
+        if (dChoice == 0) {
+            printf("Exiting Edit BattlePet...\n");
+            exitOuterLoop = 1; // exit the outer loop
+        } else if (dChoice > 16 && dChoice <= *dCurrentPets) {
+            dConfirmValid = 0; // reset confirmation 
+            while (!dConfirmValid) { // confirmation loop
+                printf("Would you like to edit '%s'? [y/n] \n", pet[dChoice - 1].name);
+                scanf(" %c", &cConfirm);
+
+                if (cConfirm == 'y') {
+                    dEditChoice = -1; // reset edit choice
+                    while (dEditChoice != 0) { // edit loop
                         printf("\n%s\n%s\n%s\n%s\n%s\n",
-                            pet[dChoice-1].name,
-                            "[1] Name",
-                            "[2] Affinity",
-                            "[3] Description",
-                            "[0] Back");    
-                        do{ //ask what to modify
+                               pet[dChoice - 1].name,
+                               "[1] Name",
+                               "[2] Affinity",
+                               "[3] Description",
+                               "[0] Back");
                         printf("What do you want to modify?\n");
                         scanf(" %d", &dEditChoice);
-                            if(dEditChoice>=1 && dEditChoice<=3){ 
-                                switch(dEditChoice){
-                                    case 1:
-                                        dConfirmValid=editBPname(&pet[dChoice-1]);
-                                        break;
-                                    case 2:
-                                        dConfirmValid=editBPaffinity(&pet[dChoice-1]);
-                                        break;
-                                    case 3:
-                                        dConfirmValid=editBPdesc(&pet[dChoice-1]);
-                                        break;
-                                    case 0:
-                                        printf("Returning to edit selection...\n");
-                                        break;
-                                    default:
-                                        printf("Invalid response. Please try again.\n");
-                                        break;
-                                }
-                                dValid=1;
-                                if(dConfirmValid==1){ // check if edit was successful
-                                    printf("BattlePet edit of '%s' is successful.\n", pet[dChoice-1].name);
-                                    updateCompetdiumTxt(pet, *dCurrentPets);
-                                } else{
-                                    printf("BattlePet edit was unsuccessful.\n");
-                                }
 
-                            } else{
-                                printf("Invalid response. Please try again.\n");
-                            } 
-                        } while(dEditChoice!=0);
-                        break;
-
-                    case 'n':
-                        dConfirmValid=1;
-                        break;
-                    default:
-                        printf("Invalid response. Please try again.\n");
+                        if (dEditChoice >= 0 && dEditChoice <= 3) {
+                            switch (dEditChoice) {
+                                case 1:
+                                    dConfirmValid = editBPname(&pet[dChoice - 1]);
+                                    break;
+                                case 2:
+                                    dConfirmValid = editBPaffinity(&pet[dChoice - 1]);
+                                    break;
+                                case 3:
+                                    dConfirmValid = editBPdesc(&pet[dChoice - 1]);
+                                    break;
+                                case 0:
+                                    printf("Returning to edit selection...\n");
+                                    break;
+                                default:
+                                    printf("Invalid response. Please try again.\n");
+                                    break;
+                            }
+                            if (dConfirmValid == 1) { // check if edit was successful
+                                printf("BattlePet edit of '%s' is successful.\n", pet[dChoice - 1].name);
+                                updateCompetdiumTxt(pet, *dCurrentPets);
+                            }
+                        } else {
+                            printf("Invalid response. Please try again.\n");
+                        }
+                    }
+                    dConfirmValid = 1; // exit confirmation loop after editing
+                } else if (cConfirm == 'n') {
+                    printf("Please choose the BattlePet you want to edit.\n");
+                    dConfirmValid = 1; // exit confirmation loop
+                } else {
+                    printf("Invalid response. Please try again.\n");
                 }
-            } while(!dConfirmValid);
-        } 
-        else{
+            }
+        } else if (dChoice <= 16) {
+            printf("You are not allowed to edit the initial BattlePets. Please try again.\n");
+        } else if (dChoice > *dCurrentPets) {
             printf("Invalid response. Please try again.\n");
-            dValid=0;
+        } else {
+            printf("Invalid response. Please try again.\n");
         }
-    } while (!dValid);   
+    }
 }
 
 /**
@@ -165,8 +157,9 @@ editBattlepet (struct BattlePet pet[], int* dCurrentPets){
  */
 void
 deleteBattlepet (struct BattlePet pet[], int* dCurrentPets){
-    int dChoice, dValid, dConfirmValid;
+    int dChoice, dConfirmValid;
     char cConfirm;
+    dConfirmValid=0;
 
     printf("\n DELETE BATTLEPET \n");
     viewBattlepets(pet, *dCurrentPets);
@@ -174,45 +167,42 @@ deleteBattlepet (struct BattlePet pet[], int* dCurrentPets){
 
     do{
         printf("\nWhich BattlePet do you want to delete?\n");
-        dValid = scanf(" %d", &dChoice);
-        while (getchar() != '\n'); // clear buffer
+        scanf(" %d", &dChoice);
 
-        if (dValid && dChoice==0){
-            printf("Exiting Delete BattlePet...");
-        }
-        else if (dValid && dChoice<=16 && dChoice>0){ // not allowed to delete initial battlepets
-            dValid=0;
-            printf("You are not allowed to delete the initial BattlePets. Please try again.");
-        } 
-        else if (dValid && dChoice>16 && dChoice<= *dCurrentPets){
-            dValid=0;
-            dConfirmValid=0;
+        if(dChoice>16 && dChoice<= *dCurrentPets){
             do // ask for confirmation
             {
             printf("Would you like to delete '%s'? [y/n] \n", pet[dChoice-1].name);
             scanf(" %c", &cConfirm);
-            while (getchar() != '\n'); // clear buffer
                 //check if user responded y or n
                 switch(cConfirm){
                     case 'y':
                         deleteBattlepetDetails(pet, &dCurrentPets, dChoice-1);
                         printf("Successfully deleted BattlePet.\n");
-                        dValid=1;
                         dConfirmValid=1;
                         break;
                     case 'n':
+                        printf("Please choose the BattlePet you want to delete.\n");
                         dConfirmValid=1;
                         break;
                     default:
                         printf("Invalid response. Please try again.\n");
+                        break;
                 }
             } while(!dConfirmValid);
-        } 
-        else{
+
+        } else if (dChoice<=16 && dChoice>0){
+            printf("You are not allowed to delete the initial BattlePets. Please try again.");
+        } else if (dChoice>*dCurrentPets){
             printf("Invalid response. Please try again.\n");
-            dValid=0;
+        } else if (dChoice==0){
+            printf("Exiting Delete BattlePet...");
+
+        } else {
+            printf("Invalid response. Please try again.\n");
         }
-    } while (!dValid);
+
+    } while (!dConfirmValid && cConfirm!='n'); // loop until valid response or exit
 }
 
 /**
@@ -224,12 +214,11 @@ deleteBattlepet (struct BattlePet pet[], int* dCurrentPets){
  */
 void
 saveRoster (struct BattlePet pet[], struct Player player[], int* dCurrentPlayers, int dCurrentPets){
-    struct BattlePet roster[3][3];
+    struct BattlePet editRoster[9];
     string150 txtFilename;
     struct Player* currentPlayer;
     string password;
-    int dChoice, dValid, dStartRoster;
-    char cConfirm;
+    int dChoice, dValid, dStartRoster, dNewPetIndex;
 
     printf("\n SAVE ROSTER \n");
 
@@ -238,82 +227,126 @@ saveRoster (struct BattlePet pet[], struct Player player[], int* dCurrentPlayers
         displayChoices(player, dCurrentPlayers);
         dValid = scanf(" %d", &dChoice);
 
-        if (dValid && dChoice==0){
-            printf("Exiting Save Roster...");
-        }
-        else if (dValid && dChoice==1){
-            printf("New Player Creation");
+        if (dValid != 1) {
+            printf("Invalid input. Please enter a number.\n");
+            while (getchar() != '\n'); // Clear the input buffer
+            dChoice = -1; // Set to an invalid value to prevent further processing
+        } else if (dChoice == 0) {
+            printf("Exiting Save Roster...\n");
+        } else if (dChoice == 1) {
+            printf("New Player Creation\n");
             newPlayer(player, dCurrentPlayers);
-            dStartRoster=1;
-        } else if (dValid){
-            //input password of player chosen
-            printf ("Hello! %s\n", player[dChoice].name);
-            printf ("Your password: %s\n", player[dChoice].savedPassword);
-            printf ("Enter your password: ");
-            scanf ("%s", password);
+            dValid = 0;
+        } else if (dChoice > 0 && dChoice <= (*dCurrentPlayers+1)) {
             
-            if(strcmp (password, player[dChoice].savedPassword) == 0){
-                printf ("Welcome %s\n", player[dChoice].name);
-                *currentPlayer = player[dChoice];
+            // Input password of player chosen
+            printf("Hello! %s\n", player[dChoice - 2].name);
+            printf("Your password: %s\n", player[dChoice - 2].savedPassword);
+            printf("Enter your password: ");
+            scanf("%s", password);
+     
+            if(strcmp (password, player[dChoice-2].savedPassword) == 0){
+                printf ("Welcome %s\n", player[dChoice-2].name);
+                currentPlayer = &player[dChoice-2]; // set current player to the selected player
                 dStartRoster=1;
             } else{
                 printf ("Get out\n");
+                dValid=0;
             }
         } else{
             printf("Invalid response. Please try again.\n");
             dValid=0;
         }
     } while (!dValid);
-    dValid=0;
-
+    
     if(dStartRoster==1){ //SAVE ROSTER
-        printf("%s's Currently Saved Roster:\n", player[dChoice].name);
+        dValid=0;
+        printf("%s's Currently Saved Roster:\n", currentPlayer->name);
         
         loadSavedRoster (currentPlayer->name, pet, currentPlayer, dCurrentPets);
         displayRoster (currentPlayer->pet);
 
-        do {
+    do {
             // Check if player already has a roster
-            if (currentPlayer->pet[0].name[0] == '\0') {
+            if (currentPlayer->pet[0].name[0] == '\0') { // no roster yet
                 printf("You don't have a roster yet, would you like to create one?\n");
                 printf("\n%s\n%s", "[1] Yes", "[0] Exit");
-                scanf("%d", &dChoice);
+                dValid = scanf("%d", &dChoice);
 
-                if (dChoice == 1) {
-                    selectPets(pet, currentPlayer, dCurrentPets);
-                    // make new file in saved_roster folder
-                    getTxtname(currentPlayer->name, txtFilename, "saved_roster/");
-                    FILE *file = fopen(txtFilename, "w");
-                    if (file == NULL) {
-                        printf("File not found\n");
-                    } else {
-                        for (int x = 0; x < MAX_ROSTER; x++) {
-                            fprintf(file, "%s\n", currentPlayer->pet[x].name);
+                switch(dChoice){
+                    case 1:
+                        selectPets(pet, currentPlayer, dCurrentPets);
+                        // make new file in saved_roster folder
+                        getTxtname(currentPlayer->name, txtFilename, "saved_roster/");
+                        saveRosterToFile(txtFilename, currentPlayer); // save the roster to a file
+                            printf("Roster created successfully.\n");
+                            dValid=1;
+                        break;
+                    case 0:
+                        printf("Exiting Save Roster...\n");
+                        dValid=1;
+                        break;  
+                    default:
+                        printf("Invalid choice. Please try again.\n");
+                        dValid = 0;
+                        break;
+                }
+            } else{ // has an existing roster
+                printf("You already have a roster. Would you like to replace one pet of your roster or create a new one?\n");
+                printf("[1] Replace One Pet in Roster\n[2] Create New Roster\n[0] Exit\n");
+                dValid = scanf("%d", &dChoice);
+                
+                switch(dChoice){
+                    case 1:
+                        //copy roster with indexes
+                        for (int i = 0; i < MAX_ROSTER; i++){
+                            editRoster[i] = currentPlayer->pet[i];
+                            sprintf(editRoster[i].name, "[%d] %s", i + 1, currentPlayer->pet[i].name); // add index numbers to the roster
                         }
-                        fclose(file);
-                    }
-                    dValid = 1; // exit the loop after saving
-                } else {
-                    printf("Exiting Save Roster...\n");
-                    return; // exit function if user chooses to exit
+                        displayRoster(editRoster); // display the roster with index numbers
+
+                        printf("Please select the index of the pet you want to replace: ");
+                        scanf("%d", &dChoice);
+                        
+                        if (dChoice > 0 && dChoice <= MAX_ROSTER) {
+                            printf("Select a new BattlePet from the ComPetDium:\n");
+                            viewBattlepets(pet, dCurrentPets); // display all available BattlePets
+                
+                            printf("Enter the index of the new BattlePet: ");
+                            scanf("%d", &dNewPetIndex);
+                        
+                            if (dNewPetIndex > 0 && dNewPetIndex <= dCurrentPets) {
+                                // overwrite the selected pet in the roster
+                                currentPlayer->pet[dChoice - 1] = pet[dNewPetIndex - 1];
+                                getTxtname(currentPlayer->name, txtFilename, "saved_roster/");
+                                saveRosterToFile(txtFilename, currentPlayer); // update roster
+                                printf("BattlePet at index %d has been replaced with '%s'.\n", dChoice, pet[dNewPetIndex - 1].name);
+                                dValid=1;
+                            } else {
+                                printf("Invalid BattlePet index. No changes were made.\n");
+                            }
+                        } else {
+                            printf("Invalid roster index. No changes were made.\n");
+                        }
+                        break;
+                    case 2:
+                        selectPets(pet, currentPlayer, dCurrentPets);
+                        getTxtname(currentPlayer->name, txtFilename, "saved_roster/");
+                        saveRosterToFile(txtFilename, currentPlayer); // update roster
+                        printf("Roster created successfully.\n");
+                        dValid=1;
+                        break;
+                    case 0:
+                        printf("Exiting Save Roster...\n");
+                        dValid=1;
+                        break;  
+                    default:
+                        printf("Invalid choice. Please try again.\n");
+                        dValid = 0;
+                        break;
                 }
-            } else {
-                printf("You already have a roster. Would you like to edit it or create a new one?\n");
-                // Add logic to edit existing roster or create a new one
-                // For simplicity, we'll assume they want to edit it
-                selectPets(pet, currentPlayer, dCurrentPets);
-                getTxtname(currentPlayer->name, txtFilename, "saved_roster/");
-                FILE *file = fopen(txtFilename, "w");
-                if (file == NULL) {
-                    printf("File not found\n");
-                } else {
-                    for (int x = 0; x < MAX_ROSTER; x++) {
-                        fprintf(file, "%s\n", currentPlayer->pet[x].name);
-                    }
-                    fclose(file);
-                }
-                dValid = 1; // exit the loop after saving
-            }
-        } while (!dValid);
+            }     
+        } while (!dValid); // loop until valid response or exit   
     }
 }
+        

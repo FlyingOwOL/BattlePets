@@ -103,6 +103,7 @@ startComPetDium (struct BattlePet pet[], struct Player player[], int* dCurrentPe
 {
     int dChoice;
     do{
+        printf(" total pets: %d\n", *dCurrentPets); ///// remove when patapos n
         printf ("%s%s%s%s%s%sYour choice: ", 
         "[1] View Battle Pet/s\n",
         "[2] Add BattlePet\n",
@@ -126,7 +127,7 @@ startComPetDium (struct BattlePet pet[], struct Player player[], int* dCurrentPe
             deleteBattlepet(pet, dCurrentPets);
             break;
         case 5:
-            //saveRoster (pet, player, dCurrentPlayers, *dCurrentPets);
+            saveRoster (pet, player, dCurrentPlayers, *dCurrentPets);
             break;
         case 0:
             printf ("returning to main menu\n");
