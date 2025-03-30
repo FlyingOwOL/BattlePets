@@ -308,17 +308,15 @@ saveRoster (struct BattlePet pet[], struct Player player[], int* dCurrentPlayers
                 switch(dChoice){
                     case 1:
                         //copy roster with indexes
-                        for (int i = 0; i < MAX_ROSTER; i++){
-                            // Copy the pet to the editRoster array
-                            editRoster[i] = currentPlayer->pet[i];
-                            maxNameLength = sizeof(editRoster[i].name) - 5; // Reserve space for "[%d] " and the null terminator
-                            if (maxNameLength < 0) maxNameLength = 0; // Ensure no negative values
-                            strncpy(truncatedName, currentPlayer->pet[i].name, maxNameLength); // Copy the name to the buffer
+                        for (int i = 0; i < MAX_ROSTER; i++) {
+                            // Copy and truncate the pet name manually
+                            strncpy(truncatedName, currentPlayer->pet[i].name, maxNameLength);
                             truncatedName[maxNameLength] = '\0'; // Ensure null termination
-                            
+
                             // Format the string with the truncated name
-                            snprintf(editRoster[i].name, sizeof(editRoster[i].name), "[%d] %s", i + 1, truncatedName);
+                            sprintf(editRoster[i].name, "[%d] %s", i + 1, truncatedName);
                         }
+
                         displayRoster(editRoster); // display the roster with index numbers
 
                         printf("Please select the index of the pet you want to replace: ");
@@ -332,12 +330,25 @@ saveRoster (struct BattlePet pet[], struct Player player[], int* dCurrentPlayers
                             scanf("%d", &dNewPetIndex);
                         
                             if (dNewPetIndex > 0 && dNewPetIndex <= dCurrentPets) {
-                                // overwrite the selected pet in the roster
-                                currentPlayer->pet[dChoice - 1] = pet[dNewPetIndex - 1];
-                                getTxtname(currentPlayer->name, txtFilename, "saved_roster/");
-                                saveRosterToFile(txtFilename, currentPlayer); // update roster
-                                printf("BattlePet at index %d has been replaced with '%s'.\n", dChoice, pet[dNewPetIndex - 1].name);
-                                dValid=1;
+                                // Check if the selected pet is already in the current player's roster
+                                int isDuplicate = 0;
+                                for (int i = 0; i < MAX_ROSTER; i++) {
+                                    if (strcmp(currentPlayer->pet[i].name, pet[dNewPetIndex - 1].name) == 0) {
+                                        isDuplicate = 1; // Mark as duplicate
+                                        break;
+                                    }
+                                }
+
+                                if (isDuplicate) {
+                                    printf("The selected BattlePet '%s' is already in your roster. No changes were made.\n", pet[dNewPetIndex - 1].name);
+                                } else {
+                                    // Overwrite the selected pet in the roster
+                                    currentPlayer->pet[dChoice - 1] = pet[dNewPetIndex - 1];
+                                    getTxtname(currentPlayer->name, txtFilename, "saved_roster/");
+                                    saveRosterToFile(txtFilename, currentPlayer); // Update roster
+                                    printf("BattlePet at index %d has been replaced with '%s'.\n", dChoice, pet[dNewPetIndex - 1].name);
+                                    dValid = 1;
+                                }
                             } else {
                                 printf("Invalid BattlePet index. No changes were made.\n");
                             }
