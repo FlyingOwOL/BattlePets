@@ -109,7 +109,7 @@
     void deleteBattlepet         (struct BattlePet pet[], int* dCurrentPets);
     void saveRoster              (struct BattlePet pet[], struct Player player[], int* dCurrentPlayers, int dCurrentPets);
     void addPetsFromExpansion    (struct BattlePet pet[], int* dCurrentPets);
-    void isTxtFile               (string150 filename, int* dResult);
+    int isTxtFile               (string150 filename);
     void listTxtFiles            (const char* folder, string150 txtfiles[]);
     
     int editBPname               (struct BattlePet* pet);
