@@ -226,6 +226,10 @@ saveRoster (struct BattlePet pet[], struct Player player[], int* dCurrentPlayers
     struct Player* currentPlayer;
     string password;
     int dChoice, dValid, dStartRoster, dNewPetIndex;
+    char truncatedName[sizeof(currentPlayer->pet[0].name)]; // Buffer for truncated names
+    int maxNameLength = sizeof(editRoster[0].name) - 5;    // Reserve space for "[%d] " and the null terminator
+
+if (maxNameLength < 0) maxNameLength = 0; // Ensure no negative values
 
     printf("\n SAVE ROSTER \n");
 
@@ -307,8 +311,14 @@ saveRoster (struct BattlePet pet[], struct Player player[], int* dCurrentPlayers
                     case 1:
                         //copy roster with indexes
                         for (int i = 0; i < MAX_ROSTER; i++){
+                            // Copy the pet to the editRoster array
                             editRoster[i] = currentPlayer->pet[i];
-                            snprintf(editRoster[i].name, sizeof(editRoster[i].name), "[%d] %s", i + 1, currentPlayer->pet[i].name); // add index numbers to the roster
+
+                            // Truncate the pet name if necessary
+                            snprintf(truncatedName, maxNameLength + 1, "%s", currentPlayer->pet[i].name);
+
+                            // Format the string with the truncated name
+                            snprintf(editRoster[i].name, sizeof(editRoster[i].name), "[%d] %s", i + 1, truncatedName);
                         }
                         displayRoster(editRoster); // display the roster with index numbers
 
