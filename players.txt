@@ -2,7 +2,7 @@ _Chainsmoker_
 crimenology
 0
 1
-1
+2
 
 Ash_KetchEmAll
 emerald
@@ -38,5 +38,5 @@ lobster
 1234lobster
 0
 0
-1
+2
 

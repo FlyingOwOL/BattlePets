@@ -6,7 +6,7 @@ A fiery and majestic giraffe that harnesses the power of the sun.
 Firepupp
 Fire
 A loyal, flame-breathing dog that races through the night with fiery speed.
-9
+10
 
 Hydrake
 Water
@@ -16,7 +16,7 @@ A sleek, serpentine creature that can summon powerful waves and whip through cur
 Meowguro
 Water
 A playful, aquatic catfish with feline-like agility in the water.
-6
+7
 
 Grawl
 Grass
@@ -26,7 +26,7 @@ A wise and stealthy owl, covered in leaves and vines, blending into nature.
 Barkbear
 Grass
 A sturdy bear with a bark-like skin, nearly indestructible in nature’s wilds.
-5
+6
 
 Terrashark
 Earth
@@ -41,12 +41,12 @@ A fierce, rock-covered tiger with the ability to cause earth tremors with every 
 Airsting
 Air
 A graceful, flying stingray that glides through the air with the elegance of the wind.
-7
+8
 
 Zephyram
 Air
 A fast-moving ram that uses the power of the wind to leap great distances.
-6
+7
 
 Zaprat
 Electric
@@ -66,12 +66,12 @@ A swift, fierce dog that can summon hailstorms, using the frozen pellets as weap
 Crocodice
 Ice
 A massive crocodile whose scales are covered in a thick layer of ice, allowing it to stalk through frozen waters.
-6
+7
 
 Steelephant
 Metal
 A massive elephant with skin as tough as steel, capable of trampling through anything.
-7
+8
 
 Rustcoon
 Metal
@@ -81,7 +81,7 @@ A clever raccoon with metallic fur that can withstand rust and corrosion, scaven
 broooooo
 Fire
 test
-3
+4
 
 aoshdaihso
 Metal
@@ -111,7 +111,7 @@ A raging bull with horns of molten lava, charging through its enemies.
 Pyroclaw
 Fire
 A ferocious tiger with claws that ignite on impact.
-1
+2
 
 Aquamander
 Water
@@ -176,7 +176,7 @@ A powerful horse that causes tremors with every step.
 Windtail
 Air
 A fox with a tail that controls the wind, allowing it to glide through the air.
-0
+1
 
 Skyclaw
 Air
@@ -196,7 +196,7 @@ A bird with wings that generate electricity, shocking its enemies mid-flight.
 Boltfang
 Electric
 A snake that strikes with lightning speed, paralyzing its prey.
-0
+1
 
 Thunderpaw
 Electric
@@ -221,7 +221,7 @@ A bear with claws made of ice, capable of slicing through steel.
 Icetalon
 Ice
 A hawk with talons that freeze anything they touch.
-1
+2
 
 Flaretail
 Fire
@@ -231,7 +231,7 @@ A squirrel with a tail that burns brightly, lighting up the darkest nights.
 Ashfang
 Fire
 A wolf with fangs that burn like embers, leaving scorch marks on its prey.
-0
+1
 
 Blazewing
 Fire
@@ -241,7 +241,7 @@ A dragon with wings of fire, soaring through the skies with unmatched speed.
 Hydrofang
 Water
 A snake that spits high-pressure water jets to knock down its enemies.
-0
+1
 
 Tsunamipaw
 Water
@@ -266,7 +266,7 @@ A wolf with bark-like fur, making it nearly indestructible.
 Thornmane
 Grass
 A lion with a mane of thorns, striking fear into its enemies.
-0
+1
 
 Pebblepaw
 Earth
@@ -276,7 +276,7 @@ A rabbit that throws pebbles with incredible accuracy to defend itself.
 aaa
 Ice
 abcde
-0
+1
 
 Lamooki
 Air
@@ -286,5 +286,5 @@ It sucks and gives poison, screech to paralyze, and spit venom.
 Butichoo
 Electric
 Thunder-CLAPS them enemies
-0
+2
 
