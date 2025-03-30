@@ -1,9 +1,17 @@
 /**
-* Description : <short description of the project>
+* Description : BattlePets is a text-based game that draws inspiration from Battleship,
+*               Pokemon, and Tic-Tac-Toe mechanics. The game allows players to battle using
+*               their chosen pets, each with unique affinities and abilities, in a
+*               3x3 roster format. A player can win by having the most BattlePet wins 
+*               out of the 9 rounds with their opponent. They can also win by having
+*               a lucky win, which is declared when a player's wins is horizontal, vertical,
+*               or diagonal. Players can also view their statistics and the ComPetDium,
+*               which is a collection of all the pets they have in the game.
+*
 * Author/s : Sy, Jason Mark Lester B. 
 *            Enerio, Gabrielle G.      
 * Section : S19B
-* Last Modified : <date when last revision was made>
+* Last Modified : March 31, 2025
 * Acknowledgments : Visual Studio Code Intellisense for C
 */
 

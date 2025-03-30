@@ -1,17 +1,27 @@
+/**
+* Description : This file contains the functions that are used for file manipulation.
+*
+* Author/s : Sy, Jason Mark Lester B. 
+*            Enerio, Gabrielle G.      
+* Section : S19B
+* Last Modified : March 31, 2025
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include "BPheaders.h"
 
 /**
  * This function uploads the battlepets from a file
+ * Returns the total number of battlepets in the file
  * @param struct BattlePet pet[] - the array of battlepets
  * @param const char* file - file to extract battlepets from, ex. ComPetDium.txt
- * @return int
+ * @return int - total number of pets in the file
  */
 int 
 getComPetDium (struct BattlePet pet[], const char* file){
     int dCurrentPets = 0;
-    FILE *fp = fopen (file, "r");
+    FILE *fp = fopen (file, "r"); // open the file in read mode
     if (fp == NULL){
         printf ("File not found\n");
     } else{
@@ -32,8 +42,8 @@ getComPetDium (struct BattlePet pet[], const char* file){
 /**
  * This function gets the player name and returns it as a .txt file format
  * @param string input - contains the name of the player
- * @param string prefix - example "saved_roster/" or "match_"
- * @param string output - returns "prefix""name".txt
+ * @param string150 output - returns "prefix""name".txt
+ * @param char* prefix - example "saved_roster/" or "match_"
  * @return void 
  */
 void 
@@ -42,15 +52,16 @@ getTxtname(string input,
            char* prefix)
 {
     string150 holder;
+    // copy and catenate: prefix + name + ".txt"
     strcpy (holder, prefix);
     strcat (holder, input);
-    strcat (holder, ".txt");
+    strcat (holder, ".txt"); 
     strcpy (output, holder);
 }
 
 /**
  * This updates the Wins Lost Draws of all players in players.txt
- * @param struct Player players[] - array of playeers
+ * @param struct Player players[] - array of players
  * @param int dCurrentPlayers - total number of current players 
  * @return void
  */
@@ -58,18 +69,18 @@ void
 updatePlayerTxt (struct Player players[], 
                  int dCurrentPlayers)
 {
-    FILE *file = fopen ("players.txt", "w");
+    FILE *file = fopen ("players.txt", "w"); //open file in write mode
     if (file == NULL){
         printf ("File not found\n");
     } else{
         int x;
-        for (x = 0; x < dCurrentPlayers; x++){
+        for (x = 0; x < dCurrentPlayers; x++){ //loop through the players and print their info
             fprintf (file, "%s\n", players[x].name);
             fprintf (file, "%s\n", players[x].savedPassword);
             fprintf (file, "%d\n%d\n%d\n", players[x].wins, players[x].loss, players[x].draws);
             fprintf (file, "\n");
         }
-        fclose (file);
+        fclose (file); // close file
     }
 }
 
@@ -83,31 +94,32 @@ void
 updateCompetdiumTxt (struct BattlePet pets[], 
                      int dCurrentPets)
 {
-    FILE *file = fopen ("competdium.txt", "w");
+    FILE *file = fopen ("competdium.txt", "w"); //open file in write mode
     if (file == NULL){
         printf ("file not found\n");
     } else {
         int x;
-        for (x = 0; x < dCurrentPets; x++){
+        for (x = 0; x < dCurrentPets; x++){ //loop through the pets and print their info
             fprintf (file, "%s\n", pets[x].name);
             fprintf (file, "%s\n", pets[x].affinity);
             fprintf (file, "%s\n", pets[x].description);
             fprintf (file, "%d\n\n", pets[x].matchCount);
         }
-        fclose (file);
+        fclose (file); // close file
     }
 }
 
 /**
- * THis function gets the players from the file Players.txt
+ * This function gets the players from the file Players.txt
+ * Returns the total number of players in the file
  * @param struct Player player[] - the array of players
- * @return void
+ * @return int - the total number of players in the file
  */
 int 
 getPlayers (struct Player player[])
 {
     int dCurrentPlayers = 0;
-    FILE *file = fopen ("Players.txt", "r");
+    FILE *file = fopen ("Players.txt", "r"); // open the file in read mode
     if (file == NULL){
         printf ("File not found\n");
     } else{
@@ -121,7 +133,7 @@ getPlayers (struct Player player[])
             x++;
             dCurrentPlayers++;
         }
-        fclose (file);
+        fclose (file); // close file
     }
     return dCurrentPlayers;
 }
@@ -135,7 +147,7 @@ void
 initializePlayers (struct Player player[])
 {
     int x, y;
-    for (x = 0; x < MAX_PLAYERS; x++){
+    for (x = 0; x < MAX_PLAYERS; x++){ // loop through the players
         player[x].name[0] = '\0';
         player[x].savedPassword[0] = '\0';
         player[x].wins = 0;
@@ -159,7 +171,7 @@ void
 initializePets (struct BattlePet pet[])
 {
     int x;
-    for (x = 0; x < MAX_ROSTER; x++){
+    for (x = 0; x < MAX_ROSTER; x++){ // loop through the pets
         pet[x].name[0] = '\0';
         pet[x].affinity[0] = '\0';
         pet[x].description[0] = '\0';
@@ -172,13 +184,14 @@ initializePets (struct BattlePet pet[])
  * Returns 1 if it is a .txt file, returns 0 if not
  * 
  * @param string150 filename - filename to be checked
+ * @return int - 1 if .txt file, 0 if not
  */
 int
 isTxtFile (string150 filename){
     int dResult;
     char* filetype = strrchr(filename, '.'); //gets chars of last occurence of '.' onwards
 
-    if (strcmp(filetype, ".txt")==0){
+    if (strcmp(filetype, ".txt")==0){ // check if the filetype is .txt
         dResult=1;
     }
     else{
@@ -192,6 +205,7 @@ isTxtFile (string150 filename){
  * 
  * @param const char* folder - the directory to be checked
  * @param string150 txtfiles[] - array of .txt files in the folder  
+ * @return void
  */
 void
 listTxtFiles(const char* folder, string150 txtfiles[]){
@@ -204,7 +218,7 @@ listTxtFiles(const char* folder, string150 txtfiles[]){
     snprintf(command, sizeof(command), "dir /b \"%s\" > temp_file_list.txt", folder);
     system(command);
 
-    // open the temporary file for reading
+    // open the temporary file in read mode
     fp = fopen("temp_file_list.txt", "r");
     if (fp == NULL) {
         printf("Error: Could not open temporary file.\n");
@@ -224,8 +238,27 @@ listTxtFiles(const char* folder, string150 txtfiles[]){
         }
     }
 
-    fclose(fp);
+    fclose(fp); // close the temporary file
+    remove("temp_file_list.txt"); // remove temp file
+}
 
-    // Remove the temporary file
-    remove("temp_file_list.txt");
+/**
+ * This function saves the current player's roster to a their respective file in the saved_roster folder.
+ * @param string filename - the name of the file to save the roster
+ * @param struct Player* currentPlayer - the current player whose roster is being saved
+ * @return void
+ */
+void saveRosterToFile(string filename, struct Player* currentPlayer) {
+    FILE* file = fopen(filename, "w"); // open file in write mode
+    if (file == NULL) {
+        printf("Error: Could not create or open the file '%s'.\n", filename);
+        return;
+    }
+
+    for (int x = 0; x < MAX_ROSTER; x++) { // loop through the player's pets
+        fprintf(file, "%s\n", currentPlayer->pet[x].name);
+    }
+
+    fclose(file); // close file
+    printf("Roster saved successfully to '%s'.\n", filename);
 }

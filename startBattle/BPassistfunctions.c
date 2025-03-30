@@ -1,6 +1,13 @@
-/*
-    This file contains the functions that are used for computations and to aid the BPfunctions
+/**
+* Description : This file contains the functions that are used for computations needed 
+                to aid BPfunctions and startBattle
+*
+* Author/s : Sy, Jason Mark Lester B. 
+*            Enerio, Gabrielle G.      
+* Section : S19B
+* Last Modified : March 31, 2025
 */
+
 #include <stdio.h>
 #include "../BPheaders.h"
 #include "../Filemanips.c"
@@ -15,8 +22,8 @@
 void updatePetscount (struct BattlePet pet[], struct Player playerPets, int dCurrentPets)
 {
     int x, y;
-    for (x = 0; x < dCurrentPets; x++){
-        for (y = 0; y < MAX_ROSTER; y++){
+    for (x = 0; x < dCurrentPets; x++){ // loops through the pets in the game
+        for (y = 0; y < MAX_ROSTER; y++){ // loops through the pets in the player's roster
             if (strcmp(playerPets.pet[y].name, pet[x].name) == 0){
                 pet[x].matchCount++; 
             }
@@ -25,7 +32,7 @@ void updatePetscount (struct BattlePet pet[], struct Player playerPets, int dCur
 }
 
 /**
- * This functions displays the choices for the player to choose from
+ * This functions displays the choices for player selection the user can choose from
  * @param struct Player player[] - the array of players
  * @param int* dCurrentPlayers - the address to the number of current players
  * @return void
@@ -36,7 +43,7 @@ displayChoices (struct Player player[],
 {
     printf("[1] <New Player>\n");
         int x;
-        for (x = 0; x < *dCurrentPlayers; x++){
+        for (x = 0; x < *dCurrentPlayers; x++){ // loops through the players
             printf("[%d] %s\n", x + 2, player[x].name);
         }
         printf("[0] Exit\nYour choice: ");
@@ -51,7 +58,7 @@ void
 displayRoster (struct BattlePet roster[])
 {
     int x;
-    printf ("Match Roster\n");                      //shows the current location of the pets
+    printf ("Match Roster\n");   //shows the current location of the pets
         for (x = 0; x < MAX_ROSTER; x++){
             if (x > 0 && x % 3 == 0){
                 printf ("\n");
@@ -64,7 +71,7 @@ displayRoster (struct BattlePet roster[])
 /**
  * This functions lets existing users select their pets for the match
  * @param struct BattlePet pet[] - the array of pets
- * @param struct Player currentPlayer - the current player
+ * @param struct Player* currentPlayer - the current player
  * @param int dCurrentPets - the number of current pets
  * @return void
  */
@@ -78,37 +85,38 @@ selectPets (struct BattlePet pet[],
     int dChoice;
     int savedChoices [MAX_ROSTER];
     int isChosen;
-    while(y < MAX_ROSTER){
+    while(y < MAX_ROSTER)
+    { // loop until roster is full 
         isChosen = 0;
         printf("Match Roster\n");
         if (currentPlayer->pet[y].name[0] == '\0') {
-            strcpy(currentPlayer->pet[y].name, "?");
+            strcpy(currentPlayer->pet[y].name, "?"); // replace empty slots with "?"
         }        
-        for (x = 0; x < MAX_ROSTER; x++) {
-            
+        for (x = 0; x < MAX_ROSTER; x++) { // loop through the player's pets
             if (x % 3 == 0) printf("\n");
                 printf(" <%s>", currentPlayer->pet[x].name);
         }
         printf("\n");
 
         printf("ComPetDium\n");
-        for (x = 0; x < dCurrentPets; x++) {
+        for (x = 0; x < dCurrentPets; x++) { // loop through the pets in the game
             printf("%d. %s\n", x + 1, pet[x].name);
         }
 
         printf("Your choice: ");
         scanf("%d", &dChoice);  
-        for (x = 0; x < MAX_ROSTER; x++) {
-            if (dChoice == savedChoices[x]) {
+        for (x = 0; x < MAX_ROSTER; x++) { // loop through the player's pets
+            if (dChoice == savedChoices[x]) { // check if the pet is already chosen
                 printf("Pet already chosen\n");
                 isChosen = 1;
             }
         }
         if (dChoice > 0 && 
             dChoice <= dCurrentPets &&
-            !isChosen) {
-            currentPlayer->pet[y] = pet[dChoice - 1];
-            savedChoices[y] = dChoice; 
+            !isChosen) 
+            { // check if the choice is valid
+            currentPlayer->pet[y] = pet[dChoice - 1]; // copy the pet to the player's roster
+            savedChoices[y] = dChoice; // remember chosen pet
             y++;
         } else if (!isChosen) {
             printf("Invalid input\n");
@@ -136,13 +144,13 @@ newPlayer (struct Player player[],
 
     FILE *file = fopen (txtFilename, "w"); //create new txt file in saved_roster folder
 
-    fclose (file);
+    fclose (file); // close new roster file
 
     FILE *playerFile = fopen ("players.txt", "a");  //adds the player to players.txt with 0 0 0 W/L/D
         fprintf (playerFile, "\n\n%s\n", player[*dCurrentPlayers].name);
         fprintf (playerFile, "%s\n", player[*dCurrentPlayers].savedPassword);
         fprintf (playerFile, "%d\n%d\n%d", 0, 0, 0);
-    fclose (playerFile);
+    fclose (playerFile); // close players.txt
 
     (*dCurrentPlayers)++;    
 }
@@ -151,7 +159,7 @@ newPlayer (struct Player player[],
  * This function goes through the saved_roster folder and loads the saved player roster txt file
  * @param string name - the name of the player
  * @param struct BattlePet pet[] - the array of battlepets
- * @param struct Player currentPlayer - the current player
+ * @param struct Player* currentPlayer - the current player
  * @param int dCurrentPets - the number of current pets
  * @return void
  */
@@ -165,30 +173,33 @@ loadSavedRoster (string name,
     string150 filename;
     getTxtname (name, filename, "saved_roster/");
     //ex. saved_roster/_Chainsmoker_.txt
-    FILE *file = fopen (filename, "r");
+    FILE *file = fopen (filename, "r"); //open the file in read mode
     if (file == NULL){
         printf ("File not found\n");
     } else{
-        for (x = 0; x < MAX_ROSTER; x++){
+        for (x = 0; x < MAX_ROSTER; x++){ //scans pet names from the file
             fscanf(file, "%s" ,currentPlayer->pet[x].name);
         }
-        fclose (file);
+        fclose (file); // close file
     }
     
     for (x = 0; x < MAX_ROSTER; x++){           //Loops through the 9 pets
         for (int y = 0; y < dCurrentPets; y++){ //loops through all the current battlepets
             if (strcmp (currentPlayer->pet[x].name, pet[y].name) == 0){ 
-                currentPlayer->pet[x] = pet[y];  //copies the battlepet details to the player's roster
+                currentPlayer->pet[x] = pet[y];  //copies the battlepet struct details to the player's roster
             }
         }
     }
 }
 
 /**
- * This function selects a player from struct player array and sets it as the current player if the password is correct
+ * This function selects a player from struct player array and sets it as the current player if their password is correct
+ * @param struct BattlePet pet[] - the array of pets
  * @param struct Player player[] - the array of players
- * @param struct Player currentPlayer - the current player
- * @param int* dChoice - the choice of the player
+ * @param struct Player *currentPlayer - the current player
+ * @param int dChoice - the choice of the player
+ * @param int* isDone - player 1 or player 2
+ * @param int dCurrentPets - the number of current pets
  * @return void
  */
 void 
@@ -207,10 +218,11 @@ selectPlayer (struct BattlePet pet[],
     printf ("Enter your password: ");
     scanf ("%s", password);
 
-    if (strcmp (password, player[dChoice].savedPassword) == 0) {
+    if (strcmp (password, player[dChoice].savedPassword) == 0) { //// check if password is correct
         *currentPlayer = player[dChoice];
         printf ("Welcome %s\n", player[dChoice].name);
-        do {
+        do 
+        { // roster loop
             printf ("Player %d Current ", *isDone + 1);
             loadSavedRoster (player[dChoice].name, pet, currentPlayer, dCurrentPets);
 
@@ -220,12 +232,15 @@ selectPlayer (struct BattlePet pet[],
                 "[2] Create roster for this match",
                 "Your choice: ");
             scanf ("%d", &dSelect); 
-            if (dSelect == 1 && currentPlayer->pet[0].name[0] == '\0') {  
+            if (dSelect == 1 && currentPlayer->pet[0].name[0] == '\0') {  // check if roster is empty
+                // exits roster loop
                 printf ("No saved roster\n");
             } else if (dSelect == 1) {
+                // exits roster loop
                 printf ("Loaded saved_roster/%s.txt\n", player[dChoice].name);
             } else if (dSelect == 2) {
-                selectPets (pet, currentPlayer, dCurrentPets);      
+                //exits roster loop
+                selectPets (pet, currentPlayer, dCurrentPets); // select pets for roster
             } else {
                 printf ("Invalid input\n");
             }
@@ -246,10 +261,10 @@ char
 determineWinner(string Player1, 
                 string Player2) 
 {
-    // Define element order mapping
+    // define element order mapping
     string elements[] = {"Fire", "Water", "Grass", "Earth", "Air", "Electric", "Ice", "Metal"};
     
-    // Define the matchup table
+    // define the matchup table
     char matchup[8][8] = {
         {'D', 'L', 'W', 'W', 'D', 'D', 'W', 'L'}, // Fire 
         {'W', 'D', 'L', 'D', 'D', 'L', 'L', 'W'}, // Water 
@@ -261,27 +276,29 @@ determineWinner(string Player1,
         {'W', 'L', 'D', 'L', 'D', 'W', 'L', 'D'}  // Metal 
     };
 
+    char cResult, checkTable;
     int p1Index = -1, p2Index = -1;
     int i;
-    // Find index of Player1 and Player2 in elements array
+
+    // find index of Player1 and Player2 in elements array
     for (i = 0; i < 8; i++) {
         if (strcmp(Player1, elements[i]) == 0) p1Index = i;
         if (strcmp(Player2, elements[i]) == 0) p2Index = i;
     }
 
-    // Return 'E' if invalid inputs
-    if (p1Index == -1 || p2Index == -1) return 'E';
+    // return 'E' if invalid inputs
+    if (p1Index == -1 || p2Index == -1) cResult = 'E';
 
-    // Get the result from the table
-    char result = matchup[p1Index][p2Index];
-    return (result == 'W') ? '1' : (result == 'L') ? '2' : 'D';
+    // get the result from the table
+    checkTable = matchup[p1Index][p2Index];
+    cResult = (checkTable == 'W') ? '1' : (checkTable == 'L') ? '2' : 'D'; // 'W' = player1 wins, 'L' = player2 wins, 'D' = draw
+    return cResult;
 }
 
 /**
  * This function is responsible for matching up the two players' pets
  * @param struct Player player1 - the first player
  * @param struct Player player2 - the second player
- * @param struct Results matchResult - the result of the match
  * @return struct Results matchResult - the result of the match
  */
 struct Results 
@@ -290,8 +307,8 @@ computeBattle (struct Player player1,
 {
     struct Results matchResult;
     int x;
-    for (x = 0; x < MAX_ROSTER; x++){
-        matchResult.result[x] = determineWinner(player1.pet[x].affinity, player2.pet[x].affinity);
+    for (x = 0; x < MAX_ROSTER; x++){ // loops through the pets
+        matchResult.result[x] = determineWinner(player1.pet[x].affinity, player2.pet[x].affinity); // documents the result of the match
     }
     return matchResult;
 }
@@ -299,8 +316,8 @@ computeBattle (struct Player player1,
 /**
  * This function displays the match between the pets of the two players and
  * determines the winner of the match
- * @param struct Player player1 - the first player
- * @param struct Player player2 - the second player
+ * @param struct Player* player1 - the first player
+ * @param struct Player* player2 - the second player
  * @return void 
  */
 void 
@@ -311,13 +328,14 @@ displayMatch (struct Player* player1,
         dSecond = 0;
     char matchResult;
     int x;
-    for (x = 0; x < MAX_ROSTER; x++){
-        matchResult = determineWinner(player1->pet[x].affinity, player2->pet[x].affinity);
+    for (x = 0; x < MAX_ROSTER; x++){ // loops through the pets
+        matchResult = determineWinner(player1->pet[x].affinity, player2->pet[x].affinity); // determines the winner of the match
         if (matchResult == '1'){
             dFirst++;
         } else if (matchResult == '2'){
             dSecond++;
         } 
+        // prints the match result
         printf ("[%d][%d] %s vs %s\n",
         dFirst, dSecond,
         player1->pet[x].name,
@@ -334,7 +352,7 @@ displayMatch (struct Player* player1,
 void 
 displayResult (struct Results matchResult){
     int x;
-    for (x = 0; x < MAX_ROSTER; x++){
+    for (x = 0; x < MAX_ROSTER; x++){ // loops through the results
         if (x > 0 && x % 3 == 0){
             printf ("\n");
         }        
@@ -348,7 +366,7 @@ displayResult (struct Results matchResult){
  * This function returns 1 if the matchResult 3x3 has horizontal, diagonal, or vertical pattern
  * @param struct Results matchResult - struct of the results
  * @param int* dWinner - determines if player 1 or 2 is Lucky Winner
- * @return 1 if there is a tictactoe winning pattern and 0 if not
+ * @return 1 if there is a tic-tac-toe winning pattern and 0 if not
  */
 int 
 checkLuckywin(struct Results matchResult, 
@@ -358,10 +376,10 @@ checkLuckywin(struct Results matchResult,
     int invalidWin = 0;
     char grid[MAX_ROSTER];
     int x;
-    for (x = 0; x < MAX_ROSTER; x++){
+    for (x = 0; x < MAX_ROSTER; x++){ // stores the results in a grid
         grid[x] = matchResult.result[x];
     }
-    // Check rows
+    // check rows
     for (int i = 0; i < 9; i += 3) {
         if (grid[i] == grid[i + 1] && grid[i] == grid[i + 2]) {
             if (grid[i] == 'D') {
@@ -373,7 +391,7 @@ checkLuckywin(struct Results matchResult,
         }
     }
 
-    // Check columns
+    // check columns
     for (int i = 0; i < 3; i++) {
         if (grid[i] == grid[i + 3] && grid[i] == grid[i + 6]) {
             if (grid[i] == 'D') {
@@ -385,7 +403,7 @@ checkLuckywin(struct Results matchResult,
         }
     }
 
-    // Check diagonals
+    // check diagonals
     if (grid[0] == grid[4] && grid[0] == grid[8]) {
         if (grid[0] == 'D') {
             invalidWin = 1;
@@ -449,46 +467,51 @@ returnWinner(struct Results matchResult,
              char cWinner[])
 {
     int count1 = 0, count2 = 0, countDraw = 0;
-    char winType[50]; // Fixed winType as char array
+    char winType[50]; // fixed winType as char array
     char result[60 + NAME] = "Winner: ";
     int dWinner = -1;
-    for (int x = 0; x < MAX_ROSTER; x++) {
+    for (int x = 0; x < MAX_ROSTER; x++) { // loops through the results
         if (matchResult.result[x] == '1') count1++;
         if (matchResult.result[x] == '2') count2++;
         if (matchResult.result[x] == 'D') countDraw++;
     }
-    if (checkLuckywin(matchResult, &dWinner)){
-        typeOfwin(matchResult, count1, count2, winType);
+    if (checkLuckywin(matchResult, &dWinner)){ // check if lucky winner
+        typeOfwin(matchResult, count1, count2, winType); // get type of win
         printf ("luckywinner is detected\n");
-        if (dWinner == 1) {
+        if (dWinner == 1) { // if player 1 is the lucky winner
             strcat(result, player1->name);
             strcat(result, " (Player1) ");
             strcat(result, winType);
+            // update player stats
             player1->wins++;
             player2->loss++;
-        } else if (dWinner == 2) {
+        } else if (dWinner == 2) { // if player 2 is the lucky winner
             strcat(result, player2->name);
             strcat(result, " (Player2) ");
             strcat(result, winType);
+            // update player stats
             player2->wins++;
             player1->loss++;
         }
-    } else if (count1 > count2) {
+    } else if (count1 > count2) { // if player 1 wins is greater than player 2 wins
         strcat(result, player1->name);
         strcat(result, " (Player1) ");
-        typeOfwin(matchResult, count1, count2, winType);
+        typeOfwin(matchResult, count1, count2, winType); // get type of win
         strcat(result, winType);
+        // update player stats
         player1->wins++;
         player2->loss++;
-    } else if (count2 > count1) { // Fixed condition
+    } else if (count2 > count1) { // if player 2 wins is greater than player 1 wins
         strcat(result, player2->name);
         strcat(result, " (Player2) ");
-        typeOfwin(matchResult, count1, count2, winType);
+        typeOfwin(matchResult, count1, count2, winType); // get type of win
         strcat(result, winType);
+        // update player stats
         player2->wins++;
         player1->loss++;
-    } else {
+    } else { // if there is a draw
         strcpy(result, "Draw: no winner");
+        // update player stats
         player1->draws++;
         player2->draws++;
     }

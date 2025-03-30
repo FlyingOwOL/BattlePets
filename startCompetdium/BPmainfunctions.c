@@ -1,6 +1,12 @@
-/*
-    This file contains the functions that are required for startComPetdium and to aid BPfunctions
+/**
+* Description : This file contains the functions that are required for startComPetdium and to aid BPfunctions
+*
+* Author/s : Sy, Jason Mark Lester B. 
+*            Enerio, Gabrielle G.      
+* Section : S19B
+* Last Modified : March 31, 2025
 */
+
 #include <stdio.h>
 #include "../BPheaders.h"
 #include "BPassistfunctions.c"
