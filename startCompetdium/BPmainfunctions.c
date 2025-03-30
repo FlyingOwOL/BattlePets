@@ -221,13 +221,10 @@ deleteBattlepet (struct BattlePet pet[], int* dCurrentPets){
  */
 void
 saveRoster (struct BattlePet pet[], struct Player player[], int* dCurrentPlayers, int dCurrentPets){
-    struct BattlePet editRoster[MAX_ROSTER];
     string150 txtFilename;
     struct Player* currentPlayer;
     string password;
-    int dChoice, dValid, dStartRoster, dNewPetIndex;
-    char truncatedName[sizeof(currentPlayer->pet[0].name)]; // Buffer for truncated names
-    int maxNameLength = sizeof(editRoster[0].name) - 5;    // Reserve space for "[%d] " and the null terminator
+    int dChoice, dValid, dStartRoster, dNewPetIndex, isDuplicate;
 
     printf("\n SAVE ROSTER \n");
 
@@ -307,17 +304,14 @@ saveRoster (struct BattlePet pet[], struct Player player[], int* dCurrentPlayers
                 
                 switch(dChoice){
                     case 1:
-                        //copy roster with indexes
-                        for (int i = 0; i < MAX_ROSTER; i++) {
-                            // Copy and truncate the pet name manually
-                            strncpy(truncatedName, currentPlayer->pet[i].name, maxNameLength);
-                            truncatedName[maxNameLength] = '\0'; // Ensure null termination
-
-                            // Format the string with the truncated name
-                            sprintf(editRoster[i].name, "[%d] %s", i + 1, truncatedName);
-                        }
-
-                        displayRoster(editRoster); // display the roster with index numbers
+                        //display roster with indexes
+                            for (int x = 0; x < MAX_ROSTER; x++){
+                                if (x > 0 && x % 3 == 0){
+                                    printf ("\n");
+                                }            
+                                printf (" <[%d] %s>", x+1, currentPlayer->pet[x].name);
+                            }
+                            printf ("\n");
 
                         printf("Please select the index of the pet you want to replace: ");
                         scanf("%d", &dChoice);
@@ -331,7 +325,7 @@ saveRoster (struct BattlePet pet[], struct Player player[], int* dCurrentPlayers
                         
                             if (dNewPetIndex > 0 && dNewPetIndex <= dCurrentPets) {
                                 // Check if the selected pet is already in the current player's roster
-                                int isDuplicate = 0;
+                                isDuplicate = 0;
                                 for (int i = 0; i < MAX_ROSTER; i++) {
                                     if (strcmp(currentPlayer->pet[i].name, pet[dNewPetIndex - 1].name) == 0) {
                                         isDuplicate = 1; // Mark as duplicate
