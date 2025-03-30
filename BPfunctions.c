@@ -12,7 +12,6 @@
 #include "startBattle/BPassistfunctions.c"
 #include "startCompetdium/BPmainfunctions.c"
 #include "viewStatistics/BPassistfunctions.c"
-#include "BPdesigns.c"
 
 /**
  * This function is responsible for the main gameplay of the program

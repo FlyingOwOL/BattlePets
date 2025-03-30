@@ -247,7 +247,7 @@ selectPlayer (struct BattlePet pet[],
         } while ((dSelect != 1 || currentPlayer->pet[0].name[0] == '\0') && dSelect != 2); 
         (*isDone)++;
     } else {
-        printf ("Get out\n");
+        printf ("Incorrect password.\n");
     }
 }
 

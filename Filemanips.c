@@ -35,6 +35,9 @@ getComPetDium (struct BattlePet pet[], const char* file){
             dCurrentPets++;
         }
         fclose (fp);
+        if (dCurrentPets == 0){
+            printf ("No pets found in the file\n");
+        }
     }
     return dCurrentPets;
 }
@@ -134,6 +137,9 @@ getPlayers (struct Player player[])
             dCurrentPlayers++;
         }
         fclose (file); // close file
+        if (dCurrentPlayers == 0){
+            printf ("No players found in the file\n");
+        }
     }
     return dCurrentPlayers;
 }
