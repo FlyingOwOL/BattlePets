@@ -311,6 +311,7 @@ saveRoster (struct BattlePet pet[], struct Player player[], int* dCurrentPlayers
                         for (int i = 0; i < MAX_ROSTER; i++){
                             // Copy the pet to the editRoster array
                             editRoster[i] = currentPlayer->pet[i];
+                            maxNameLength = sizeof(editRoster[i].name) - 5; // Reserve space for "[%d] " and the null terminator
                             if (maxNameLength < 0) maxNameLength = 0; // Ensure no negative values
                             strncpy(truncatedName, currentPlayer->pet[i].name, maxNameLength); // Copy the name to the buffer
                             truncatedName[maxNameLength] = '\0'; // Ensure null termination
