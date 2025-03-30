@@ -104,12 +104,13 @@ startComPetDium (struct BattlePet pet[], struct Player player[], int* dCurrentPe
     int dChoice;
     do{
         printf(" total pets: %d\n", *dCurrentPets); ///// remove when patapos n
-        printf ("%s%s%s%s%s%sYour choice: ", 
+        printf ("%s%s%s%s%s%s%sYour choice: ", 
         "[1] View Battle Pet/s\n",
         "[2] Add BattlePet\n",
         "[3] Edit BattlePet\n",
         "[4] Delete BattlePet\n",
         "[5] Save Roster\n",
+        "[6] Pet Expansion\n",
         "[0] Exit\n");
         scanf ("%d", &dChoice);
         switch (dChoice)
@@ -128,6 +129,9 @@ startComPetDium (struct BattlePet pet[], struct Player player[], int* dCurrentPe
             break;
         case 5:
             saveRoster (pet, player, dCurrentPlayers, *dCurrentPets);
+            break;
+        case 6:
+            addPetsFromExpansion(pet, dCurrentPets);
             break;
         case 0:
             printf ("returning to main menu\n");

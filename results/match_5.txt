@@ -1,0 +1,21 @@
+Player1: kirsten
+Player2: kirsten
+
+P1 Roster vs P2 Roster
+Joltaroo vs Terrashark
+Flamepaw vs Barkbear
+Skyfang vs Roarland
+Pebblepaw vs Rockfang
+Frostfin vs Icetalon
+Vinefang vs Solaraffe
+Firepupp vs Snowclaw
+Grawl vs Pyroclaw
+Leafclaw vs Thornback
+
+Match Results
+1 2 2 
+D D 1 
+2 1 D 
+
+Draw: no 
+Type of Win: Draw

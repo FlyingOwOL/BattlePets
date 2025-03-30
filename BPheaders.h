@@ -104,4 +104,22 @@
     void displayTop5pets         (struct BattlePet localPets[], int);
     void rearrangePlayers        (struct Player localPlayers[], int);
     void displayTop5players      (struct Player localPlayers[], int);
-#endif
+
+    void addBattlepet (struct BattlePet pet[], int* dCurrentPets);
+    void editBattlepet(struct BattlePet pet[], int* dCurrentPets);
+    void deleteBattlepet (struct BattlePet pet[], int* dCurrentPets);
+    void saveRoster (struct BattlePet pet[], struct Player player[], int* dCurrentPlayers, int dCurrentPets);
+    void addPetsFromExpansion(struct BattlePet pet[], int* dCurrentPets);
+    
+    int editBPname (struct BattlePet* pet);
+    int editBPaffinity (struct BattlePet* pet);
+    int editBPdesc (struct BattlePet* pet);
+    void deleteBattlepetDetails (struct BattlePet pet[], int** dCurrentPets, int index);
+    int checkIfPetMax (struct BattlePet pet[], int* dCurrentPets, int dPetsToAdd);
+    int addOnePetDetails (struct BattlePet pet[], struct BattlePet addPet, int dCurrentPets);
+    int addMultiplePetsDetails (struct BattlePet pet[], struct BattlePet addPets[], int dCurrentPets, int dTotalAddPets);
+    void addOnePet (struct BattlePet pet[], int** dCurrentPets);
+    void addMultiplePets (struct BattlePet pet[], int** dCurrentPets);
+    void saveRosterToFile(string filename, struct Player* currentPlayer);
+
+    #endif

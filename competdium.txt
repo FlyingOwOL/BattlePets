@@ -1,12 +1,12 @@
 Solaraffe
 Fire
 A fiery and majestic giraffe that harnesses the power of the sun.
-9
+10
 
 Firepupp
 Fire
 A loyal, flame-breathing dog that races through the night with fiery speed.
-8
+9
 
 Hydrake
 Water
@@ -21,22 +21,22 @@ A playful, aquatic catfish with feline-like agility in the water.
 Grawl
 Grass
 A wise and stealthy owl, covered in leaves and vines, blending into nature.
-2
+3
 
 Barkbear
 Grass
 A sturdy bear with a bark-like skin, nearly indestructible in nature’s wilds.
-4
+5
 
 Terrashark
 Earth
 An earth-dwelling predator with the fierce speed and agility of a shark.
-8
+9
 
 Roarland
 Earth
 A fierce, rock-covered tiger with the ability to cause earth tremors with every roar.
-2
+3
 
 Airsting
 Air
@@ -56,7 +56,7 @@ A rat with fur that crackles with electric energy, using it to stun foes.
 Joltaroo
 Electric
 A kangaroo with electric energy that surges through its powerful legs when it jumps.
-3
+4
 
 Hailhound
 Ice
@@ -88,13 +88,203 @@ Metal
 ahkjbsdk
 1
 
-TestPet1
-Fire
-A test pet 1
-0
-
 TestPet2
 Fire
 A squirrel with a tail that burns brightly, lighting up the darkest nights.
+0
+
+Flamepaw
+Fire
+A fiery fox with blazing paws that leaves a trail of embers wherever it runs.
+1
+
+Infernohawk
+Fire
+A majestic hawk with wings of fire that scorches the skies.
+0
+
+Blazebull
+Fire
+A raging bull with horns of molten lava, charging through its enemies.
+0
+
+Pyroclaw
+Fire
+A ferocious tiger with claws that ignite on impact.
+1
+
+Aquamander
+Water
+A sleek salamander that can summon rainstorms to drench its foes.
+0
+
+Tidefang
+Water
+A shark-like creature that commands the tides with its powerful fins.
+0
+
+Ripplewing
+Water
+A bird with wings that create ripples in the water, confusing its enemies.
+0
+
+Frostfin
+Ice
+A fish with icy scales that freeze the water around it.
+1
+
+Snowmane
+Ice
+A horse with a mane of snowflakes that chills the air as it gallops.
+0
+
+Glacierhorn
+Ice
+A massive ram with horns made of solid ice, capable of shattering boulders.
+0
+
+Leafclaw
+Grass
+A nimble lizard with claws made of leaves, blending perfectly into forests.
+1
+
+Vinefang
+Grass
+A snake covered in vines that constricts its enemies with nature's grip.
+1
+
+Thornback
+Grass
+A turtle with a shell covered in sharp thorns, making it nearly invincible.
+1
+
+Rockfang
+Earth
+A wolf with teeth made of stone, capable of crushing anything in its path.
+1
+
+Mudmaw
+Earth
+A crocodile that uses mud to trap its prey before striking.
+0
+
+Quakehoof
+Earth
+A powerful horse that causes tremors with every step.
+0
+
+Windtail
+Air
+A fox with a tail that controls the wind, allowing it to glide through the air.
+0
+
+Skyclaw
+Air
+An eagle with talons that slice through the air like blades.
+0
+
+Stormhorn
+Air
+A ram that summons storms with its powerful horns.
+0
+
+Zapwing
+Electric
+A bird with wings that generate electricity, shocking its enemies mid-flight.
+0
+
+Boltfang
+Electric
+A snake that strikes with lightning speed, paralyzing its prey.
+0
+
+Thunderpaw
+Electric
+A bear with paws that generate thunderous shocks, shaking the ground.
+0
+
+Sparkmane
+Electric
+A lion with a mane of electricity, roaring with power.
+0
+
+Frostbite
+Ice
+A wolf with icy breath that freezes its enemies in their tracks.
+0
+
+Snowclaw
+Ice
+A bear with claws made of ice, capable of slicing through steel.
+1
+
+Icetalon
+Ice
+A hawk with talons that freeze anything they touch.
+1
+
+Flaretail
+Fire
+A squirrel with a tail that burns brightly, lighting up the darkest nights.
+0
+
+Ashfang
+Fire
+A wolf with fangs that burn like embers, leaving scorch marks on its prey.
+0
+
+Blazewing
+Fire
+A dragon with wings of fire, soaring through the skies with unmatched speed.
+0
+
+Hydrofang
+Water
+A snake that spits high-pressure water jets to knock down its enemies.
+0
+
+Tsunamipaw
+Water
+A tiger that summons tsunamis with a single roar.
+0
+
+Raindancer
+Water
+A deer that dances in the rain, healing its allies with every step.
+0
+
+Leafwhisker
+Grass
+A cat with whiskers made of leaves, blending seamlessly into the forest.
+0
+
+Barkfang
+Grass
+A wolf with bark-like fur, making it nearly indestructible.
+0
+
+Thornmane
+Grass
+A lion with a mane of thorns, striking fear into its enemies.
+0
+
+Pebblepaw
+Earth
+A rabbit that throws pebbles with incredible accuracy to defend itself.
+1
+
+aaa
+Ice
+abcde
+0
+
+Lamooki
+Air
+It sucks and gives poison, screech to paralyze, and spit venom.
+0
+
+Butichoo
+Electric
+Thunder-CLAPS them enemies
 0
 
