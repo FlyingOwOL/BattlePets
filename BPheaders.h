@@ -90,37 +90,43 @@
     void createMatchHistory      (struct Player player1, 
                                   struct Player player2, 
                                   struct Results matchResult);
+
+     void startComPetDium          (struct BattlePet pet[], 
+                                    struct Player player[], 
+                                    int*, int*);
+     void viewBattlepets           (struct BattlePet pet[], int );
+     void addBattlepet             (struct BattlePet pet[], int*);
+     void editBattlepet            (struct BattlePet pet[], int*);
+     void deleteBattlepet          (struct BattlePet pet[], int*);
+     void saveRoster               (struct BattlePet pet[], 
+                                    struct Player player[], 
+                                    int*, int);
+     int isTxtFile                 (string150);
+     void listTxtFiles             (const char* folder, string150 txtfiles[]);
+     void addPetsFromExpansion     (struct BattlePet pet[], int*);
+     int editBPname                (struct BattlePet* pet);
+     int editBPaffinity            (struct BattlePet* pet);
+     int editBPdesc                (struct BattlePet* pet);
+     void deleteBattlepetDetails   (struct BattlePet pet[], 
+                                    int**, int);
+     int checkIfPetMax             (struct BattlePet pet[], 
+                                    int*, int);
+     int addOnePetDetails          (struct BattlePet pet[], 
+                                    struct BattlePet addPet, int);
+     int addMultiplePetsDetails    (struct BattlePet pet[], 
+                                    struct BattlePet addPets[], 
+                                    int, int);
+     void addOnePet                (struct BattlePet pet[], int**);
+     void addMultiplePets          (struct BattlePet pet[], int**);
+     void saveRosterToFile         (string, struct Player* currentPlayer);
  
-
-                            
-
-    void startComPetDium   (struct BattlePet pet[], struct Player player[], int* dCurrentPets, int* dCurrentPlayers);
-    void viewBattlepets    (struct BattlePet pet[], int dCurrentPets);
-
-    void viewStatistics          (struct Player player[], 
-                                  struct BattlePet pet[], int, int);
-    void rearrangePets           (struct BattlePet localPets[], int);
-    void displayTop5pets         (struct BattlePet localPets[], int);
-    void rearrangePlayers        (struct Player localPlayers[], int);
-    void displayTop5players      (struct Player localPlayers[], int);
-
-    void addBattlepet            (struct BattlePet pet[], int* dCurrentPets);
-    void editBattlepet           (struct BattlePet pet[], int* dCurrentPets);
-    void deleteBattlepet         (struct BattlePet pet[], int* dCurrentPets);
-    void saveRoster              (struct BattlePet pet[], struct Player player[], int* dCurrentPlayers, int dCurrentPets);
-    void addPetsFromExpansion    (struct BattlePet pet[], int* dCurrentPets);
-    int isTxtFile               (string150 filename);
-    void listTxtFiles            (const char* folder, string150 txtfiles[]);
-    
-    int editBPname               (struct BattlePet* pet);
-    int editBPaffinity           (struct BattlePet* pet);
-    int editBPdesc               (struct BattlePet* pet);
-    void deleteBattlepetDetails  (struct BattlePet pet[], int** dCurrentPets, int index);
-    int checkIfPetMax            (struct BattlePet pet[], int* dCurrentPets, int dPetsToAdd);
-    int addOnePetDetails         (struct BattlePet pet[], struct BattlePet addPet, int dCurrentPets);
-    int addMultiplePetsDetails   (struct BattlePet pet[], struct BattlePet addPets[], int dCurrentPets, int dTotalAddPets);
-    void addOnePet               (struct BattlePet pet[], int** dCurrentPets);
-    void addMultiplePets         (struct BattlePet pet[], int** dCurrentPets);
-    void saveRosterToFile        (string filename, struct Player* currentPlayer);
+ 
+     void viewStatistics          (struct Player player[], 
+                                   struct BattlePet pet[], int, int);
+     void rearrangePets           (struct BattlePet localPets[], int);
+     void displayTop5pets         (struct BattlePet localPets[], int);
+     void rearrangePlayers        (struct Player localPlayers[], int);
+     void displayTop5players      (struct Player localPlayers[], int);
+ 
 
     #endif
